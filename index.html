@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,33 +9,113 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Serene Tech -->
-    <!-- Application Structure Plan: The SPA is designed as a 'Guided Decision Funnel'. It starts with a hero section prompting the user to select their main priority (Ease of Setup, Performance, Budget). This choice filters a dynamic 'Laptop Explorer' showcasing recommended models as interactive cards. Clicking a card opens a detailed modal with a compatibility report, essential kexts, and a comparative radar chart. This user-flow is chosen to transform the dense, linear report into a personalized, task-oriented experience. Supplementary sections for a 'Component Compatibility Deep Dive' and 'Hackintosh Essentials' provide non-linear access to detailed hardware data and process guidance, making the vast information queryable and digestible. -->
-    <!-- Visualization & Content Choices: Report info is transformed for interactive consumption. The main laptop comparison becomes filterable cards with a 'Hackintosh Score' bar (HTML/CSS) for quick assessment. Detailed pros/cons are visualized in a dynamic radar chart (Chart.js) within each laptop's modal, offering a more impactful comparison than text lists. The complex hardware compatibility section is organized into a tabbed interface with color-coded statuses for rapid comprehension. The installation process is shown as a CSS-based timeline. This structure prioritizes user interaction and visual data synthesis over passive reading. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; }
+        /* Base styles (Light Mode) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA; /* Light background */
+            color: #212529; /* Dark text */
+            transition: background-color 0.3s, color 0.3s;
+        }
         .bg-primary { background-color: #4A90E2; }
         .text-primary { color: #4A90E2; }
         .border-primary { border-color: #4A90E2; }
-        .bg-secondary { background-color: #f0f4f8; }
+        .bg-secondary { background-color: #f0f4f8; } /* Light secondary background */
         .text-dark { color: #212529; }
         .text-medium { color: #495057; }
         .text-light { color: #adb5bd; }
-        .status-good { color: #28a745; }
-        .status-mid { color: #fd7e14; }
-        .status-bad { color: #dc3545; }
         .card-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
         .nav-link { transition: color 0.2s, border-color 0.2s; }
         .nav-link.active { color: #4A90E2; border-bottom-width: 2px; border-color: #4A90E2; }
         .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
         .modal-bg { background-color: rgba(0,0,0,0.5); }
-        .chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; }
-        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .chart-container { position: relative; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
+        @media (min-width: 768px) { .chart-container { height: 320px; } }
         .component-tab.active { background-color: #4A90E2; color: white; }
         .component-tab { transition: background-color 0.2s, color 0.2s; }
         .timeline-item::before { content: ''; position: absolute; top: 12px; left: -20px; width: 40px; border-top: 2px dashed #adb5bd; }
         .timeline-item:first-child::before { display: none; }
+
+        /* Dark Mode Styles */
+        .dark body {
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+        }
+        .dark .bg-white { background-color: #2d3748; } /* Darker card/modal background */
+        .dark .text-dark { color: #e2e8f0; }
+        .dark .text-medium { color: #a0aec0; }
+        .dark .text-light { color: #718096; }
+        .dark .bg-secondary { background-color: #2d3748; }
+        .dark .card-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2); }
+        .dark .border-primary { border-color: #63b3ed; } /* Lighter primary for dark mode */
+        .dark .text-primary { color: #63b3ed; }
+        .dark .bg-primary { background-color: #3182ce; }
+        .dark .nav-link.active { color: #63b3ed; border-color: #63b3ed; }
+        .dark .component-tab.active { background-color: #3182ce; color: #e2e8f0; }
+        .dark .component-tab:not(.active) { background-color: #4a5568; color: #e2e8f0; }
+        .dark .priority-btn.bg-white, .dark .priority-btn-all.bg-white { background-color: #4a5568; color: #e2e8f0; border-color: #63b3ed;}
+        .dark .timeline-item::before { border-top-color: #4a5568; }
+        .dark .absolute.bg-primary { background-color: #3182ce; }
+        .dark #laptop-modal .bg-white, .dark #comparison-modal .bg-white { background-color: #2d3748; } /* Modal specific dark background */
+        .dark #laptop-modal .border-b, .dark #comparison-modal .border-b { border-color: #4a5568; }
+        .dark #laptop-modal #modal-close-btn, .dark #comparison-modal #modal-close-btn { color: #a0aec0; }
+        .dark #laptop-modal #modal-close-btn:hover, .dark #comparison-modal #modal-close-btn:hover { color: #e2e8f0; }
+        .dark .chart-container canvas { /* Ensure chart labels are visible in dark mode */ }
+        .dark .status-good-bg { background-color: rgba(40, 167, 69, 0.2); border-color: #28a745 }
+        .dark .status-mid-bg { background-color: rgba(253, 126, 20, 0.2); border-color: #fd7e14 }
+        .dark .status-bad-bg { background-color: rgba(220, 53, 69, 0.2); border-color: #dc3545 }
+        .dark .hover\:bg-blue-50:hover { background-color: #3182ce20; }
+        .dark .hover\:bg-blue-600:hover { background-color: #2c5282; }
+
+        /* Comparison Modal Specific Chart Container */
+        .comparison-chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px; /* Smaller for side-by-side */
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px; /* Smaller height */
+        }
+        .priority-btn, .priority-btn-all {
+            /* common styles for all filter buttons */
+            font-weight: bold;
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); /* shadow-lg */
+            transition-property: background-color, border-color, color, transform, box-shadow;
+            transition-duration: .15s;
+            transition-timing-function: cubic-bezier(.4,0,.2,1);
+        }
+        .priority-btn:hover, .priority-btn-all:hover {
+            transform: scale(1.05);
+        }
+        .priority-btn.active-filter, .priority-btn-all.active-filter {
+            background-color: #4A90E2; /* bg-primary */
+            color: white;
+        }
+        .dark .priority-btn.active-filter, .dark .priority-btn-all.active-filter {
+             background-color: #3182ce; /* dark:bg-primary */
+        }
+
+        .priority-btn:not(.active-filter), .priority-btn-all:not(.active-filter) {
+            background-color: white;
+            color: #4A90E2; /* text-primary */
+            border-width: 2px;
+            border-color: #4A90E2; /* border-primary */
+        }
+        .dark .priority-btn:not(.active-filter), .dark .priority-btn-all:not(.active-filter) {
+            background-color: #4a5568; /* dark mode bg for non-active */
+            color: #e2e8f0; /* dark mode text for non-active */
+            border-color: #63b3ed; /* dark mode border for non-active */
+        }
+        .troubleshooting-item, .buy-item {
+            background-color: #ffffff; /* bg-white */
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .dark .troubleshooting-item, .dark .buy-item {
+            background-color: #2d3748; /* dark:bg-gray-800 equivalent */
+        }
     </style>
 </head>
 <body class="text-dark">
@@ -43,21 +123,37 @@
     <header class="bg-white shadow-md sticky top-0 z-40">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <h1 class="text-xl font-bold text-primary">Hackintosh Laptop Guide</h1>
-            <div class="hidden md:flex space-x-8">
-                <a href="#home" class="nav-link active">Home</a>
-                <a href="#explorer" class="nav-link">Laptop Explorer</a>
-                <a href="#components" class="nav-link">Component Checker</a>
-                <a href="#essentials" class="nav-link">The Essentials</a>
+            <div class="flex items-center">
+                <div class="hidden md:flex space-x-6 mr-4"> <!-- Reduced space for more items -->
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#explorer" class="nav-link">Explorer</a>
+                    <a href="#components" class="nav-link">Components</a>
+                    <a href="#essentials" class="nav-link">Essentials</a>
+                    <a href="#where-to-buy" class="nav-link">Buy Used</a>
+                    <a href="#troubleshooting" class="nav-link">Troubleshoot</a>
+                    <a href="#blog" class="nav-link">Blog</a>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
+                    </svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
             </div>
-            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-            </button>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden">
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
             <a href="#home" class="block py-2 px-6 text-sm nav-link active">Home</a>
             <a href="#explorer" class="block py-2 px-6 text-sm nav-link">Laptop Explorer</a>
             <a href="#components" class="block py-2 px-6 text-sm nav-link">Component Checker</a>
             <a href="#essentials" class="block py-2 px-6 text-sm nav-link">The Essentials</a>
+            <a href="#where-to-buy" class="block py-2 px-6 text-sm nav-link">Where to Buy Used</a>
+            <a href="#troubleshooting" class="block py-2 px-6 text-sm nav-link">Troubleshooting Guide</a>
+            <a href="#blog" class="block py-2 px-6 text-sm nav-link">Blog</a>
         </div>
     </header>
 
@@ -68,32 +164,44 @@
             <p class="text-lg text-medium max-w-3xl mx-auto mb-8">This interactive guide translates the complex world of Hackintoshing into a clear path. We'll help you select a laptop based on your priorities, understand component compatibility, and navigate the setup process. No single laptop is the 'best'—the best choice is the one that's right for you.</p>
             <div class="space-y-4">
                 <h3 class="text-2xl font-semibold mb-4">What's Your Main Priority?</h3>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <button data-priority="ease" class="priority-btn bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 transition-transform transform hover:scale-105">Ease of Setup</button>
-                    <button data-priority="performance" class="priority-btn bg-white text-primary border-2 border-primary font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-50 transition-transform transform hover:scale-105">Maximum Performance</button>
-                    <button data-priority="budget" class="priority-btn bg-white text-primary border-2 border-primary font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-50 transition-transform transform hover:scale-105">Budget-Friendly</button>
+                <div id="priority-filter-buttons" class="flex flex-wrap justify-center gap-4">
+                    <button data-priority="all" class="priority-btn-all active-filter">All Laptops</button>
+                    <button data-priority="ease" class="priority-btn">Ease of Setup</button>
+                    <button data-priority="performance" class="priority-btn">Maximum Performance</button>
+                    <button data-priority="budget" class="priority-btn">Budget-Friendly</button>
                 </div>
             </div>
         </section>
 
         <section id="explorer" class="py-12">
-            <div class="text-center mb-12">
+            <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold mb-2">Laptop Explorer</h2>
-                <p class="text-medium max-w-2xl mx-auto">Here are highly recommended models based on extensive community testing and documentation. Use the priority buttons above to filter the results, or browse all top contenders. Click any card for a detailed compatibility report.</p>
+                <p class="text-medium max-w-2xl mx-auto">Here are highly recommended models based on extensive community testing and documentation. Use the priority buttons above to filter the results, or browse all top contenders. Select laptops to compare and click the 'Compare Selected' button.</p>
             </div>
             <div id="laptop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Laptop cards will be injected here by JavaScript -->
+            </div>
+            <div id="compare-action-bar" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 p-4 shadow-lg z-30 text-center hidden">
+                 <button id="compare-selected-btn" class="bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Compare Selected (<span id="selected-count">0</span>)
+                </button>
+                <button id="clear-selection-btn" class="ml-4 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg shadow hover:bg-gray-400 dark:hover:bg-gray-500">
+                    Clear
+                </button>
             </div>
         </section>
 
         <section id="components" class="py-12 bg-white rounded-xl card-shadow">
             <div class="text-center mb-12 px-4">
                 <h2 class="text-3xl font-bold mb-2">Component Compatibility Checker</h2>
-                <p class="text-medium max-w-2xl mx-auto">A Hackintosh is only as good as its parts. Use this tool to check the general compatibility of core components for macOS Sonoma/Sequoia. This section helps you understand why certain laptops are recommended and allows you to research parts for other potential builds.</p>
+                <p class="text-medium max-w-2xl mx-auto">A Hackintosh is only as good as its parts. Use this tool to check the general compatibility of core components for macOS. This section helps you understand why certain laptops are recommended and allows you to research parts for other potential builds.</p>
             </div>
             <div class="px-4 md:px-8">
                 <div id="component-tabs" class="flex flex-wrap justify-center gap-2 mb-8">
+                    <!-- Component tabs will be injected here -->
                 </div>
                 <div id="component-content" class="mt-4">
+                    <!-- Component content will be injected here -->
                 </div>
             </div>
         </section>
@@ -107,24 +215,24 @@
                 <div class="bg-white p-6 rounded-xl card-shadow">
                     <h3 class="text-2xl font-semibold mb-4 text-primary">The Build Process at a Glance</h3>
                     <div class="relative pl-8 space-y-8">
-                        <div class="absolute left-4 h-full border-l-2 border-dashed border-gray-300"></div>
+                        <div class="absolute left-4 h-full border-l-2 border-dashed border-gray-300 dark:border-gray-600"></div>
                         <div class="relative timeline-item">
-                            <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white flex items-center justify-center text-white font-bold">1</div>
+                            <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">1</div>
                             <h4 class="font-bold">Research & Planning</h4>
                             <p class="text-medium text-sm">Thoroughly vet your chosen laptop's components. Read the Dortania guides.</p>
                         </div>
                         <div class="relative timeline-item">
-                           <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white flex items-center justify-center text-white font-bold">2</div>
+                           <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">2</div>
                             <h4 class="font-bold">BIOS & USB Setup</h4>
                             <p class="text-medium text-sm">Configure BIOS settings and create a bootable macOS installer USB with OpenCore.</p>
                         </div>
                         <div class="relative timeline-item">
-                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white flex items-center justify-center text-white font-bold">3</div>
+                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">3</div>
                             <h4 class="font-bold">Installation</h4>
                             <p class="text-medium text-sm">Boot from the USB and install macOS. This step often requires troubleshooting.</p>
                         </div>
                         <div class="relative timeline-item">
-                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white flex items-center justify-center text-white font-bold">4</div>
+                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">4</div>
                             <h4 class="font-bold">Post-Install Tuning</h4>
                             <p class="text-medium text-sm">Copy the EFI to the main drive and fix remaining issues (Wi-Fi, audio, USB mapping, sleep, etc.).</p>
                         </div>
@@ -137,30 +245,157 @@
                         <li><a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="font-semibold text-primary hover:underline">▶ Dortania OpenCore Guide: The #1 resource. Read it.</a></li>
                         <li><a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="font-semibold text-primary hover:underline">▶ r/hackintosh Subreddit: Active community forum.</a></li>
                         <li><a href="https://github.com/acidanthera" target="_blank" class="font-semibold text-primary hover:underline">▶ Acidanthera on GitHub: Home of OpenCore & essential kexts.</a></li>
+                        <li><a href="https://www.tonymacx86.com/forums/" target="_blank" class="font-semibold text-primary hover:underline">▶ Tonymacx86 Forums: Large community with guides and support.</a></li>
+                        <li><a href="https://www.insanelymac.com/forum/" target="_blank" class="font-semibold text-primary hover:underline">▶ InsanelyMac Forums: Another long-standing Hackintosh community.</a></li>
                     </ul>
                      <p class="text-medium mt-6 text-sm"><strong>Remember:</strong> macOS updates can break things. Always back up your working EFI and entire system before updating!</p>
                 </div>
             </div>
         </section>
+
+        <!-- Where to Buy Used Laptops Section -->
+        <section id="where-to-buy" class="py-12 bg-white rounded-xl card-shadow">
+            <div class="text-center mb-12 px-4">
+                <h2 class="text-3xl font-bold mb-2">Where to Buy Used Laptops</h2>
+                <p class="text-medium max-w-2xl mx-auto">Finding a good deal on a used Hackintosh-compatible laptop requires some patience and research. Here are some popular platforms and tips:</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8">
+                <div class="buy-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">eBay</h3>
+                    <p class="text-medium text-sm mb-2">A vast marketplace for new and used laptops. Use specific model numbers (e.g., "ThinkPad T480") and check seller ratings carefully.</p>
+                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li>Look for detailed descriptions and actual photos.</li>
+                        <li>Check return policies and buyer protection.</li>
+                        <li>Be wary of "too good to be true" prices.</li>
+                    </ul>
+                    <a href="https://www.ebay.com" target="_blank" class="inline-block mt-3 text-primary font-semibold hover:underline">Visit eBay →</a>
+                </div>
+                <div class="buy-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">Local Classifieds</h3>
+                    <p class="text-medium text-sm mb-2">Websites like Facebook Marketplace, Craigslist (use with caution), or local equivalents can offer good deals. Inspect the laptop in person if possible.</p>
+                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li>Meet in a safe, public place.</li>
+                        <li>Test basic functionality (screen, keyboard, ports).</li>
+                        <li>Negotiate politely.</li>
+                    </ul>
+                </div>
+                <div class="buy-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">Refurbished Laptop Retailers</h3>
+                    <p class="text-medium text-sm mb-2">Many online retailers specialize in refurbished business laptops (e.g., Dell Outlet, Lenovo Outlet, Amazon Renewed, Newegg Refurbished). These often come with a limited warranty.</p>
+                     <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li>Check warranty terms and condition grades.</li>
+                        <li>Ensure the model matches known compatible configurations.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-medium mt-8 px-4"><strong>General Tip:</strong> Always research the specific model's Hackintosh compatibility *before* purchasing. Check forums for user experiences with that exact model or configuration.</p>
+        </section>
+
+        <!-- Troubleshooting Guide Section -->
+        <section id="troubleshooting" class="py-12">
+            <div class="text-center mb-12 px-4">
+                <h2 class="text-3xl font-bold mb-2">Basic Troubleshooting Guide</h2>
+                <p class="text-medium max-w-2xl mx-auto">Hackintoshing can involve some trial and error. Here are a few common issues and starting points for solutions. Always refer to Dortania's OpenCore Install Guide for detailed troubleshooting.</p>
+            </div>
+            <div class="space-y-8 px-4 md:px-8">
+                <div class="troubleshooting-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">Kernel Panics During Boot/Install</h3>
+                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li><strong>Incorrect BIOS Settings:</strong> Double-check all required BIOS settings (VT-d disabled, CFG Lock disabled, Secure Boot disabled, etc.).</li>
+                        <li><strong>Missing/Incorrect Kexts:</strong> Ensure VirtualSMC, Lilu, WhateverGreen, and CPU-specific power management kexts are present and up-to-date.</li>
+                        <li><strong>Incorrect `config.plist` Setup:</strong> Verify ACPI patches, DeviceProperties for iGPU, SMBIOS, and kernel patches. Use ProperTree to edit.</li>
+                        <li><strong>USB Port Issues:</strong> Try different USB ports (USB 2.0 often more reliable for install). Ensure USB mapping is correct post-install.</li>
+                        <li><strong>Verbose Mode:</strong> Boot with `-v` flag to see where it hangs. Search the last few lines for clues.</li>
+                    </ul>
+                </div>
+                <div class="troubleshooting-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">No Graphics Acceleration (Laggy UI)</h3>
+                     <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li><strong>iGPU Not Configured:</strong> Ensure correct `AAPL,ig-platform-id` and other DeviceProperties are set for your Intel iGPU in `config.plist`.</li>
+                        <li><strong>WhateverGreen Missing/Outdated:</strong> This kext is essential for graphics.</li>
+                        <li><strong>Unsupported dGPU Active:</strong> If your laptop has an NVIDIA dGPU, it must be disabled via SSDT patches.</li>
+                        <li><strong>Incorrect SMBIOS:</strong> Use an SMBIOS that matches your CPU generation and iGPU type.</li>
+                    </ul>
+                </div>
+                <div class="troubleshooting-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">No Wi-Fi / Bluetooth</h3>
+                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li><strong>Incompatible Wi-Fi Card:</strong> Many stock cards (Realtek, some Killer/Atheros) don't work. Replace with a compatible Broadcom or Intel card.</li>
+                        <li><strong>Missing Kexts:</strong> For Intel cards, use `AirportItlwm.kext` or `itlwm.kext` + `HeliPort.app`. For Broadcom, `AirportBrcmFixup.kext` and related Bluetooth kexts (`BrcmPatchRAM`, `BrcmFirmwareData`).</li>
+                        <li><strong>USB Mapping (for Bluetooth):</strong> Internal Bluetooth often connects via USB. Ensure USB ports are correctly mapped.</li>
+                        <li><strong>OCLP Patches:</strong> Some Broadcom cards require OpenCore Legacy Patcher's root patches on newer macOS versions.</li>
+                    </ul>
+                </div>
+                <div class="troubleshooting-item card-shadow">
+                    <h3 class="text-xl font-semibold mb-3 text-primary">No Audio</h3>
+                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                        <li><strong>AppleALC.kext Missing/Outdated:</strong> This is the primary kext for audio.</li>
+                        <li><strong>Incorrect `alcid` (Layout ID):</strong> Find the correct layout ID for your audio codec (e.g., ALC257) and set it as a boot argument (`alcid=X`) or in DeviceProperties.</li>
+                        <li><strong>Codec Not Supported:</strong> Rare, but some codecs have poor or no support.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-medium mt-8 px-4">This is not an exhaustive list. The Hackintosh community is your best resource. When asking for help, provide detailed information about your hardware, OpenCore version, `config.plist` (remove serials!), and verbose boot logs.</p>
+        </section>
+
+        <!-- Blog Section Placeholder -->
+        <section id="blog" class="py-12 bg-white rounded-xl card-shadow">
+            <div class="text-center mb-12 px-4">
+                <h2 class="text-3xl font-bold mb-2">Hackintosh Insights Blog</h2>
+                <p class="text-medium max-w-2xl mx-auto">Tips, tutorials, and news from the world of Hackintoshing. (This section would typically be powered by a static site generator like Jekyll or Hugo for a GitHub Pages hosted site).</p>
+            </div>
+            <div class="px-4 md:px-8 space-y-6">
+                <div class="p-6 border dark:border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-primary">Sample Post: Understanding OpenCore Basics</h3>
+                    <p class="text-sm text-light mb-2">June 3, 2025</p>
+                    <p class="text-medium text-sm">OpenCore is the bootloader of choice for modern Hackintoshes, offering a more robust and future-proof solution compared to older methods... <a href="#" class="text-primary hover:underline">Read More →</a></p>
+                </div>
+                <div class="p-6 border dark:border-gray-700 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-2 text-primary">Sample Post: Choosing Your First Hackintosh Laptop</h3>
+                    <p class="text-sm text-light mb-2">May 28, 2025</p>
+                    <p class="text-medium text-sm">Picking the right hardware is crucial for a smooth Hackintosh experience. This post dives into what to look for in a beginner-friendly laptop... <a href="#" class="text-primary hover:underline">Read More →</a></p>
+                </div>
+            </div>
+             <p class="text-center text-medium mt-8 px-4">More posts coming soon!</p>
+        </section>
+
+
     </main>
     
+    <!-- Laptop Detail Modal -->
     <div id="laptop-modal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
                 <h2 id="modal-title" class="text-2xl font-bold"></h2>
-                <button id="modal-close-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
             </div>
             <div id="modal-content" class="p-6">
+                <!-- Content injected by JS -->
             </div>
         </div>
     </div>
 
+    <!-- Laptop Comparison Modal -->
+    <div id="comparison-modal" class="fixed inset-0 z-[60] modal-bg hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+                <h2 id="comparison-modal-title" class="text-2xl font-bold">Laptop Comparison</h2>
+                <button id="comparison-modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <div id="comparison-modal-content" class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Comparison content injected by JS -->
+            </div>
+        </div>
+    </div>
+
+
     <script>
         const laptopData = {
+            // Laptops (MacBook Pro removed)
             "t480": {
                 name: "Lenovo ThinkPad T480",
                 priority: ["ease", "budget"],
-                image: "https://placehold.co/600x400/212529/F8F9FA?text=ThinkPad+T480",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T480",
                 score: 85,
                 summary: "A community favorite known for its robustness, upgradeability, and extensive documentation, making it a top choice for beginners.",
                 details: {
@@ -170,73 +405,89 @@
                     wifi: "Intel (Replaceable). Works with kexts.",
                     audio: "Realtek ALC3287/ALC257",
                     trackpad: "Synaptics (SMBus/I2C/PS2)",
+                    ram: "Up to 32GB DDR4 (2 slots), User Upgradeable",
+                    storage: "M.2 NVMe SSD + optional 2.5\" SATA SSD/HDD bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i5-8250U)" },
                     pros: ["Excellent community support", "Highly upgradeable (RAM, SSD, Wi-Fi)", "Robust build quality", "Relatively straightforward setup"],
                     cons: ["dGPU models require disabling", "SD card reader can be inconsistent", "Thunderbolt 3 support can be finicky"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2/VoodooRMI", "IntelMausi", "OpenIntelWireless suite"],
-                    chartData: [4, 3, 3, 5]
+                    chartData: [4, 3, 3, 5] // Ease, Perf, Port, Budget
                 }
             },
             "x1c67": {
-                name: "Lenovo ThinkPad X1 Carbon (6/7)",
+                name: "Lenovo ThinkPad X1 Carbon (6/7th Gen)",
                 priority: ["ease", "performance"],
-                image: "https://placehold.co/600x400/212529/F8F9FA?text=ThinkPad+X1",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+X1+Carbon",
                 score: 80,
                 summary: "A premium, lightweight ultrabook that combines portability with strong Hackintosh compatibility, ideal for users on the go.",
                 details: {
                     cpu: "8th Gen Intel U-Series (i5/i7)",
                     igpu: "Intel UHD 620 (Well Supported)",
                     dgpu: "None",
-                    wifi: "Intel (Replaceable). Works with kexts.",
+                    wifi: "Intel (Replaceable, though some models soldered). Works with kexts.",
                     audio: "Realtek ALC285/ALC3287",
                     trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i7-8650U)" },
                     pros: ["Premium, lightweight design", "Excellent keyboard", "Good community support"],
-                    cons: ["RAM is soldered (not upgradeable)", "Thunderbolt/HDMI can be unreliable", "Can be more expensive"],
+                    cons: ["RAM is soldered (not upgradeable)", "Thunderbolt/HDMI can be unreliable on some units", "Can be more expensive"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C/VoodooRMI", "OpenIntelWireless suite", "YogaSMC (optional)"],
-                    chartData: [4, 3, 5, 4]
+                    chartData: [4, 3, 5, 3] 
                 }
             },
-            "xps15": {
+            "xps15-9570": { 
                 name: "Dell XPS 15 (9570)",
                 priority: ["performance"],
-                image: "https://placehold.co/600x400/212529/F8F9FA?text=Dell+XPS+15",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+15+9570",
                 score: 75,
                 summary: "A powerhouse with a high-performance H-series CPU and a beautiful display. Requires more setup work but rewards with great performance.",
                 details: {
-                    cpu: "8th Gen Intel H-Series (i7/i9)",
+                    cpu: "8th Gen Intel H-Series (i5/i7/i9)",
                     igpu: "Intel UHD 630 (Well Supported)",
                     dgpu: "NVIDIA GTX 1050/Ti (MUST be disabled)",
-                    wifi: "Killer (Must be replaced)",
+                    wifi: "Killer (Must be replaced with Broadcom/Intel)",
                     audio: "Realtek ALC3266/ALC298",
                     trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots), User Upgradeable",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 5500, source: "Geekbench 5 Multi (i7-8750H)" },
                     pros: ["Powerful H-series CPU", "Excellent 4K display option", "Good iGPU performance"],
                     cons: ["NVIDIA dGPU MUST be disabled via complex ACPI patches", "Stock Killer Wi-Fi card requires replacement", "Thunderbolt hot-plug is often unreliable"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "Custom SSDTs for dGPU disable", "Kexts for replacement Wi-Fi"],
-                    chartData: [2, 5, 4, 4]
+                    chartData: [2, 5, 3, 3] 
                 }
             },
-            "xps13": {
+            "xps13-9370": { 
                 name: "Dell XPS 13 (9370/9380)",
                 priority: ["ease"],
-                image: "https://placehold.co/600x400/212529/F8F9FA?text=Dell+XPS+13",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13",
                 score: 65,
                 summary: "A compact and stylish ultrabook with good base compatibility, but hampered by some persistent hardware issues.",
                 details: {
                     cpu: "8th Gen Intel U-Series (i5/i7)",
                     igpu: "Intel UHD 620 (Well Supported)",
                     dgpu: "None",
-                    wifi: "Killer (Must be replaced)",
-                    audio: "Realtek ALC3271",
+                    wifi: "Killer (Must be replaced with Broadcom/Intel)",
+                    audio: "Realtek ALC3271 (Audio jack issues common)",
                     trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3300, source: "Geekbench 5 Multi (i7-8550U)" },
                     pros: ["Very compact and portable", "Premium design and display", "Good iGPU performance"],
-                    cons: ["3.5mm Audio Jack is often non-functional", "Stock Killer Wi-Fi card requires replacement", "Soldered RAM"],
+                    cons: ["3.5mm Audio Jack is often non-functional or requires complex fixes", "Stock Killer Wi-Fi card requires replacement", "Soldered RAM"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "Kexts for replacement Wi-Fi"],
                     chartData: [3, 3, 5, 2]
                 }
             },
-             "t470": {
+            "t470": {
                 name: "Lenovo ThinkPad T470",
                 priority: ["budget"],
-                image: "https://placehold.co/600x400/212529/F8F9FA?text=ThinkPad+T470",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T470",
                 score: 70,
                 summary: "An older but still very capable budget option. Great for learning and running modern macOS versions with some community effort.",
                 details: {
@@ -246,92 +497,381 @@
                     wifi: "Intel (Replaceable). Works with kexts.",
                     audio: "Realtek ALC3268/ALC298",
                     trackpad: "Synaptics (SMBus/PS2)",
-                    pros: ["Very affordable", "Good community support for its age", "Still compatible with Sonoma/Sequoia", "Upgradeable"],
+                    ram: "Up to 32GB DDR4 (2 slots), User Upgradeable",
+                    storage: "M.2 NVMe SSD (some models) or 2.5\" SATA SSD",
+                    macosSupport: { min: "macOS Sierra 10.12", max: "macOS Sonoma 14.x (with OCLP for some features)" },
+                    cpuBenchmark: { score: 2800, source: "Geekbench 5 Multi (i5-7200U)" },
+                    pros: ["Very affordable", "Good community support for its age", "Upgradeable RAM/Storage"],
                     cons: ["Older CPU generation", "Less performance for demanding tasks", "May require more patching for newer macOS features"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2/VoodooRMI", "IntelMausi", "OpenIntelWireless suite"],
                     chartData: [3, 2, 4, 5]
+                }
+            },
+            "xps13-9360": {
+                name: "Dell XPS 13 (9360)",
+                priority: ["budget", "ease"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13+9360",
+                score: 72,
+                summary: "A popular older XPS model, good for Hackintoshing on a budget. Requires Wi-Fi card replacement.",
+                details: {
+                    cpu: "7th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel HD 620 / Iris Plus 640 (Well Supported)",
+                    dgpu: "None",
+                    wifi: "Broadcom/Killer (Usually needs replacement with compatible Broadcom or Intel)",
+                    audio: "Realtek ALC3246/ALC298",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    storage: "M.2 NVMe/SATA SSD",
+                    macosSupport: { min: "macOS Sierra 10.12", max: "macOS Ventura 13.x (Sonoma with OCLP)" },
+                    cpuBenchmark: { score: 2900, source: "Geekbench 5 Multi (i7-7500U)" },
+                    pros: ["Good build quality", "Excellent display", "Relatively easy setup once Wi-Fi is sorted"],
+                    cons: ["Wi-Fi card replacement necessary", "Soldered RAM", "Battery life can be average"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "AirportBrcmFixup (for Broadcom Wi-Fi)"],
+                    chartData: [4, 2, 5, 4]
+                }
+            },
+            "x1c6": { 
+                name: "Lenovo ThinkPad X1 Carbon (6th Gen)",
+                priority: ["ease", "performance"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=X1+Carbon+6th",
+                score: 82, 
+                summary: "Excellent ultrabook with strong Hackintosh compatibility. Very portable and reliable.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "None",
+                    wifi: "Intel (Replaceable), works with OpenIntelWireless",
+                    audio: "Realtek ALC3287",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i7-8650U)" },
+                    pros: ["Very lightweight", "Great keyboard", "Strong community support", "Good battery life on macOS"],
+                    cons: ["Soldered RAM", "Display brightness could be higher for outdoor use"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
+                    chartData: [4, 3, 5, 3]
+                }
+            },
+            "spectre-x360-15t": {
+                name: "HP Spectre x360 15t (9th Gen Intel)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=HP+Spectre+x360",
+                score: 60, 
+                summary: "Powerful and stylish convertible, but HP laptops can be more challenging for Hackintosh.",
+                details: {
+                    cpu: "9th Gen Intel H-Series (e.g., i7-9750H)",
+                    igpu: "Intel UHD 630",
+                    dgpu: "NVIDIA GTX 1650 (Must be disabled)",
+                    wifi: "Intel (Often soldered, check specific model), works with OpenIntelWireless",
+                    audio: "Realtek (Varies, may need specific layout ID)",
+                    trackpad: "Synaptics/ELAN (I2C, can be tricky)",
+                    ram: "8GB/16GB DDR4 (Often soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 6000, source: "Geekbench 5 Multi (i7-9750H)" },
+                    pros: ["Very powerful CPU", "Excellent 4K AMOLED display options", "Premium 2-in-1 design"],
+                    cons: ["HP BIOS can be restrictive", "dGPU disabling essential and can be complex", "Touchscreen/Pen support hit-or-miss", "Component access/replacement difficult"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (if applicable)", "OpenIntelWireless", "SSDTs for disabling dGPU and fixing functions"],
+                    chartData: [2, 5, 4, 2]
+                }
+            },
+            "xps13-9300": {
+                name: "Dell XPS 13 (9300, 10th Gen Ice Lake)",
+                priority: ["performance", "ease"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13+9300",
+                score: 78,
+                summary: "Modern XPS with Ice Lake CPU and Iris Plus graphics, generally good compatibility.",
+                details: {
+                    cpu: "10th Gen Intel Ice Lake U-Series (i5/i7)",
+                    igpu: "Intel Iris Plus Graphics (G4/G7, Well Supported)",
+                    dgpu: "None",
+                    wifi: "Killer AX1650 (Intel based, works with OpenIntelWireless) or AX500-DBS (Soldered, check model)",
+                    audio: "Realtek ALC3271/ALC711 (Audio jack issues less common than 9370/80 but possible)",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB/32GB LPDDR4X (Soldered)",
+                    storage: "M.2 NVMe SSD (Soldered on some configs, check!)",
+                    macosSupport: { min: "macOS Catalina 10.15.4", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 4200, source: "Geekbench 5 Multi (i7-1065G7)" },
+                    pros: ["Excellent Iris Plus graphics performance", "Modern design, very compact", "Good battery life"],
+                    cons: ["Soldered RAM and potentially soldered SSD", "Wi-Fi can be tricky if not Intel AX200 based Killer card", "Thermal throttling under heavy load"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
+                    chartData: [4, 4, 5, 3]
+                }
+            },
+            "t440p": {
+                name: "Lenovo ThinkPad T440p",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T440p",
+                score: 75, 
+                summary: "A classic, highly upgradeable budget Hackintosh. Socketed CPU allows for significant performance boosts.",
+                details: {
+                    cpu: "4th Gen Intel M/MQ-Series (Socketed, i5/i7, upgradeable to Quad Core i7)",
+                    igpu: "Intel HD 4600 (Well Supported)",
+                    dgpu: "NVIDIA GT 730M (Optional, must be disabled or not present)",
+                    wifi: "Various (Usually needs replacement with compatible Broadcom or Atheros)",
+                    audio: "Realtek ALC3232/ALC292",
+                    trackpad: "Synaptics (Replaceable 'clunkpad', often swapped for T450s trackpad)",
+                    ram: "Up to 16GB DDR3L (2 slots), User Upgradeable",
+                    storage: "2.5\" SATA SSD/HDD + M.2 SATA SSD (via WWAN slot adapter)",
+                    macosSupport: { min: "OS X Mavericks 10.9", max: "macOS Monterey 12.x (Ventura/Sonoma with OCLP)" },
+                    cpuBenchmark: { score: 2500, source: "Geekbench 5 Multi (i7-4700MQ upgrade)" },
+                    pros: ["Extremely affordable", "Highly upgradeable (CPU, RAM, Storage, Trackpad, Screen)", "Robust build", "Large community"],
+                    cons: ["Stock trackpad is poor", "Requires Wi-Fi card replacement", "Bulky compared to modern laptops", "Needs effort for best results"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "AirportBrcmFixup (or other Wi-Fi kext)"],
+                    chartData: [3, 3, 2, 5] 
+                }
+            },
+            "x230": {
+                name: "Lenovo ThinkPad X230",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+X230",
+                score: 68,
+                summary: "A very cheap and compact older ThinkPad. Great for learning, but limited by its 3rd Gen Intel platform.",
+                details: {
+                    cpu: "3rd Gen Intel M-Series (i5/i7)",
+                    igpu: "Intel HD 4000 (Well Supported)",
+                    dgpu: "None",
+                    wifi: "Various (Usually needs replacement, often with Atheros AR9285 or specific Broadcom)",
+                    audio: "Conexant CX20671/CX20590",
+                    trackpad: "Synaptics (Classic ThinkPad trackpad)",
+                    ram: "Up to 16GB DDR3 (2 slots), User Upgradeable",
+                    storage: "2.5\" SATA SSD/HDD + mSATA SSD slot",
+                    macosSupport: { min: "OS X Mountain Lion 10.8", max: "macOS Catalina 10.15 (Monterey/Ventura with OCLP, limited features)" },
+                    cpuBenchmark: { score: 1500, source: "Geekbench 5 Multi (i5-3320M)" },
+                    pros: ["Very cheap", "Compact and durable", "Classic ThinkPad keyboard (can be modded with X220 keyboard)", "Good for basic tasks"],
+                    cons: ["Old platform, limited performance", "Wi-Fi replacement essential", "No native USB3 support without DSDT patches or kexts on some macOS versions", "Screen resolution is low (1366x768) unless IPS modded"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller"],
+                    chartData: [3, 1, 4, 5]
+                }
+            },
+            "precision-5530": {
+                name: "Dell Precision 5530",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+Precision+5530",
+                score: 70, 
+                summary: "Workstation version of XPS 15, often with Xeon/Quadro. Powerful but dGPU (Quadro) needs disabling.",
+                details: {
+                    cpu: "8th Gen Intel H-Series (i5/i7/i9, Xeon E-2176M)",
+                    igpu: "Intel UHD 630 / P630 (Xeon)",
+                    dgpu: "NVIDIA Quadro P1000/P2000 (MUST be disabled)",
+                    wifi: "Intel/Killer (Must be replaced or use OpenIntelWireless)",
+                    audio: "Realtek ALC3266/ALC298",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 64GB DDR4 (2 slots, ECC option with Xeon), User Upgradeable",
+                    storage: "M.2 NVMe SSD (Often 2 slots)",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 6200, source: "Geekbench 5 Multi (Xeon E-2176M)" },
+                    pros: ["Extremely powerful CPU options (including Xeon)", "ECC RAM support", "Often dual NVMe slots", "Robust build for professional use"],
+                    cons: ["Quadro dGPU MUST be disabled (similar complexity to GTX)", "Can be expensive", "Wi-Fi replacement often needed"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDTs for dGPU disable", "OpenIntelWireless (if applicable)"],
+                    chartData: [2, 5, 3, 2]
                 }
             }
         };
 
         const componentData = {
             "CPU": {
-                intro: "The CPU is the brain. Intel CPUs from 8th-10th Gen are the 'sweet spot' for compatibility and ease of setup. Newer generations and AMD CPUs introduce significant challenges for laptops.",
+                intro: "The CPU is the brain. Intel CPUs from 8th-10th Gen are the 'sweet spot'. Newer generations and AMD CPUs introduce significant challenges for laptops.",
                 items: [
-                    { name: "Intel 8th-10th Gen (Coffee/Comet Lake)", status: "good", desc: "Excellent choice. Best balance of performance, iGPU compatibility (UHD 620/630), and community support." },
-                    { name: "Intel 11th+ Gen (Tiger/Alder Lake)", status: "bad", desc: "Not recommended for laptops. Their Iris Xe iGPUs lack graphics acceleration in macOS, making them unusable for a good experience." },
-                    { name: "Intel 7th Gen & Older (Kaby Lake)", status: "mid", desc: "Viable for budget builds. Good compatibility, but lower performance. Great for learning on cheaper hardware." },
-                    { name: "AMD Ryzen", status: "bad", desc: "Not recommended for laptops. Requires complex patches, and iGPU/power management support is very inconsistent and experimental." }
+                    { name: "Intel 8th-10th Gen (Coffee/Comet/Ice Lake U/H)", status: "good", desc: "Recommended: Excellent choice. Best balance of performance, iGPU compatibility (UHD 620/630, Iris Plus), and community support." },
+                    { name: "Intel 11th+ Gen (Tiger/Alder Lake & newer)", status: "bad", desc: "Avoid for Laptops: Their Iris Xe iGPUs lack graphics acceleration in macOS, making them unusable for a good experience unless it's a rare model where iGPU can be fully disabled and a supported AMD dGPU is present (uncommon in laptops)." },
+                    { name: "Intel 4th-7th Gen (Haswell/Broadwell/Skylake/Kaby Lake)", status: "mid", desc: "Viable with Effort: Good for budget builds. Compatibility is generally good with appropriate patching (e.g. HD 4600, HD 5500, HD 620), but lower performance. Great for learning on cheaper hardware." },
+                    { name: "AMD Ryzen (All series for laptops)", status: "bad", desc: "Avoid for Laptops: Requires complex patches (NootedRed for iGPU), and support for iGPU, power management, sleep, and other features is very inconsistent, experimental, and often breaks." }
                 ]
             },
             "GPU": {
-                intro: "Graphics acceleration is non-negotiable for a usable macOS experience. For laptops, the integrated GPU (iGPU) is almost always the one you'll use.",
+                intro: "Graphics acceleration is non-negotiable. For laptops, the integrated GPU (iGPU) is almost always the one you'll use. NVIDIA dGPUs are not supported on recent macOS versions and MUST be disabled.",
                 items: [
-                    { name: "Intel UHD 620 / 630", status: "good", desc: "The gold standard for laptop iGPUs. Found in 8th-10th Gen CPUs, they have excellent support in macOS." },
-                    { name: "Intel Iris Plus (10th Gen Ice Lake)", status: "good", desc: "Offers good performance and compatibility." },
-                    { name: "Intel Iris Xe (11th Gen+)", status: "bad", desc: "No hardware acceleration. AVOID in laptops unless it can be disabled in favor of a supported AMD dGPU (very rare)." },
-                    { name: "AMD Radeon dGPU (RX 5xx, 5xxx, 6xxx)", status: "mid", desc: "The best dGPU option if you have one. However, in most laptops, it can't drive the internal display and is paired with an NVIDIA dGPU (Optimus), making it unusable." },
-                    { name: "NVIDIA GeForce dGPU (All modern)", status: "bad", desc: "No support in recent macOS versions. Must be disabled via ACPI patches to prevent heat, battery drain, and instability." }
+                    { name: "Intel UHD 620 / 630 / Iris Plus (8th-10th Gen)", status: "good", desc: "Recommended: The gold standard for laptop iGPUs. Excellent support in macOS." },
+                    { name: "Intel HD Graphics (4th-7th Gen, e.g., HD 4600, HD 520, HD 620)", status: "mid", desc: "Usable: Supported with WhateverGreen and appropriate device properties. Performance varies but generally okay for non-demanding tasks." },
+                    { name: "Intel Iris Xe (11th Gen+)", status: "bad", desc: "Avoid: No hardware acceleration in macOS for these iGPUs. Makes the system very laggy and unusable." },
+                    { name: "NVIDIA GeForce/Quadro dGPU (All modern laptop versions)", status: "bad", desc: "Must Disable: No support in recent macOS versions (High Sierra was last for some older cards). Must be disabled via ACPI patches (SSDT) to prevent heat, battery drain, and instability. Cannot be used as primary GPU." },
+                    { name: "AMD Radeon dGPU (RX 5xx, Vega M, RX 5xxxM, 6xxxM series)", status: "mid", desc: "Potentially Usable (Rare): Some AMD dGPUs are supported. However, in most laptops with Optimus-like technology (paired with Intel iGPU), the dGPU cannot drive the internal display. If it's the sole GPU or can directly drive display, it might work, but this is uncommon. Research specific model thoroughly." }
                 ]
             },
             "Wi-Fi": {
                 intro: "Wireless is crucial. Many stock laptop cards are not compatible and must be replaced. Check if your laptop's Wi-Fi card is soldered or replaceable before buying.",
                  items: [
-                    { name: "Intel Wi-Fi (AX200, AX210, etc.)", status: "mid", desc: "The best non-Apple option. Works well with OpenIntelWireless kexts. Most Apple ecosystem features (AirDrop, Handoff) will not work." },
-                    { name: "Broadcom (Fenvi, DW1560, etc.)", status: "good", desc: "The most 'native' experience, enabling features like AirDrop. However, Sonoma/Sequoia broke support for many older cards, now requiring patches (OCLP) which can add complexity." },
-                    { name: "Killer/Qualcomm Atheros", status: "bad", desc: "Generally incompatible. If your laptop has one, you MUST replace it with a supported Intel or Broadcom card." },
-                    { name: "Realtek Wi-Fi", status: "bad", desc: "Poor to no support. Must be replaced." }
+                    { name: "Broadcom (e.g., DW1560, DW1820A, DW1830, Fenvi cards)", status: "good", desc: "Recommended (Check Sonoma/Sequoia compatibility): Offers the most 'native' experience, enabling features like AirDrop & Handoff. Some cards may need OCLP patching on newest macOS versions." },
+                    { name: "Intel Wi-Fi (e.g., AX200, AX201, AX210, AC-9560)", status: "mid", desc: "Good Alternative: Works well with OpenIntelWireless kexts (itlwm + HeliPort or AirportItlwm). Most Apple ecosystem features (AirDrop, Handoff, Continuity Camera) will NOT work or be limited." },
+                    { name: "Atheros (Older cards, e.g., AR9285, AR9380)", status: "mid", desc: "Viable for Older Systems: Some older Atheros cards have good support on older macOS versions. Check specific chipset." },
+                    { name: "Killer Wireless (Intel-based, e.g., AX1650)", status: "mid", desc: "Usually Intel Rebrands: If based on an Intel chipset (like AX200), it will work with OpenIntelWireless. Non-Intel Killer cards are generally incompatible." },
+                    { name: "Realtek Wi-Fi / Qualcomm Atheros (newer QCA series)", status: "bad", desc: "Avoid: Poor to no support. Must be replaced." }
                 ]
             },
-            "Storage": {
-                intro: "macOS is picky about NVMe SSDs. A wrong choice can lead to slowdowns, freezes, or kernel panics.",
+            "RAM": { 
+                intro: "macOS benefits from ample RAM, especially for creative tasks. Ensure your chosen laptop's RAM is compatible and sufficient for your needs.",
+                items: [
+                    { name: "DDR3 / DDR3L (1333MHz, 1600MHz)", status: "good", desc: "Compatible: Standard for older Hackintosh-compatible laptops (3rd-5th Gen Intel). Works reliably." },
+                    { name: "DDR4 (2133MHz, 2400MHz, 2666MHz+)", status: "good", desc: "Compatible: Standard for modern Hackintosh laptops (6th Gen Intel onwards). Works reliably." },
+                    { name: "LPDDR3 / LPDDR4 / LPDDR4X (Soldered)", status: "good", desc: "Compatible (If on board): Low Power RAM, common in ultrabooks. Works fine, but it's almost always soldered, so ensure you get enough capacity at purchase." },
+                    { name: "ECC RAM (Error Correcting Code)", status: "mid", desc: "Usually Works (Non-ECC Mode): While some Xeon-based Hackintoshes might use ECC RAM, macOS typically doesn't leverage ECC features. It should work as standard non-ECC RAM." },
+                    { name: "Mismatched RAM Sticks (Speed/Capacity/Brand)", status: "bad", desc: "Avoid if Possible: Can lead to instability or prevent booting. Always try to use matching pairs of RAM sticks for dual-channel operation and stability." }
+                ]
+            },
+            "Storage": { 
+                intro: "macOS is picky about NVMe SSDs. A wrong choice can lead to slowdowns, freezes, or kernel panics. SATA SSDs are generally safer.",
                  items: [
-                    { name: "Western Digital NVMe (SN750, SN770)", status: "good", desc: "Highly recommended for their excellent compatibility and reliability with macOS." },
-                    { name: "SATA SSD (Any major brand)", status: "good", desc: "The safest bet. Virtually all SATA SSDs work flawlessly, though they are slower than NVMe drives." },
-                    { name: "Samsung NVMe (PM981, 970 Evo+, 980/990 Pro)", status: "bad", desc: "Known to be problematic. Can cause freezes, trim issues, and instability. Best to avoid." },
-                    { name: "Micron / SK Hynix (Some models)", status: "bad", desc: "Certain models are known to be incompatible and should be replaced." }
+                    { name: "SATA SSD (Any major brand, e.g., Crucial, WD, Samsung SATA, SanDisk)", status: "good", desc: "Highly Recommended for Stability: Virtually all SATA SSDs work flawlessly and are the safest bet for compatibility." },
+                    { name: "NVMe SSD - Western Digital (e.g., SN550, SN570, SN750, SN770, Black series)", status: "good", desc: "Recommended NVMe: Generally excellent compatibility and reliability with macOS. Good performance." },
+                    { name: "NVMe SSD - Crucial (P-series, e.g., P1, P2, P5)", status: "good", desc: "Good NVMe Option: Most Crucial NVMe drives work well. P1/P2 are QLC and might be slower for sustained writes but are compatible." },
+                    { name: "NVMe SSD - Kingston (A2000, KC2500, KC3000)", status: "mid", desc: "Generally Compatible: Many Kingston NVMe drives work, but research specific models. Some newer/controller-specific models might have issues." },
+                    { name: "NVMe SSD - Samsung (e.g., PM981, PM981a, PM9A1, 970 EVO Plus, 980 Pro, 990 Pro)", status: "bad", desc: "Problematic - Avoid or Use with Caution: Many Samsung NVMes (especially OEM like PM981) are known for issues like freezes, trim problems, or instability in macOS. Some newer retail drives (970 Evo Plus, 980/990 Pro) might work with specific firmware or kexts (e.g., NVMeFix.kext, SetApfsTrimTimeout in OpenCore) but can still be unreliable. Not recommended for beginners." },
+                    { name: "NVMe SSD - Micron / SK Hynix (OEM models)", status: "bad", desc: "Often Problematic: Certain OEM models from these brands can be incompatible or cause issues. Research specific model numbers carefully." },
+                    { name: "HDD (Hard Disk Drive)", status: "mid", desc: "Usable but Slow: macOS will run on an HDD, but the experience will be very slow compared to an SSD. Not recommended for main OS drive if avoidable." }
                 ]
             }
         };
         
         document.addEventListener('DOMContentLoaded', () => {
             const laptopGrid = document.getElementById('laptop-grid');
-            const modal = document.getElementById('laptop-modal');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-            const priorityBtns = document.querySelectorAll('.priority-btn');
-            let chartInstance = null;
+            const detailModal = document.getElementById('laptop-modal');
+            const detailModalCloseBtn = document.getElementById('modal-close-btn');
             
-            function renderLaptops(filter = null) {
+            const priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons');
+            const priorityBtns = priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all');
+
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIconLight = document.getElementById('theme-icon-light');
+            const themeIconDark = document.getElementById('theme-icon-dark');
+            let detailChartInstance = null;
+            const comparisonModal = document.getElementById('comparison-modal');
+            const comparisonModalCloseBtn = document.getElementById('comparison-modal-close-btn');
+            const comparisonModalContent = document.getElementById('comparison-modal-content');
+            const compareSelectedBtn = document.getElementById('compare-selected-btn');
+            const clearSelectionBtn = document.getElementById('clear-selection-btn');
+            const selectedCountSpan = document.getElementById('selected-count');
+            const compareActionBar = document.getElementById('compare-action-bar');
+
+            let selectedLaptopsForComparison = [];
+            let comparisonChartInstances = {};
+
+
+            // Theme Management
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    themeIconLight.classList.add('hidden');
+                    themeIconDark.classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    themeIconLight.classList.remove('hidden');
+                    themeIconDark.classList.add('hidden');
+                }
+                if (detailChartInstance) {
+                    updateChartTheme(detailChartInstance, theme);
+                }
+                Object.values(comparisonChartInstances).forEach(chart => updateChartTheme(chart, theme));
+            }
+
+            function updateChartTheme(chart, theme) {
+                const isDark = theme === 'dark';
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                const pointLabelColor = isDark ? '#e2e8f0' : '#495057';
+                const angleLinesColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+
+                if (chart && chart.options && chart.options.scales && chart.options.scales.r) {
+                     chart.options.scales.r.grid.color = gridColor;
+                     chart.options.scales.r.pointLabels.color = pointLabelColor;
+                     chart.options.scales.r.angleLines.color = angleLinesColor;
+                     chart.options.scales.r.ticks.backdropColor = isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)';
+                     chart.options.scales.r.ticks.color = pointLabelColor;
+                     if (chart.options.plugins && chart.options.plugins.legend) {
+                        chart.options.plugins.legend.labels.color = pointLabelColor;
+                     }
+                     chart.update();
+                }
+            }
+
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            applyTheme(savedTheme);
+
+            function renderLaptops(filter = "all") { 
                 laptopGrid.innerHTML = '';
                 Object.entries(laptopData).forEach(([id, data]) => {
-                    if (filter && !data.priority.includes(filter)) return;
+                    if (filter !== "all" && !data.priority.includes(filter)) return;
 
                     const scoreColor = data.score >= 80 ? 'bg-green-500' : data.score >= 70 ? 'bg-yellow-500' : 'bg-red-500';
+                    const isSelected = selectedLaptopsForComparison.includes(id);
+                    
                     const card = `
-                        <div class="bg-white rounded-xl card-shadow overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 cursor-pointer" data-id="${id}">
-                            <img src="${data.image}" alt="${data.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Error';">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2">${data.name}</h3>
-                                <p class="text-medium text-sm mb-4">${data.summary}</p>
-                                <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div class="${scoreColor} h-2.5 rounded-full" style="width: ${data.score}%"></div>
+                        <div class="bg-white rounded-xl card-shadow overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 relative">
+                            <div class="absolute top-2 right-2 z-10">
+                                <input type="checkbox" id="compare-${id}" data-id="${id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:checked:bg-primary dark:focus:ring-offset-gray-800" ${isSelected ? 'checked' : ''}>
+                                <label for="compare-${id}" class="sr-only">Select ${data.name} for comparison</label>
+                            </div>
+                            <div class="cursor-pointer laptop-card-clickable-area" data-id="${id}">
+                                <img src="${data.image}" alt="${data.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2">${data.name}</h3>
+                                    <p class="text-medium text-sm mb-4 h-20 overflow-y-auto">${data.summary}</p>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                        <div class="${scoreColor} h-2.5 rounded-full" style="width: ${data.score}%"></div>
+                                    </div>
+                                    <p class="text-xs text-right mt-1 text-light">Compatibility Score: ${data.score}%</p>
                                 </div>
-                                <p class="text-xs text-right mt-1 text-light">Compatibility Score: ${data.score}%</p>
                             </div>
                         </div>
                     `;
                     laptopGrid.insertAdjacentHTML('beforeend', card);
                 });
-                addCardListeners();
+                addCardAndCheckboxListeners();
+                updateCompareActionBar();
+            }
+            
+            function updateCompareActionBar() {
+                const count = selectedLaptopsForComparison.length;
+                selectedCountSpan.textContent = count;
+                if (count > 0) {
+                    compareActionBar.classList.remove('hidden');
+                } else {
+                    compareActionBar.classList.add('hidden');
+                }
+                compareSelectedBtn.disabled = count < 2;
             }
 
-            function addCardListeners() {
-                document.querySelectorAll('#laptop-grid > div').forEach(card => {
-                    card.addEventListener('click', () => showModal(card.dataset.id));
+            function addCardAndCheckboxListeners() {
+                document.querySelectorAll('.laptop-card-clickable-area').forEach(cardArea => {
+                    cardArea.addEventListener('click', () => showDetailModal(cardArea.dataset.id));
+                });
+                document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const id = e.target.dataset.id;
+                        if (e.target.checked) {
+                            if (!selectedLaptopsForComparison.includes(id)) {
+                                selectedLaptopsForComparison.push(id);
+                            }
+                        } else {
+                            selectedLaptopsForComparison = selectedLaptopsForComparison.filter(laptopId => laptopId !== id);
+                        }
+                        updateCompareActionBar();
+                    });
                 });
             }
+            
+            compareSelectedBtn.addEventListener('click', () => {
+                if (selectedLaptopsForComparison.length >= 2) {
+                    showComparisonModal(selectedLaptopsForComparison);
+                }
+            });
 
-            function showModal(id) {
+            clearSelectionBtn.addEventListener('click', () => {
+                selectedLaptopsForComparison = [];
+                document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
+                updateCompareActionBar();
+            });
+
+
+            function showDetailModal(id) {
                 const data = laptopData[id];
                 if (!data) return;
 
@@ -341,6 +881,27 @@
                 content.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
+                            <img src="${data.image}" alt="${data.name}" class="w-full rounded-lg mb-4 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
+                            
+                            <h3 class="font-bold text-lg mb-2 mt-4 text-primary">Core Specifications</h3>
+                             <ul class="text-sm text-medium space-y-1 mb-4">
+                                <li><strong>CPU:</strong> ${data.details.cpu}</li>
+                                <li><strong>iGPU:</strong> ${data.details.igpu}</li>
+                                ${data.details.dgpu && data.details.dgpu !== "None" ? `<li><strong>dGPU:</strong> ${data.details.dgpu}</li>` : ''}
+                                <li><strong>RAM:</strong> ${data.details.ram}</li>
+                                <li><strong>Storage:</strong> ${data.details.storage}</li>
+                                <li><strong>Wi-Fi:</strong> ${data.details.wifi}</li>
+                                <li><strong>Audio:</strong> ${data.details.audio}</li>
+                                <li><strong>Trackpad:</strong> ${data.details.trackpad}</li>
+                             </ul>
+                             
+                            <h3 class="font-bold text-lg mb-2 text-primary">macOS Compatibility</h3>
+                            <ul class="text-sm text-medium space-y-1 mb-4">
+                                <li><strong>Min Supported:</strong> ${data.details.macosSupport.min}</li>
+                                <li><strong>Max Supported:</strong> ${data.details.macosSupport.max}</li>
+                                ${data.details.cpuBenchmark ? `<li><strong>CPU Benchmark:</strong> ~${data.details.cpuBenchmark.score} (${data.details.cpuBenchmark.source})</li>` : ''}
+                            </ul>
+
                             <h3 class="font-bold text-lg mb-2 text-primary">Compatibility Report</h3>
                             <div class="mb-4">
                                 <h4 class="font-semibold">What Works Well 👍</h4>
@@ -354,13 +915,8 @@
                                     ${data.details.cons.map(c => `<li>${c}</li>`).join('')}
                                 </ul>
                             </div>
-                             <h3 class="font-bold text-lg mb-2 mt-4 text-primary">Core Specs</h3>
-                             <ul class="text-sm text-medium space-y-1">
-                                <li><strong>CPU:</strong> ${data.details.cpu}</li>
-                                <li><strong>iGPU:</strong> ${data.details.igpu}</li>
-                                <li><strong>dGPU:</strong> ${data.details.dgpu}</li>
-                                <li><strong>Wi-Fi:</strong> ${data.details.wifi}</li>
-                             </ul>
+                             <h3 class="font-bold text-lg mb-2 mt-4 text-primary">Essential Kexts (Typical)</h3>
+                             <p class="text-sm text-medium">${data.details.kexts.join(', ')}</p>
                         </div>
                         <div>
                            <div class="chart-container">
@@ -370,22 +926,42 @@
                     </div>
                 `;
                 
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
+                detailModal.classList.remove('hidden');
+                detailModal.classList.add('flex');
                 document.body.style.overflow = 'hidden';
                 
-                if(chartInstance) {
-                    chartInstance.destroy();
+                if(detailChartInstance) {
+                    detailChartInstance.destroy();
                 }
                 
                 const ctx = document.getElementById('laptop-chart').getContext('2d');
-                chartInstance = new Chart(ctx, {
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                detailChartInstance = createRadarChart(ctx, data.name, data.details.chartData, currentTheme);
+            }
+
+            function hideDetailModal() {
+                detailModal.classList.add('hidden');
+                detailModal.classList.remove('flex');
+                if (!comparisonModal.classList.contains('flex')) {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+            
+            function createRadarChart(ctx, label, chartData, theme, isComparisonChart = false) {
+                const isDark = theme === 'dark';
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                const pointLabelColor = isDark ? '#e2e8f0' : '#495057';
+                const angleLinesColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+                const tickColor = pointLabelColor;
+                const legendLabelColor = pointLabelColor;
+
+                return new Chart(ctx, {
                     type: 'radar',
                     data: {
-                        labels: ['Ease of Setup', 'Performance', 'Portability', 'Budget Friendliness'],
+                        labels: ['Ease', 'Perf', 'Port', 'Budget'], 
                         datasets: [{
-                            label: data.name,
-                            data: data.details.chartData,
+                            label: label,
+                            data: chartData,
                             backgroundColor: 'rgba(74, 144, 226, 0.2)',
                             borderColor: 'rgba(74, 144, 226, 1)',
                             pointBackgroundColor: 'rgba(74, 144, 226, 1)',
@@ -398,30 +974,77 @@
                         maintainAspectRatio: false,
                         scales: {
                             r: {
-                                angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                                grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                                pointLabels: { font: { size: 12 } },
+                                angleLines: { color: angleLinesColor },
+                                grid: { color: gridColor },
+                                pointLabels: { font: { size: isComparisonChart ? 10 : 12 }, color: pointLabelColor },
                                 suggestedMin: 0,
                                 suggestedMax: 5,
                                 ticks: {
                                     stepSize: 1,
-                                    backdropColor: 'transparent'
+                                    backdropColor: isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)',
+                                    color: tickColor,
+                                    showLabelBackdrop: !isComparisonChart 
                                 }
                             }
                         },
                         plugins: {
                             legend: {
+                                display: !isComparisonChart, 
                                 position: 'top',
+                                labels: { color: legendLabelColor }
                             }
                         }
                     }
                 });
             }
 
-            function hideModal() {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                document.body.style.overflow = 'auto';
+
+            function showComparisonModal(laptopIds) {
+                comparisonModalContent.innerHTML = ''; 
+                Object.values(comparisonChartInstances).forEach(chart => chart.destroy()); 
+                comparisonChartInstances = {};
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+
+                laptopIds.forEach((id, index) => {
+                    const data = laptopData[id];
+                    if (!data) return;
+
+                    const laptopDiv = document.createElement('div');
+                    laptopDiv.className = 'bg-secondary p-4 rounded-lg card-shadow flex flex-col'; 
+                    laptopDiv.innerHTML = `
+                        <h3 class="text-xl font-bold mb-3 text-primary">${data.name}</h3>
+                        <img src="${data.image}" alt="${data.name}" class="w-full h-40 object-cover rounded-md mb-3" onerror="this.onerror=null;this.src='https.placehold.co/400x200/212529/F8F9FA?text=No+Image';">
+                        <p class="text-xs text-medium mb-1"><strong>Score:</strong> ${data.score}%</p>
+                        ${data.details.cpuBenchmark ? `<p class="text-xs text-medium mb-2"><strong>CPU Bench:</strong> ~${data.details.cpuBenchmark.score}</p>` : ''}
+                        
+                        <h4 class="font-semibold text-sm mt-2 mb-1">Key Specs:</h4>
+                        <ul class="text-xs text-medium list-none space-y-0.5 mb-2">
+                            <li><strong>RAM:</strong> ${data.details.ram}</li>
+                            <li><strong>Storage:</strong> ${data.details.storage}</li>
+                            <li><strong>macOS:</strong> ${data.details.macosSupport.min} - ${data.details.macosSupport.max}</li>
+                        </ul>
+                        
+                        <div class="comparison-chart-container mt-auto">
+                            <canvas id="compare-chart-${id}"></canvas>
+                        </div>
+                    `;
+                    comparisonModalContent.appendChild(laptopDiv);
+
+                    const ctx = document.getElementById(`compare-chart-${id}`).getContext('2d');
+                    comparisonChartInstances[id] = createRadarChart(ctx, data.name, data.details.chartData, currentTheme, true);
+                });
+
+                comparisonModal.classList.remove('hidden');
+                comparisonModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function hideComparisonModal() {
+                comparisonModal.classList.add('hidden');
+                comparisonModal.classList.remove('flex');
+                if (!detailModal.classList.contains('flex')) { 
+                     document.body.style.overflow = 'auto';
+                }
             }
             
             priorityBtns.forEach(btn => {
@@ -429,23 +1052,23 @@
                     const priority = e.currentTarget.dataset.priority;
                     renderLaptops(priority);
 
-                    priorityBtns.forEach(b => {
-                        b.classList.remove('bg-primary', 'text-white');
-                        b.classList.add('bg-white', 'text-primary', 'border-2', 'border-primary');
-                    });
-                    e.currentTarget.classList.add('bg-primary', 'text-white');
-                    e.currentTarget.classList.remove('bg-white', 'text-primary', 'border-2', 'border-primary');
+                    priorityBtns.forEach(b => b.classList.remove('active-filter'));
+                    e.currentTarget.classList.add('active-filter');
                     
                     document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
                 });
             });
 
-            modalCloseBtn.addEventListener('click', hideModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    hideModal();
-                }
+            detailModalCloseBtn.addEventListener('click', hideDetailModal);
+            detailModal.addEventListener('click', (e) => {
+                if (e.target === detailModal) hideDetailModal();
             });
+
+            comparisonModalCloseBtn.addEventListener('click', hideComparisonModal);
+            comparisonModal.addEventListener('click', (e) => {
+                if (e.target === comparisonModal) hideComparisonModal();
+            });
+
 
             const componentTabsContainer = document.getElementById('component-tabs');
             const componentContentContainer = document.getElementById('component-content');
@@ -456,20 +1079,22 @@
                 
                 let contentHTML = `<p class="text-center text-medium mb-6">${data.intro}</p><div class="space-y-4">`;
                 data.items.forEach(item => {
-                    let statusClass;
-                    let icon;
+                    let statusClass, icon, darkStatusClass;
                     if (item.status === 'good') {
                         statusClass = 'border-l-4 border-green-500 bg-green-50';
+                        darkStatusClass = 'dark:bg-green-900/50 dark:border-green-400';
                         icon = '✔';
                     } else if (item.status === 'mid') {
                         statusClass = 'border-l-4 border-yellow-500 bg-yellow-50';
+                        darkStatusClass = 'dark:bg-yellow-700/50 dark:border-yellow-400';
                         icon = '〰️';
-                    } else {
+                    } else { 
                         statusClass = 'border-l-4 border-red-500 bg-red-50';
+                        darkStatusClass = 'dark:bg-red-900/50 dark:border-red-400';
                         icon = '❌';
                     }
                     contentHTML += `
-                        <div class="p-4 rounded-lg ${statusClass}">
+                        <div class="p-4 rounded-lg ${statusClass} ${darkStatusClass}">
                             <h4 class="font-bold text-dark">${icon} ${item.name}</h4>
                             <p class="text-sm text-medium mt-1">${item.desc}</p>
                         </div>
@@ -486,50 +1111,76 @@
                 const tab = document.createElement('button');
                 tab.innerText = key;
                 tab.dataset.key = key;
-                tab.className = `component-tab font-semibold py-2 px-4 rounded-md cursor-pointer ${index === 0 ? 'active' : ''}`;
+                tab.className = `component-tab font-semibold py-2 px-4 rounded-md cursor-pointer border-2 border-transparent ${index === 0 ? 'active' : 'bg-gray-200 dark:bg-gray-700'}`;
                 tab.addEventListener('click', () => renderComponentContent(key));
                 componentTabsContainer.appendChild(tab);
             });
             
-            renderComponentContent(Object.keys(componentData)[0]);
-            renderLaptops();
+            renderComponentContent(Object.keys(componentData)[0]); 
+            renderLaptops(); 
 
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                if (document.documentElement.classList.contains('dark')) {
+                    mobileMenu.classList.add('dark:bg-gray-800');
+                } else {
+                    mobileMenu.classList.remove('dark:bg-gray-800');
+                }
             });
             
             const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main > section');
+            const sections = document.querySelectorAll('main > section'); // This will now include new sections
 
             function changeActiveLink() {
                 let index = sections.length;
-                while(--index && window.scrollY + 100 < sections[index].offsetTop) {}
+                const headerHeight = document.querySelector('header').offsetHeight || 70;
+                while(--index >= 0 && window.scrollY + headerHeight + 20 < sections[index].offsetTop) {} // Ensure index doesn't go below 0
                 
                 navLinks.forEach((link) => link.classList.remove('active'));
                 
-                const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[index].id}"]`);
-                const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${sections[index].id}"]`);
+                if (index >= 0) { // Check if a section is found
+                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[index].id}"]`);
+                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${sections[index].id}"]`);
 
-                if (activeDesktopLink) activeDesktopLink.classList.add('active');
-                if (activeMobileLink) activeMobileLink.classList.add('active');
+                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
+                    if (activeMobileLink) activeMobileLink.classList.add('active');
+                } else if (sections.length > 0) { // Default to first section if no other is active (e.g. at top of page)
+                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[0].id}"]`);
+                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${sections[0].id}"]`);
+                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
+                    if (activeMobileLink) activeMobileLink.classList.add('active');
+                }
             }
             
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    document.querySelector(link.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    if (mobileMenu.classList.contains('hidden') === false) {
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                         window.scrollTo({
+                            top: targetSection.offsetTop - (document.querySelector('header').offsetHeight || 70),
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (!mobileMenu.classList.contains('hidden')) {
                        mobileMenu.classList.add('hidden');
                     }
+                     // Manually set active class on click for immediate feedback
+                    navLinks.forEach(lnk => lnk.classList.remove('active'));
+                    link.classList.add('active');
+                    // Also update corresponding link in other menu (desktop/mobile)
+                    const otherMenuSelector = link.closest('#mobile-menu') ? '.hidden.md\\:flex' : '#mobile-menu';
+                    const correspondingLink = document.querySelector(`${otherMenuSelector} .nav-link[href="${targetId}"]`);
+                    if(correspondingLink) correspondingLink.classList.add('active');
+
                 });
             });
 
             window.addEventListener('scroll', changeActiveLink);
-            changeActiveLink();
+            changeActiveLink(); 
         });
     </script>
 </body>
