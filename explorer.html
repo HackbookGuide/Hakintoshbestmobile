@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Explorer - Hackintosh Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js will be needed for comparison.html and laptop_detail.html, not directly here -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles (Light Mode) - Same as index.html */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .bg-primary { background-color: #4A90E2; }
+        .text-primary { color: #4A90E2; }
+        .border-primary { border-color: #4A90E2; }
+        .bg-secondary { background-color: #f0f4f8; }
+        .text-dark { color: #212529; }
+        .text-medium { color: #495057; }
+        .text-light { color: #adb5bd; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .nav-link { transition: color 0.2s, border-color 0.2s; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .nav-link.active { color: #4A90E2; border-bottom-width: 2px; border-color: #4A90E2; }
+        .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
+        .priority-btn, .priority-btn-all {
+            font-weight: bold;
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); 
+            transition-property: background-color, border-color, color, transform, box-shadow;
+            transition-duration: .15s;
+            transition-timing-function: cubic-bezier(.4,0,.2,1);
+        }
+        .priority-btn:hover, .priority-btn-all:hover {
+            transform: scale(1.05);
+        }
+        .priority-btn.active-filter, .priority-btn-all.active-filter {
+            background-color: #4A90E2; 
+            color: white;
+        }
+         .priority-btn:not(.active-filter), .priority-btn-all:not(.active-filter) {
+            background-color: white;
+            color: #4A90E2; 
+            border-width: 2px;
+            border-color: #4A90E2; 
+        }
+
+        /* Dark Mode Styles - Same as index.html */
+        .dark body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .dark .bg-white { background-color: #2d3748; }
+        .dark .text-dark { color: #e2e8f0; }
+        .dark .text-medium { color: #a0aec0; }
+        .dark .text-light { color: #718096; }
+        .dark .bg-secondary { background-color: #2d3748; }
+        .dark .card-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2); }
+        .dark .border-primary { border-color: #63b3ed; }
+        .dark .text-primary { color: #63b3ed; }
+        .dark .bg-primary { background-color: #3182ce; }
+        .dark .nav-link.active { color: #63b3ed; border-color: #63b3ed; }
+        .dark .priority-btn.active-filter, .dark .priority-btn-all.active-filter {
+             background-color: #3182ce; 
+        }
+        .dark .priority-btn:not(.active-filter), .dark .priority-btn-all:not(.active-filter) {
+            background-color: #4a5568; 
+            color: #e2e8f0; 
+            border-color: #63b3ed; 
+        }
+        .dark #find-bar { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; }
+        .dark #find-bar::placeholder { color: #a0aec0; }
+        .dark #compare-action-bar { background-color: #1f2937; }
+    </style>
+</head>
+<body class="text-dark">
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-2 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-primary">Hackintosh Laptop Guide</a>
+            <div class="flex items-center">
+                 <div class="relative mr-4">
+                    <input type="search" id="find-bar-header" placeholder="Find a laptop..." class="px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div class="hidden md:flex space-x-3 lg:space-x-4 mr-4">
+                    <a href="index.html" class="nav-link text-sm lg:text-base">Home</a>
+                    <a href="explorer.html" class="nav-link text-sm lg:text-base">Explorer</a>
+                    <a href="build_guide.html" class="nav-link text-sm lg:text-base">Laptop Builds</a>
+                    <a href="components.html" class="nav-link text-sm lg:text-base">Components</a>
+                    <a href="essentials.html" class="nav-link text-sm lg:text-base">Essentials</a>
+                    <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
+                    <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
+                    </svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="index.html" class="block py-2 px-6 text-sm nav-link">Home</a>
+            <a href="explorer.html" class="block py-2 px-6 text-sm nav-link">Laptop Explorer</a>
+            <a href="build_guide.html" class="block py-2 px-6 text-sm nav-link">Laptop Builds</a>
+            <a href="components.html" class="block py-2 px-6 text-sm nav-link">Component Checker</a>
+            <a href="essentials.html" class="block py-2 px-6 text-sm nav-link">The Essentials</a>
+            <a href="buy_used.html" class="block py-2 px-6 text-sm nav-link">Where to Buy Used</a>
+            <a href="troubleshooting.html" class="block py-2 px-6 text-sm nav-link">Troubleshooting Guide</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section id="explorer" class="py-12">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Laptop Explorer</h2>
+                <p class="text-medium max-w-2xl mx-auto">Browse highly recommended models. Use the filters below or the search bar to narrow your results. Click on a laptop for more details or select multiple to compare.</p>
+            </div>
+
+            <div class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                    <div>
+                        <label for="find-bar-explorer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search Laptops:</label>
+                        <input type="search" id="find-bar-explorer" placeholder="e.g., ThinkPad T480, i7, UHD 620..." class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Priority:</label>
+                        <div id="priority-filter-buttons-explorer" class="flex flex-wrap justify-start gap-2">
+                            <button data-priority="all" class="priority-btn-all text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">All Laptops</button>
+                            <button data-priority="ease" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Ease of Setup</button>
+                            <button data-priority="performance" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Max Performance</button>
+                            <button data-priority="budget" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Budget-Friendly</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="laptop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Laptop cards will be injected here by JavaScript -->
+            </div>
+            <p id="no-results" class="text-center text-medium py-8 hidden">No laptops match your current filters.</p>
+
+            <div id="compare-action-bar" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 p-4 shadow-lg z-30 text-center hidden">
+                 <button id="compare-selected-btn" class="bg-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Compare Selected (<span id="selected-count">0</span>)
+                </button>
+                <button id="clear-selection-btn" class="ml-4 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg shadow hover:bg-gray-400 dark:hover:bg-gray-500">
+                    Clear
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 border-t dark:border-gray-700">
+        <p class="text-sm text-medium">&copy; <span id="current-year"></span> Hackintosh Laptop Guide. For educational purposes only.</p>
+    </footer>
+
+    <script id="data-script">
+        // Contents of js/data.js (Assume this is populated with laptopData and componentData)
+        const laptopData = { /* ... Full laptopData object ... */ 
+            "t480":{name:"Lenovo ThinkPad T480",priority:["ease","budget"],image:"https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T480",score:85,summary:"A community favorite known for its robustness, upgradeability, and extensive documentation, making it a top choice for beginners.",details:{cpu:"8th Gen Intel U-Series (i5/i7)",igpu:"Intel UHD 620 (Well Supported)",dgpu:"NVIDIA MX150 (Must be disabled)",wifi:"Intel (Replaceable). Works with kexts.",audio:"Realtek ALC3287/ALC257",trackpad:"Synaptics (SMBus/I2C/PS2)",ram:"Up to 32GB DDR4 (2 slots), User Upgradeable",storage:"M.2 NVMe SSD + optional 2.5\" SATA SSD/HDD bay",macosSupport:{min:"macOS Mojave 10.14",max:"macOS Sonoma 14.x"},cpuBenchmark:{score:3200,source:"Geekbench 5 Multi (i5-8250U)"},pros:["Excellent community support","Highly upgradeable (RAM, SSD, Wi-Fi)","Robust build quality","Relatively straightforward setup"],cons:["dGPU models require disabling","SD card reader can be inconsistent","Thunderbolt 3 support can be finicky"],kexts:["Lilu","WhateverGreen","VirtualSMC","AppleALC","VoodooPS2Controller","VoodooRMI","VoodooI2C","IntelMausi","OpenIntelWireless suite"],chartData:[4,3,3,5]}},
+            // ... Add ALL other laptop entries from the previous version here ...
+        };
+        const componentData = { /* ... Full componentData object ... */ 
+             "CPU":{intro:"The CPU is the brain. Intel CPUs from 8th-10th Gen are the 'sweet spot'. Newer generations and AMD CPUs introduce significant challenges for laptops.",items:[{name:"Intel 8th-10th Gen (Coffee/Comet/Ice Lake U/H)",status:"good",desc:"Recommended: Excellent choice. Best balance of performance, iGPU compatibility (UHD 620/630, Iris Plus), and community support."},{name:"Intel 11th+ Gen (Tiger/Alder Lake & newer)",status:"bad",desc:"Avoid for Laptops: Their Iris Xe iGPUs lack graphics acceleration in macOS, making them unusable for a good experience unless it's a rare model where iGPU can be fully disabled and a supported AMD dGPU is present (uncommon in laptops)."},{name:"Intel 4th-7th Gen (Haswell/Broadwell/Skylake/Kaby Lake)",status:"mid",desc:"Viable with Effort: Good for budget builds. Compatibility is generally good with appropriate patching (e.g. HD 4600, HD 5500, HD 620), but lower performance. Great for learning on cheaper hardware."},{name:"AMD Ryzen (All series for laptops)",status:"bad",desc:"Avoid for Laptops: Requires complex patches (NootedRed for iGPU), and support for iGPU, power management, sleep, and other features is very inconsistent, experimental, and often breaks."}]},
+             // ... Add ALL other component data here ...
+        };
+    </script>
+    <script id="theme-script">
+        // Contents of js/theme.js
+        const ThemeManager = (() => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIconLight = document.getElementById('theme-icon-light');
+            const themeIconDark = document.getElementById('theme-icon-dark');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    if (themeIconLight) themeIconLight.classList.add('hidden');
+                    if (themeIconDark) themeIconDark.classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    if (themeIconLight) themeIconLight.classList.remove('hidden');
+                    if (themeIconDark) themeIconDark.classList.add('hidden');
+                }
+            }
+
+            function applySavedTheme(){
+                const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                applyTheme(savedTheme);
+            }
+
+            function init() {
+                if (themeToggle) { 
+                    themeToggle.addEventListener('click', () => {
+                        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                        localStorage.setItem('theme', newTheme);
+                        applyTheme(newTheme); 
+                        // On a multi-page setup, chart theme updates would be handled by the specific page's script
+                        // if it has charts and the ChartManager (or similar) is available.
+                        if (typeof ChartManager !== 'undefined' && ChartManager && typeof ChartManager.updateAllChartThemes === 'function') {
+                            ChartManager.updateAllChartThemes(newTheme);
+                        }
+                    });
+                }
+                applySavedTheme(); 
+            }
+            
+            return {
+                init,
+                applyTheme, 
+                applySavedTheme
+            };
+        })();
+    </script>
+    <script id="navigation-script">
+        // Contents of js/navigation.js
+        const NavigationManager = (() => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('header .nav-link'); 
+
+            function updateActiveLink() {
+                const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const linkPath = (link.getAttribute('href') || "").split('/').pop();
+                    if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html') ) { // Handle root path for index.html
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            function init() {
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                        if (document.documentElement.classList.contains('dark')) {
+                            mobileMenu.classList.add('dark:bg-gray-800');
+                        } else {
+                            mobileMenu.classList.remove('dark:bg-gray-800');
+                        }
+                    });
+                }
+
+                document.querySelectorAll('#mobile-menu .nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                        // Active link will be set on next page load by its own script
+                    });
+                });
+                
+                updateActiveLink(); 
+            }
+
+            return {
+                init,
+                updateActiveLink
+            };
+        })();
+    </script>
+
+    <!-- SCRIPT FOR EXPLORER PAGE -->
+    <script id="explorer-page-script">
+        // Contents of js/explorer.js (or inline for explorer.html)
+        document.addEventListener('DOMContentLoaded', () => {
+            const laptopGrid = document.getElementById('laptop-grid');
+            const priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons-explorer');
+            const findBarExplorer = document.getElementById('find-bar-explorer');
+            const noResultsP = document.getElementById('no-results');
+
+            const compareActionBar = document.getElementById('compare-action-bar');
+            const compareSelectedBtn = document.getElementById('compare-selected-btn');
+            const clearSelectionBtn = document.getElementById('clear-selection-btn');
+            const selectedCountSpan = document.getElementById('selected-count');
+            
+            let currentPriorityFilter = "all";
+            let currentSearchTerm = "";
+            let selectedLaptopsForComparison = JSON.parse(localStorage.getItem('selectedLaptopsForComparison')) || [];
+
+            function updateCompareActionBar() {
+                const count = selectedLaptopsForComparison.length;
+                if (selectedCountSpan) selectedCountSpan.textContent = count;
+                
+                if (compareActionBar) {
+                    if (count > 0) {
+                        compareActionBar.classList.remove('hidden');
+                    } else {
+                        compareActionBar.classList.add('hidden');
+                    }
+                }
+                if (compareSelectedBtn) compareSelectedBtn.disabled = count < 2;
+            }
+
+            function renderLaptopsExplorer() {
+                if (!laptopGrid || !laptopData) return;
+                laptopGrid.innerHTML = '';
+                let laptopsToRender = Object.entries(laptopData);
+
+                // Apply priority filter
+                if (currentPriorityFilter !== "all") {
+                    laptopsToRender = laptopsToRender.filter(([id, data]) => data.priority.includes(currentPriorityFilter));
+                }
+
+                // Apply search term filter
+                if (currentSearchTerm.trim() !== "") {
+                    const lowerSearchTerm = currentSearchTerm.trim().toLowerCase();
+                    laptopsToRender = laptopsToRender.filter(([id, data]) => 
+                        Object.values(data).some(value => 
+                            String(value).toLowerCase().includes(lowerSearchTerm)
+                        ) || 
+                        Object.values(data.details).some(value => 
+                            typeof value === 'string' && String(value).toLowerCase().includes(lowerSearchTerm)
+                        ) ||
+                        data.name.toLowerCase().includes(lowerSearchTerm) ||
+                        data.summary.toLowerCase().includes(lowerSearchTerm)
+                    );
+                }
+                
+                if (laptopsToRender.length === 0) {
+                    if(noResultsP) noResultsP.classList.remove('hidden');
+                } else {
+                    if(noResultsP) noResultsP.classList.add('hidden');
+                }
+
+                laptopsToRender.forEach(([id, data]) => {
+                    const scoreColor = data.score >= 80 ? 'bg-green-500' : data.score >= 70 ? 'bg-yellow-500' : 'bg-red-500';
+                    const isSelected = selectedLaptopsForComparison.includes(id);
+                    
+                    const card = `
+                        <div class="bg-white dark:bg-gray-700 rounded-xl card-shadow overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 relative">
+                            <div class="absolute top-2 right-2 z-10">
+                                <input type="checkbox" id="compare-${id}" data-id="${id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-600 dark:border-gray-500 dark:checked:bg-primary dark:focus:ring-offset-gray-800" ${isSelected ? 'checked' : ''}>
+                                <label for="compare-${id}" class="sr-only">Select ${data.name} for comparison</label>
+                            </div>
+                            <a href="laptop_detail.html?id=${id}" class="block laptop-card-clickable-area" data-id="${id}">
+                                <img src="${data.image}" alt="${data.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold mb-2 text-dark dark:text-gray-100">${data.name}</h3>
+                                    <p class="text-medium text-sm mb-4 h-20 overflow-y-auto">${data.summary}</p>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+                                        <div class="${scoreColor} h-2.5 rounded-full" style="width: ${data.score}%"></div>
+                                    </div>
+                                    <p class="text-xs text-right mt-1 text-light">Compatibility Score: ${data.score}%</p>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                    laptopGrid.insertAdjacentHTML('beforeend', card);
+                });
+                addCardAndCheckboxListenersExplorer();
+                updateCompareActionBar();
+            }
+
+            function addCardAndCheckboxListenersExplorer() {
+                // Click on card area now navigates via href, so no separate listener needed for that.
+                document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const id = e.target.dataset.id;
+                        if (e.target.checked) {
+                            if (!selectedLaptopsForComparison.includes(id)) {
+                                selectedLaptopsForComparison.push(id);
+                            }
+                        } else {
+                            selectedLaptopsForComparison = selectedLaptopsForComparison.filter(laptopId => laptopId !== id);
+                        }
+                        localStorage.setItem('selectedLaptopsForComparison', JSON.stringify(selectedLaptopsForComparison));
+                        updateCompareActionBar();
+                    });
+                });
+            }
+
+            // Priority filter buttons on explorer page
+            if (priorityFilterButtonsContainer) {
+                const priorityBtnsExplorer = priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all');
+                priorityBtnsExplorer.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        currentPriorityFilter = e.currentTarget.dataset.priority;
+                        renderLaptopsExplorer();
+                        priorityBtnsExplorer.forEach(b => b.classList.remove('active-filter'));
+                        e.currentTarget.classList.add('active-filter');
+                    });
+                });
+            }
+            
+            // Find bar on explorer page
+            if (findBarExplorer) {
+                findBarExplorer.addEventListener('input', (e) => {
+                    currentSearchTerm = e.target.value;
+                    renderLaptopsExplorer();
+                });
+            }
+
+            // Compare selected button navigation
+            if (compareSelectedBtn) {
+                compareSelectedBtn.addEventListener('click', () => {
+                    if (selectedLaptopsForComparison.length >= 2) {
+                        // localStorage already has the latest selection
+                        window.location.href = 'comparison.html';
+                    }
+                });
+            }
+            
+            // Clear selection button
+            if (clearSelectionBtn) {
+                clearSelectionBtn.addEventListener('click', () => {
+                    selectedLaptopsForComparison = [];
+                    localStorage.setItem('selectedLaptopsForComparison', JSON.stringify(selectedLaptopsForComparison));
+                    document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
+                    updateCompareActionBar();
+                });
+            }
+
+            // Initial setup based on URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const priorityFromUrl = urlParams.get('priority');
+            const searchTermFromUrl = urlParams.get('search');
+
+            if (priorityFromUrl) {
+                currentPriorityFilter = priorityFromUrl;
+                const activeBtn = priorityFilterButtonsContainer.querySelector(`[data-priority="${priorityFromUrl}"]`);
+                if (activeBtn) {
+                    priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all').forEach(b => b.classList.remove('active-filter'));
+                    activeBtn.classList.add('active-filter');
+                }
+            } else {
+                 const allBtn = priorityFilterButtonsContainer.querySelector(`[data-priority="all"]`);
+                 if(allBtn) allBtn.classList.add('active-filter');
+            }
+
+
+            if (searchTermFromUrl) {
+                currentSearchTerm = searchTermFromUrl;
+                if(findBarExplorer) findBarExplorer.value = searchTermFromUrl;
+            }
+            
+            renderLaptopsExplorer(); // Initial render
+            updateCompareActionBar(); // Initial state of compare bar
+        });
+    </script>
+    
+    <!-- MAIN INITIALIZATION SCRIPT (conceptually from js/main.js) -->
+    <script id="main-script">
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof ThemeManager !== 'undefined') ThemeManager.init();
+            if (typeof NavigationManager !== 'undefined') NavigationManager.init();
+            
+            const currentYearEl = document.getElementById('current-year');
+            if (currentYearEl) {
+                currentYearEl.textContent = new Date().getFullYear();
+            }
+
+            // Header find bar (redirects to explorer.html with query)
+            const findBarHeader = document.getElementById('find-bar-header');
+            if (findBarHeader) {
+                findBarHeader.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        const searchTerm = findBarHeader.value.trim();
+                        if (searchTerm) {
+                            window.location.href = `explorer.html?search=${encodeURIComponent(searchTerm)}`;
+                        } else {
+                            window.location.href = 'explorer.html'; // Go to explorer even if search is empty
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
