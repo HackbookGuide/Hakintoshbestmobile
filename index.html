@@ -133,79 +133,33 @@
         .dark .content-section {
             background-color: #2d3748; 
         }
-        .content-section h3 { /* Main section titles */
-            font-size: 1.5rem; /* text-2xl */
-            font-weight: 700; /* font-bold */
-            margin-bottom: 1rem; /* mb-4 */
+        .content-section h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.75rem; /* mb-3 */
             color: #4A90E2; /* text-primary */
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb; /* Light border */
         }
         .dark .content-section h3 {
             color: #63b3ed; /* dark:text-primary */
-            border-bottom-color: #4a5568; /* Darker border */
-        }
-         .content-section h4 { /* Sub-section titles */
-            font-size: 1.125rem; /* text-lg */
-            font-weight: 600; /* font-semibold */
-            margin-top: 1.25rem; /* mt-5 */
-            margin-bottom: 0.5rem; /* mb-2 */
-            color: #374151; /* A slightly muted dark color */
-        }
-        .dark .content-section h4 {
-            color: #cbd5e1; /* A lighter color for dark mode */
         }
         .content-section ul {
             list-style-type: disc;
             list-style-position: inside;
             font-size: 0.875rem; /* text-sm */
             color: #495057; /* text-medium */
-            space-y: 0.375rem; /* space-y-1.5 for better readability */
-            padding-left: 0.5rem; /* Slight indent for lists */
+            space-y: 0.25rem; /* space-y-1 */
         }
         .dark .content-section ul {
             color: #a0aec0; /* dark:text-medium */
         }
         .content-section p {
             font-size: 0.875rem; /* text-sm */
-            line-height: 1.6; /* Improved line spacing for paragraphs */
             color: #495057; /* text-medium */
-            margin-bottom: 0.75rem; /* mb-3 */
+            margin-bottom: 0.5rem; /* mb-2 */
         }
          .dark .content-section p {
             color: #a0aec0; /* dark:text-medium */
         }
-        .content-section strong { /* Make strong text stand out a bit more */
-            color: #2c5282; /* Darker blue for light mode */
-        }
-        .dark .content-section strong {
-            color: #90cdf4; /* Lighter blue for dark mode */
-        }
-        .content-section code { /* Basic styling for inline code */
-            background-color: #eef2f7;
-            color: #d6336c;
-            padding: 0.125rem 0.375rem;
-            border-radius: 0.25rem;
-            font-size: 0.8em;
-        }
-        .dark .content-section code {
-            background-color: #2d3748;
-            color: #f687b3;
-        }
-        .content-section .note { /* For important notes */
-            background-color: #fffbeb; /* Light yellow */
-            border-left: 4px solid #f59e0b; /* Amber border */
-            padding: 0.75rem 1rem;
-            margin-top: 0.75rem;
-            margin-bottom: 1rem;
-            border-radius: 0.25rem;
-        }
-        .dark .content-section .note {
-            background-color: #4a3a1d; /* Darker yellow */
-            border-left-color: #d97706; /* Darker amber */
-            color: #fef3c7;
-        }
-
     </style>
 </head>
 <body class="text-dark">
@@ -286,346 +240,168 @@
             </div>
         </section>
 
-        <!-- Laptop Builds Section - Significantly Expanded -->
+        <!-- Laptop Builds Section -->
         <section id="laptop-builds" class="py-12">
             <div class="text-center mb-12 px-4">
-                <h2 class="text-3xl font-bold mb-2">The Comprehensive Laptop Hackintosh Build Guide (OpenCore)</h2>
-                <p class="text-medium max-w-3xl mx-auto">Welcome to the detailed guide for building your OpenCore-based Hackintosh laptop. This process requires patience, attention to detail, and a willingness to learn. The "vanilla" approach means we're creating an installation as close to a real Mac as possible, without relying on pre-made tools like UniBeast or MultiBeast. Always treat the official <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="text-primary hover:underline font-semibold">Dortania OpenCore Install Guide</a> as your primary, authoritative resource.</p>
+                <h2 class="text-3xl font-bold mb-2">Laptop Hackintosh Build Guide</h2>
+                <p class="text-medium max-w-3xl mx-auto">This section provides a step-by-step guide to building your Hackintosh laptop using OpenCore. While we aim to be comprehensive for laptops, always refer to the official <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="text-primary hover:underline">Dortania OpenCore Install Guide</a> as the primary source of truth.</p>
             </div>
 
-            <div class="space-y-10"> {/* Increased spacing between major steps */}
+            <div class="space-y-8">
                 <div class="content-section card-shadow">
-                    <h3>1. Deep Dive: Research & Meticulous Planning</h3>
-                    <p>This is arguably the most crucial phase. A well-researched plan saves countless hours of troubleshooting. Your goal is to understand every component in your target laptop and its Hackintosh compatibility status.</p>
+                    <h3>1. Research & Planning</h3>
+                    <p>Before you begin, thorough research is key. Understand your laptop's hardware components (CPU, GPU, Wi-Fi, Audio, Trackpad). Not all laptops are equally compatible.</p>
                     <ul>
-                        <li><strong>Your Laptop's DNA:</strong> Identify the exact CPU (e.g., i5-8250U, i7-1065G7), integrated GPU (iGPU, e.g., Intel UHD 620, Iris Plus G7), dedicated GPU (dGPU, if any, e.g., NVIDIA MX250), Wi-Fi/Bluetooth chipset, audio codec (e.g., Realtek ALC257), Ethernet controller, and trackpad type (PS/2, SMBus, I2C). Manufacturer spec sheets, device manager (Windows/Linux), or hardware info tools can help.</li>
-                        <li><strong>Leverage This Guide:</strong> Use our <a href="#explorer" class="text-primary hover:underline font-semibold">Laptop Explorer</a> to see if your model (or a very similar one) is listed. Pay attention to the "Pros," "Cons," and "Essential Kexts." Use the <a href="#components" class="text-primary hover:underline font-semibold">Component Checker</a> for general compatibility insights.</li>
-                        <li><strong>Dortania's Wisdom:</strong>
-                            <ul>
-                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/macos-limits.html" target="_blank" class="text-primary hover:underline">Hardware Limitations Page:</a> Understand what macOS simply won't support (e.g., most modern NVIDIA dGPUs, some Wi-Fi cards).</li>
-                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/AMD/" target="_blank" class="text-primary hover:underline">AMD Vanilla Guide:</a> If you're attempting an AMD laptop (strongly discouraged for beginners due to complexity), this is your starting point. Intel is highly preferred for laptops.</li>
-                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/ktext.html#kexts" target="_blank" class="text-primary hover:underline">Kext Information:</a> Learn about common kexts.</li>
-                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/acpi-customization/README.html" target="_blank" class="text-primary hover:underline">ACPI Patching Guide:</a> Laptops almost always need ACPI patching.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Community Intelligence:</strong> Search forums like <a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="text-primary hover:underline">r/hackintosh</a>, <a href="https://www.insanelymac.com/forum/" target="_blank" class="text-primary hover:underline">InsanelyMac</a>, and even (with caution) Tonymacx86 for your *exact laptop model* + "Hackintosh" or "OpenCore." Look for success stories, guides, and EFI repositories.
-                            <p class="note"><strong>Warning:</strong> While pre-built EFIs from others can be a starting reference, <em>never</em> use them blindly. They might be outdated, contain unnecessary kexts/patches, or lack proper SMBIOS data. Understand every part of an EFI before using it.</p>
-                        </li>
+                        <li>Use the <a href="#explorer" class="text-primary hover:underline">Laptop Explorer</a> and <a href="#components" class="text-primary hover:underline">Component Checker</a> sections of this guide.</li>
+                        <li>Consult Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/macos-limits.html" target="_blank" class="text-primary hover:underline">Hardware Limitations</a> and <a href="https://dortania.github.io/OpenCore-Install-Guide/AMD/" target="_blank" class="text-primary hover:underline">AMD Vanilla Guide</a> (if applicable, though Intel is strongly recommended for laptops).</li>
+                        <li>Search forums (r/hackintosh, InsanelyMac, Tonymacx86) for your specific laptop model to find existing guides or EFI repositories (use with caution, understand what they do).</li>
                     </ul>
                 </div>
 
                 <div class="content-section card-shadow">
-                    <h3>2. Gathering Your Arsenal: Prerequisites & Preparation</h3>
-                    <p>With your research done, it's time to collect the necessary software and files. Organization is key here. Create a dedicated folder for your Hackintosh project.</p>
-                    
-                    <h4>Essential Software Toolkit (Cross-Platform)</h4>
-                    <p>These tools are indispensable for creating and managing your OpenCore EFI. Always download from official GitHub repositories to avoid malware or outdated versions.</p>
+                    <h3>2. Prerequisites & Preparation</h3>
+                    <p>Gather all necessary files and tools. This is a critical step.</p>
+                    <h4>2.1. Base OpenCore Files</h4>
+                    <p>Download the latest OpenCore release package from <a href="https://github.com/acidanthera/OpenCorePkg/releases" target="_blank" class="text-primary hover:underline">Acidanthera's GitHub</a>. You'll primarily need files from the `EFI` directory.</p>
+                    <h4>2.2. Gathering Kexts & Drivers</h4>
+                    <p>Kexts (Kernel Extensions) are like drivers for macOS. Essential kexts include:</p>
                     <ul>
-                        <li><strong><a href="https://github.com/corpnewt/ProperTree" target="_blank" class="text-primary hover:underline font-semibold">ProperTree:</a></strong> A cross-platform Python-based GUI for editing <code>.plist</code> files, especially your OpenCore <code>config.plist</code>. It includes OpenCore snapshotting and clean snapshot features.</li>
-                        <li><strong><a href="https://github.com/corpnewt/MountEFI" target="_blank" class="text-primary hover:underline font-semibold">MountEFI:</a></strong> A simple script (macOS/Linux) or manual commands (Windows) to mount the hidden EFI partition of your drives. This is where OpenCore resides.</li>
-                        <li><strong><a href="https://github.com/corpnewt/gibMacOS" target="_blank" class="text-primary hover:underline font-semibold">gibMacOS:</a></strong> A Python script to download macOS recovery images directly from Apple's servers. This is the recommended way to get your macOS installer.</li>
-                        <li><strong><a href="https://github.com/corpnewt/SSDTTime" target="_blank" class="text-primary hover:underline font-semibold">SSDTTime:</a></strong> (Primarily Linux, or Windows with WSL) A Python script that can help dump your DSDT and generate some basic, common SSDTs (like PLUG for CPU power management, EC for embedded controller, AWAC/RTC fixes).</li>
-                        <li><strong><a href="https://github.com/headkaze/Hackintool" target="_blank" class="text-primary hover:underline font-semibold">Hackintool:</a></strong> (macOS only) A powerful utility for post-install, useful for USB port mapping, PCI device info, framebuffer patching, and more. <a href="https://github.com/corpnewt/USBMap" target="_blank" class="text-primary hover:underline font-semibold">USBMap</a> is an alternative focused solely on USB mapping.</li>
+                        <li><a href="https://github.com/acidanthera/Lilu/releases" target="_blank" class="text-primary hover:underline">Lilu.kext</a> (Patching platform)</li>
+                        <li><a href="https://github.com/acidanthera/VirtualSMC/releases" target="_blank" class="text-primary hover:underline">VirtualSMC.kext</a> (SMC emulator, plus sensor kexts like SMCProcessor, SMCSuperIO)</li>
+                        <li><a href="https://github.com/acidanthera/WhateverGreen/releases" target="_blank" class="text-primary hover:underline">WhateverGreen.kext</a> (Graphics patching)</li>
+                        <li><a href="https://github.com/acidanthera/AppleALC/releases" target="_blank" class="text-primary hover:underline">AppleALC.kext</a> (Audio patching)</li>
+                        <li>Ethernet Kext (e.g., <a href="https://github.com/acidanthera/IntelMausi/releases" target="_blank" class="text-primary hover:underline">IntelMausi.kext</a> for Intel, <a href="https://github.com/Mieze/RealtekRTL8111-V2/releases" target="_blank" class="text-primary hover:underline">RealtekRTL8111.kext</a> for Realtek)</li>
+                        <li>Wi-Fi/Bluetooth Kexts (e.g., <a href="https://github.com/OpenIntelWireless/itlwm/releases" target="_blank" class="text-primary hover:underline">AirportItlwm.kext</a> or itlwm.kext + HeliPort for Intel, <a href="https://github.com/acidanthera/AirportBrcmFixup/releases" target="_blank" class="text-primary hover:underline">AirportBrcmFixup.kext</a> for Broadcom, plus BrcmPatchRAM kexts for Bluetooth)</li>
+                        <li>Input Kexts (e.g., <a href="https://github.com/acidanthera/VoodooPS2/releases" target="_blank" class="text-primary hover:underline">VoodooPS2Controller.kext</a> for PS/2 keyboards/trackpads, <a href="https://github.com/VoodooI2C/VoodooI2C/releases" target="_blank" class="text-primary hover:underline">VoodooI2C.kext</a> and satellite kexts for I2C trackpads)</li>
                     </ul>
+                     <p class="mt-2"><strong>Note:</strong> For specific kexts tailored to laptops in our explorer, check their individual detail pages.</p>
+                    <h4>2.3. ACPI (SSDTs)</h4>
+                    <p>Advanced Configuration and Power Interface (ACPI) tables often need patching for laptops. Pre-built SSDTs from Dortania's <a href="https://dortania.github.io/Getting-Started-With-ACPI/" target="_blank" class="text-primary hover:underline">Getting Started With ACPI</a> guide are a good start. Common laptop SSDTs include:</p>
+                    <ul>
+                        <li>SSDT-EC-USBX (Embedded Controller and USB Power)</li>
+                        <li>SSDT-PLUG (CPU Power Management)</li>
+                        <li>SSDT-PNLF (Backlight Control)</li>
+                        <li>SSDT-XOSI (OS Emulation for features like trackpad gestures)</li>
+                        <li>Custom SSDTs may be needed for disabling dGPU, fixing trackpads, etc.</li>
+                    </ul>
+                </div>
+                
+                <div class="content-section card-shadow">
+                    <h3>Essential Software Tools for OpenCore Builds</h3>
+                    <p>Beyond kexts and SSDTs, you'll generally need these tools:</p>
+                    <ul>
+                        <li><strong>ProperTree:</strong> For editing `config.plist` files. (Usually found on GitHub, by corpnewt)</li>
+                        <li><strong>MountEFI:</strong> A script or tool to easily mount EFI partitions (e.g., MountEFI by corpnewt, or manually via Terminal).</li>
+                        <li><strong>gibMacOS:</strong> To download macOS recovery images directly from Apple. (Project by corpnewt on GitHub)</li>
+                        <li><strong>SSDTTime:</strong> A Python script to help generate some basic ACPI SSDTs (like PLUG, EC) from a Linux `acpidump`. (Project by corpnewt on GitHub)</li>
+                        <li><strong>USBMap / Hackintool:</strong> For USB port mapping post-install. (Hackintool for broader features, USBMap by corpnewt for dedicated USB mapping).</li>
+                    </ul>
+                    <p class="mt-2">Always download these from their official sources (usually GitHub) to ensure you have the latest and safest versions.</p>
+                </div>
+                <div class="content-section card-shadow">
+                    <h3>A Note on Laptop-Specific Kexts</h3>
+                    <p>While this guide provides general steps, pay close attention to the 'Essential Kexts (Typical)' section listed in the details for each laptop in our <a href="#explorer" class="text-primary hover:underline">Laptop Explorer</a>. These are often tailored to that specific model or series and are a good starting point for your `config.plist`.</p>
+                </div>
 
-                    <h4>Core OpenCore Components</h4>
-                    <p>These form the foundation of your bootable EFI.</p>
+
+                <div class="content-section card-shadow">
+                    <h3>3. OpenCore config.plist Setup</h3>
+                    <p>This is the heart of your OpenCore EFI. Use a plist editor like <a href="https://github.com/corpnewt/ProperTree" target="_blank" class="text-primary hover:underline">ProperTree</a>. Follow Dortania's guide for your CPU generation (e.g., Coffee Lake, Comet Lake Laptop guides).</p>
+                    <p>Key sections for laptops:</p>
                     <ul>
-                        <li><strong><a href="https://github.com/acidanthera/OpenCorePkg/releases" target="_blank" class="text-primary hover:underline font-semibold">OpenCorePkg:</a></strong> Download the latest <strong>RELEASE</strong> version. You'll primarily use files from the <code>EFI/BOOT</code> (<code>BOOTx64.efi</code>) and <code>EFI/OC</code> (<code>OpenCore.efi</code>, <code>Drivers</code>, <code>Kexts</code>, <code>ACPI</code>, <code>Resources</code>, and <code>Sample.plist</code> which you'll rename to <code>config.plist</code>) directories.</li>
-                        <li><strong>Essential Kexts (Kernel Extensions):</strong> Kexts are like drivers for macOS. Download the latest RELEASE versions, typically from <a href="https://github.com/acidanthera" target="_blank" class="text-primary hover:underline">Acidanthera</a> and other reputable developers.
-                            <ul>
-                                <li><strong>Lilu.kext:</strong> The foundation for many other kexts, providing a patching platform. (Required by most)</li>
-                                <li><strong>VirtualSMC.kext:</strong> Emulates the System Management Controller found on real Macs. Essential for booting. Also grab its companion sensor kexts: <code>SMCProcessor.kext</code> (CPU temperature), <code>SMCSuperIO.kext</code> (fan speeds, if supported), and potentially <code>SMCLightSensor.kext</code> or <code>SMCBatteryManager.kext</code>.</li>
-                                <li><strong>WhateverGreen.kext:</strong> For graphics patching (iGPU acceleration, display output fixes, etc.).</li>
-                                <li><strong>AppleALC.kext:</strong> For enabling native audio. Requires a specific <code>alcid</code> boot argument or DeviceProperty for your audio codec.</li>
-                                <li><strong>Ethernet Kext:</strong> <code>IntelMausi.kext</code> for most Intel LAN chipsets, <code>RealtekRTL8111.kext</code> for many Realtek gigabit chipsets, etc. Identify your LAN controller.</li>
-                                <li><strong>Wi-Fi/Bluetooth Kexts:</strong>
-                                    <ul>
-                                        <li>For Intel Wi-Fi: The <a href="https://github.com/OpenIntelWireless/itlwm" target="_blank" class="text-primary hover:underline">OpenIntelWireless</a> project (<code>itlwm.kext</code> for Wi-Fi, often used with <code>HeliPort.app</code>, or <code>AirportItlwm.kext</code> for a more native-like experience for specific macOS versions). For Bluetooth, <code>IntelBluetoothFirmware.kext</code> and <code>IntelBTPatcher.kext</code> (or <code>BlueToolFixup.kext</code> on newer macOS).</li>
-                                        <li>For Broadcom Wi-Fi (if you replaced your card): <code>AirportBrcmFixup.kext</code>. For Bluetooth, <code>BrcmPatchRAM3.kext</code> (or <code>BrcmPatchRAM2</code> for older cards), <code>BrcmFirmwareData.kext</code>, and <code>BlueToolFixup.kext</code> (on newer macOS).</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Input Kexts (Keyboard, Trackpad):</strong>
-                                    <ul>
-                                        <li><code>VoodooPS2Controller.kext:</code> For PS/2 keyboards and older PS/2 trackpads.</li>
-                                        <li><code>VoodooI2C.kext:</code> For modern I2C trackpads (common on most laptops from the last 5-7 years). Requires satellite kexts like <code>VoodooI2CHID.kext</code>, <code>VoodooI2CSynaptics.kext</code>, <code>VoodooI2CELAN.kext</code>, etc., depending on your trackpad's make.</li>
-                                        <li><code>VoodooRMI.kext:</code> Alternative for some Synaptics trackpads using SMBus or I2C, often providing better gesture support.</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p class="note">Refer to the "Essential Kexts (Typical)" list in our <a href="#explorer" class="text-primary hover:underline font-semibold">Laptop Explorer</a> for a starting point specific to listed models. Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/ktext.html" target="_blank" class="text-primary hover:underline">kext guide</a> is essential reading.</p>
-                        </li>
-                        <li><strong>Essential ACPI Tables (SSDTs - System Service Descriptor Tables):</strong> These are small files that patch or add information to your system's DSDT (Differentiated System Description Table) to improve macOS compatibility.
-                            <ul>
-                                <li><strong>Pre-built SSDTs:</strong> Dortania's <a href="https://dortania.github.io/Getting-Started-With-ACPI/SSDT-Basic.html" target="_blank" class="text-primary hover:underline">Getting Started With ACPI</a> guide provides common pre-built SSDTs:
-                                    <ul>
-                                        <li><code>SSDT-PLUG-DRTNIA.aml</code> (or generated by SSDTTime): For CPU power management on Intel systems.</li>
-                                        <li><code>SSDT-EC-USBX-LAPTOP.aml</code> (or generated by SSDTTime): Fixes embedded controller and USB power issues on laptops.</li>
-                                        <li><code>SSDT-PNLF.aml</code>: For backlight control (brightness). Often needs to be paired with <code>WhateverGreen.kext</code> and correct iGPU patching.</li>
-                                        <li><code>SSDT-XOSI.aml</code>: Simulates a different OS to Windows to enable certain ACPI features.</li>
-                                        <li>Others like <code>SSDT-AWAC.aml</code> (for systems with AWAC clocks), <code>SSDT-RTC0.aml</code> (for RTC issues), <code>SSDT-HPET.aml</code> (IRQ fixes, often needed on HP).</li>
-                                    </ul>
-                                </li>
-                                <li><strong>Custom SSDTs:</strong> Laptops often require custom SSDTs for:
-                                    <ul>
-                                        <li>Disabling unsupported dGPUs (e.g., <code>SSDT-DDGPU.aml</code> or <code>SSDT-Optimus.aml</code>).</li>
-                                        <li>Trackpad enabling/fixing (e.g., <code>SSDT-TPD0.aml</code> or specific GPIO pinning SSDTs).</li>
-                                        <li>Battery status patching (e.g., <code>SSDT-BATT.aml</code> - though VirtualSMC's BatteryManager often handles this).</li>
-                                        <li>Fixing brightness keys.</li>
-                                    </ul>
-                                    Creating these requires more advanced knowledge, often involving DSDT extraction and analysis. Refer to Dortania's ACPI guides.
-                                </li>
-                            </ul>
-                        </li>
-                         <li><strong>Firmware Drivers (<code>.efi</code> files for <code>EFI/OC/Drivers</code>):</strong>
-                            <ul>
-                                <li><code>HfsPlus.efi</code> (or <code>VBoxHfs.efi</code>): For reading HFS+ formatted drives (like macOS installers). <code>OpenHfsPlus.efi</code> is a newer alternative from Acidanthera.</li>
-                                <li><code>OpenRuntime.efi</code>: Essential companion to OpenCore, providing memory management and other runtime services. Replaces AptioMemoryFix.</li>
-                                <li> Potentially others like <code>OpenCanopy.efi</code> (for GUI boot picker), or specific filesystem drivers if needed.</li>
-                            </ul>
-                        </li>
+                        <li><strong>ACPI:</strong> Add your SSDTs, apply necessary patches (e.g., for battery, brightness keys).</li>
+                        <li><strong>DeviceProperties:</strong> Crucial for iGPU framebuffer patching, audio layout ID, and sometimes Wi-Fi/Ethernet properties.</li>
+                        <li><strong>Kernel:</strong> Add your kexts in the correct order. Apply necessary patches (e.g., `algrey - Force cpuid_cores_per_package`).</li>
+                        <li><strong>Misc:</strong> Setup boot flags (e.g., `-v debug=0x100 keepsyms=1 alcid=X`), security settings.</li>
+                        <li><strong>NVRAM:</strong> Configure boot arguments, SIP settings.</li>
+                        <li><strong>PlatformInfo:</strong> Generate a valid SMBIOS for your laptop (e.g., MacBookPro15,2, MacBookPro16,3). Use one that closely matches your CPU/iGPU.</li>
+                        <li><strong>UEFI:</strong> Add necessary drivers (e.g., HfsPlus.efi, OpenRuntime.efi).</li>
                     </ul>
+                    <p>Refer to: <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html" target="_blank" class="text-primary hover:underline">Dortania Laptop config.plist Guides (select your CPU generation)</a></p>
                 </div>
                 
                 <div class="content-section card-shadow">
-                    <h3>3. Crafting Your Key: OpenCore <code>config.plist</code> Setup</h3>
-                    <p>The <code>config.plist</code> is the brain of your OpenCore setup. It tells OpenCore what patches to apply, which kexts and SSDTs to load, and how to present your hardware to macOS. This is the most complex part and requires meticulous attention to detail. <strong>Use ProperTree for editing.</strong></p>
-                    <p>Start by taking the <code>Sample.plist</code> from the OpenCorePkg download, renaming it to <code>config.plist</code>, and placing it in your <code>EFI/OC/</code> folder. Then, follow the Dortania guide specific to your laptop's CPU generation (e.g., <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html" target="_blank" class="text-primary hover:underline">Coffee Lake Laptop</a>, <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/kaby-lake.html" target="_blank" class="text-primary hover:underline">Kaby Lake Laptop</a>, etc.).</p>
-                    <p>Key sections in <code>config.plist</code> and their laptop relevance:</p>
-                    <ul>
-                        <li><strong>ACPI:</strong>
-                            <ul>
-                                <li><code>Add</code>: List your compiled <code>.aml</code> SSDT files here. Order can matter for dependencies.</li>
-                                <li><code>Delete</code>: Rarely used, for removing problematic stock ACPI tables.</li>
-                                <li><code>Patch</code>: Apply binary patches to your DSDT/SSDTs. Crucial for things like renaming devices (e.g., <code>_OSI</code> to <code>XOSI</code> for <code>SSDT-XOSI</code>, renaming <code>GFX0</code> to <code>IGPU</code>), fixing brightness keys, or battery status.</li>
-                                <li><code>Quirks</code>: Settings related to ACPI handling (e.g., <code>FadtEnableReset</code>, <code>NormalizeHeaders</code>).</li>
-                            </ul>
-                        </li>
-                        <li><strong>DeviceProperties:</strong>
-                            <ul>
-                                <li><code>Add</code>: This is where you define properties for specific hardware paths (PciRoot paths). Extremely important for:
-                                    <ul>
-                                        <li><strong>iGPU Framebuffer Patching:</strong> Setting <code>AAPL,ig-platform-id</code>, <code>device-id</code>, and other properties for your Intel iGPU to enable full graphics acceleration, display outputs (HDMI/DP), and fix graphical glitches. Values are specific to your iGPU model and sometimes laptop display type.</li>
-                                        <li><strong>Audio Layout ID:</strong> Setting <code>alc-layout-id</code> (e.g., as a number like <code>13</code>) for your audio codec, used by AppleALC.kext.</li>
-                                        <li>Wi-Fi/Ethernet properties if needed for specific cards.</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><strong>Kernel:</strong>
-                            <ul>
-                                <li><code>Add</code>: List your <code>.kext</code> files here. <strong>Order is critical:</strong> Lilu must come first, followed by its plugins (like VirtualSMC, WhateverGreen, AppleALC), then other hardware kexts. Ensure the <code>BundlePath</code>, <code>ExecutablePath</code> (usually empty), and <code>PlistPath</code> are correct. Use ProperTree's OC Snapshot feature (Cmd/Ctrl+Shift+R) to help populate this section correctly after placing kexts in the <code>Kexts</code> folder.</li>
-                                <li><code>Block</code>: For blocking problematic stock kexts (rarely needed for laptops).</li>
-                                <li><code>Emulate</code>: For CPU spoofing (e.g., for unsupported CPUs, not common for compatible Intel laptops).</li>
-                                <li><code>Patch</code>: Apply binary patches to the macOS kernel or kexts. Examples include patches for AMD CPUs, specific USB fixes, or enabling TRIM on third-party NVMe drives (though <code>SetApfsTrimTimeout</code> in NVRAM is preferred for TRIM).</li>
-                                <li><code>Quirks</code>: Kernel-related settings like <code>AppleCpuPmCfgLock</code> and <code>AppleXcpmCfgLock</code> (if CFG Lock cannot be disabled in BIOS), <code>DisableIoMapper</code> (if VT-d is enabled), <code>PanicNoKextDump</code>, <code>PowerTimeoutKernelPanic</code>.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Misc:</strong>
-                            <ul>
-                                <li><code>Boot</code>: Settings for the OpenCore boot picker: <code>PickerMode</code> (<code>Builtin</code> or <code>External</code> for OpenCanopy GUI), <code>Timeout</code>, <code>ShowPicker</code>, <code>HideAuxiliary</code>, <code>LauncherOption</code> (for Windows compatibility).</li>
-                                <li><code>Debug</code>: <code>AppleDebug</code> (for verbose logging), <code>ApplePanic</code> (to save panic logs to disk), <code>Target</code> (controls where logs go). Set <code>Target</code> to <code>67</code> (or <code>0x43</code>) for boot and on-screen logs during troubleshooting.</li>
-                                <li><code>Security</code>: <code>Vault</code> (for EFI security, optional), <code>ScanPolicy</code> (controls what drives OpenCore shows), <code>SecureBootModel</code> (for mimicking Apple Secure Boot, e.g., <code>Default</code> or <code>j137</code> for MacBookPro15,1), <code>DmgLoading</code> (<code>Signed</code> or <code>Any</code>). <code>ExposeSensitiveData</code> can be useful.</li>
-                                <li><code>Tools</code>: Add EFI tools like a UEFI shell.</li>
-                            </ul>
-                        </li>
-                        <li><strong>NVRAM:</strong>
-                            <ul>
-                                <li><code>Add</code>:
-                                    <ul>
-                                        <li><code>7C436110-AB2A-4BBB-A880-FE41995C9F82</code> (System Integrity Protection / boot-args UUID):
-                                            <ul>
-                                                <li><code>boot-args</code>: Essential boot arguments like <code>-v</code> (verbose mode for troubleshooting), <code>debug=0x100</code> (more debug info), <code>keepsyms=1</code> (keeps symbols for panic logs), <code>alcid=X</code> (audio layout ID for AppleALC), <code>igfxonln=1</code> (forces all displays online for iGPU, sometimes helps with black screens).</li>
-                                                <li><code>csr-active-config</code>: Controls System Integrity Protection (SIP). Set according to Dortania's guide (e.g., <code>00000000</code> for SIP enabled, <code>E7030000</code> for SIP fully disabled - not recommended long-term).</li>
-                                                <li><code>prev-lang:kbd</code>: Sets default language/keyboard layout.</li>
-                                                <li><code>run-efi-updater</code>: Set to <code>No</code> to prevent auto-updates of Mac firmware (not applicable to Hackintoshes but good practice).</li>
-                                            </ul>
-                                        </li>
-                                        <li><code>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</code> (OC Variables UUID):
-                                            <ul>
-                                                 <li><code>DefaultBackgroundColor</code>: Sets boot picker background color.</li>
-                                                 <li><code>UIScale</code>: <code>01</code> for normal, <code>02</code> for HiDPI boot picker.</li>
-                                                 <li><code>SetApfsTrimTimeout</code>: Set to a value like <code>9000000</code> (microseconds) to enable TRIM for APFS on non-Apple NVMe SSDs.</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><code>Delete</code>: For clearing unwanted NVRAM variables.</li>
-                                <li><code>LegacySchema</code>: For older systems or specific NVRAM emulation.</li>
-                            </ul>
-                        </li>
-                        <li><strong>PlatformInfo:</strong>
-                            <ul>
-                                <li><code>Generic</code>: This is where you set your SMBIOS (System Management BIOS) information. This tells macOS what kind of Mac it's running on. <strong>This is critical for iServices (iMessage, FaceTime, iCloud) and hardware compatibility.</strong>
-                                    <ul>
-                                        <li>Use GenSMBIOS (another Python script by corpnewt) to generate a unique SMBIOS for your chosen model (e.g., <code>MacBookPro15,2</code> for an 8th Gen Coffee Lake laptop, <code>MacBookPro16,3</code> for a 10th Gen Ice Lake laptop). Choose a model that closely matches your CPU and iGPU generation.</li>
-                                        <li>You'll need to fill in <code>SystemProductName</code>, <code>MLB</code> (Main Logic Board serial), <code>SystemSerialNumber</code>, and <code>SystemUUID</code>. <strong>Ensure these are unique.</strong></li>
-                                        <li><code>ROM</code>: Can be set to your Ethernet MAC address (lowercase, no colons) or an Apple ROM.</li>
-                                    </ul>
-                                </li>
-                                <li><code>UpdateDataHub</code>, <code>UpdateNVRAM</code>, <code>UpdateSMBIOS</code>, <code>UpdateSMBIOSMode</code>: Control how SMBIOS data is injected. <code>Create</code> is common for <code>UpdateSMBIOSMode</code>.</li>
-                            </ul>
-                        </li>
-                        <li><strong>UEFI:</strong>
-                            <ul>
-                                <li><code>APFS</code>: Settings for APFS driver loading.</li>
-                                <li><code>Drivers</code>: List your <code>.efi</code> drivers here (e.g., <code>HfsPlus.efi</code>, <code>OpenRuntime.efi</code>).</li>
-                                <li><code>Input</code>: Settings for keyboard/mouse input in the UEFI environment (e.g., <code>KeyForgetThreshold</code>, <code>PointerSpeedDiv</code>).</li>
-                                <li><code>Output</code>: Settings for display output in UEFI (e.g., <code>TextRenderer</code>, <code>Resolution</code>).</li>
-                                <li><code>ProtocolOverrides</code>: Fixes for specific UEFI protocol issues.</li>
-                                <li><code>Quirks</code>: UEFI-related fixes (e.g., <code>ExitBootServicesDelay</code>, <code>ReleaseUsbOwnership</code>, <code>RequestBootVarRouting</code>).</li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <p class="note"><strong>Sanity Check:</strong> After configuring, use an online OpenCore config validator or ProperTree's "OC Clean Snapshot" feature with the sample <code>.plist</code> for your OpenCore version to check for common errors. However, these tools don't guarantee a working config, only structural correctness.</p>
-                </div>
-                
-                <div class="content-section card-shadow">
-                    <h3>4. Building the Bridge: USB Creation & BIOS Setup</h3>
+                    <h3>4. USB Creation & BIOS Setup</h3>
                     <h4>4.1. Creating the macOS Installer USB</h4>
-                    <p>You'll need a USB drive (16GB+ recommended). Follow Dortania's comprehensive guide: <a href="https://dortania.github.io/OpenCore-Install-Guide/installer-guide/" target="_blank" class="text-primary hover:underline font-semibold">Making the Installer</a>. This guide covers creating the installer from macOS, Windows, or Linux using <code>gibMacOS</code>.</p>
-                    <p>Once the macOS installer is created on the USB drive, you need to add OpenCore to it:</p>
-                    <ol>
-                        <li>Mount the EFI partition of the USB drive (using MountEFI script or disk utility tools).</li>
-                        <li>Create an <code>EFI</code> folder on this EFI partition.</li>
-                        <li>Inside this <code>EFI</code> folder, copy your entire prepared <code>OC</code> folder (which contains your <code>config.plist</code>, <code>Kexts</code>, <code>ACPI</code>, <code>Drivers</code>, etc.) and the <code>BOOT</code> folder (containing <code>BOOTx64.efi</code>) from your OpenCorePkg download.</li>
-                    </ol>
-                    <p>Your USB's EFI partition should look something like: <code>EFI -> [BOOT, OC]</code>.</p>
-
-                    <h4>4.2. Configuring the Sanctum: BIOS Settings for Laptops</h4>
-                    <p>Correct BIOS settings are non-negotiable. Incorrect settings are a primary cause of boot failures. Settings vary by manufacturer (Dell, Lenovo, HP, etc.) and even by specific model. Consult Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html#bios-settings" target="_blank" class="text-primary hover:underline">BIOS Settings page (example for Coffee Lake)</a> and search online for your specific laptop model + "Hackintosh BIOS settings."</p>
-                    <p>General BIOS settings to configure (names may vary):</p>
+                    <p>Follow Dortania's guide: <a href="https://dortania.github.io/OpenCore-Install-Guide/installer-guide/" target="_blank" class="text-primary hover:underline">Making the Installer</a>. You can do this from macOS, Windows, or Linux.</p>
+                    <p>After creating the installer, mount its EFI partition and copy your prepared `EFI` folder (containing `BOOT` and `OC` directories) to it.</p>
+                    <h4>4.2. BIOS Settings for Laptops</h4>
+                    <p>These are critical. Settings vary by manufacturer (Dell, Lenovo, HP). General settings include:</p>
                     <ul>
-                        <li><strong>Disable:</strong>
-                            <ul>
-                                <li>Secure Boot</li>
-                                <li>Fast Boot / Quick Boot</li>
-                                <li>Intel SGX (Software Guard Extensions)</li>
-                                <li>CFG Lock (MSR 0xE2 Lock): If this option is not available, you <strong>MUST</strong> enable the <code>AppleCpuPmCfgLock</code> and <code>AppleXcpmCfgLock</code> quirks in your <code>config.plist</code>. A modded BIOS to disable CFG Lock is ideal but risky.</li>
-                                <li>VT-d (Virtualization Technology for Directed I/O): Disable if you don't use it for other OSes. If you must keep it enabled, ensure the <code>DisableIoMapper</code> quirk is set to <code>True</code> in your <code>config.plist</code>.</li>
-                                <li>CSM (Compatibility Support Module): Must be disabled for UEFI booting.</li>
-                                <li>Legacy Boot / Legacy USB Support (ensure UEFI is primary)</li>
-                                <li>Wake on LAN / Wake on WLAN</li>
-                                <li>Discrete GPU (dGPU) if an option exists (e.g., "Switchable Graphics" set to "Integrated" or "UMA Only"). This is rare; usually requires an SSDT.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Enable:</strong>
-                            <ul>
-                                <li>XHCI Handoff</li>
-                                <li>OS Type / OS Optimized Defaults: Set to "Windows UEFI Mode" or "Other OS" (paradoxically, this often works best).</li>
-                                <li>Above 4G Decoding (if available, crucial for some hardware).</li>
-                                <li>Hyper-Threading (if your CPU supports it).</li>
-                                <li>Execute Disable Bit / XD Function.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Set:</strong>
-                            <ul>
-                                <li>SATA Mode to <strong>AHCI</strong> (not RAID or IDE).</li>
-                                <li>Boot Mode to <strong>UEFI Only</strong> (not Legacy or Both).</li>
-                            </ul>
-                        </li>
+                        <li>Disable Secure Boot</li>
+                        <li>Disable Fast Boot</li>
+                        <li>Disable Intel SGX (Software Guard Extensions)</li>
+                        <li>Disable CFG Lock (if option available, otherwise requires patching or kernel quirk)</li>
+                        <li>Enable XHCI Handoff</li>
+                        <li>Set SATA Mode to AHCI</li>
+                        <li>Disable VT-d (Virtualization Technology for Directed I/O), unless you need it for other OSes and have `DisableIoMapper` quirk enabled.</li>
+                        <li>Disable dGPU if possible in BIOS (often not an option, requiring SSDT).</li>
+                        <li>Ensure UEFI Boot is enabled.</li>
                     </ul>
-                    <p class="note">After changing BIOS settings, save and exit. You may need to find the boot menu key for your laptop (e.g., F12, F10, F9, Esc, Enter) to select the USB drive for booting.</p>
+                    <p>Consult Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html#bios-settings" target="_blank" class="text-primary hover:underline">BIOS Settings page (example for Coffee Lake)</a> and search for your specific laptop model.</p>
                 </div>
 
                 <div class="content-section card-shadow">
-                    <h3>5. The Maiden Voyage: Installation Process</h3>
-                    <p>With your USB drive prepared and BIOS settings configured, it's time to boot and install macOS.</p>
-                    <ol>
-                        <li>Insert the USB drive and restart your laptop. Press the boot menu key repeatedly during startup to select your USB drive (it might be listed as "EFI USB Device," "UEFI: [USB Brand Name]," or similar).</li>
-                        <li>If OpenCore loads correctly, you'll see the OpenCore boot picker. Use arrow keys and Enter to select the entry that says "Install macOS [Version Name]" (e.g., "Install macOS Sonoma").
-                            <p class="note">If you don't reach the picker or encounter a kernel panic, enable verbose mode (<code>-v</code> in boot-args) and check the last few lines of text for clues. Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html" target="_blank" class="text-primary hover:underline">Troubleshooting Guide</a>.</p>
-                        </li>
-                        <li>The macOS installer will load. Once in the recovery environment:
-                            <ul>
-                                <li>Select <strong>Disk Utility</strong>.</li>
-                                <li>Show all devices (View > Show All Devices).</li>
-                                <li>Select your target internal SSD/NVMe drive (not the partition, but the drive itself).</li>
-                                <li>Click <strong>Erase</strong>. Name it (e.g., "Macintosh HD"), choose <strong>APFS</strong> as the format, and <strong>GUID Partition Map</strong> as the scheme. Then click Erase.</li>
-                                <li>Quit Disk Utility.</li>
-                            </ul>
-                        </li>
-                        <li>Select <strong>Install macOS [Version Name]</strong> (or Reinstall macOS).</li>
-                        <li>Follow the on-screen prompts, selecting your newly formatted "Macintosh HD" as the destination.</li>
-                        <li>The installation process involves several stages and reboots. <strong>Each time the system reboots, you must manually boot from your USB drive again and, in the OpenCore picker, select the new macOS installer entry on your internal drive (it might be named "macOS Installer" or the name you gave your drive, like "Macintosh HD").</strong> Do not select the USB installer entry after the first phase.</li>
-                        <li>Eventually, you'll reach the macOS setup assistant (language, country, user account, etc.). Complete this.</li>
+                    <h3>5. Installation Process</h3>
+                    <p>Boot from your prepared USB drive (you may need to press a key like F12, F10, Esc during startup to select boot device).</p>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Select the OpenCore USB entry (often named "EFI USB Device" or similar).</li>
+                        <li>In the OpenCore boot picker, select "Install macOS [Version Name]".</li>
+                        <li>Go through Disk Utility to format your target drive as APFS with GUID Partition Map.</li>
+                        <li>Proceed with the macOS installation. The system will reboot multiple times. Each time, ensure you boot from the USB and select the macOS installer/drive entry in OpenCore picker (e.g., "macOS Installer" then later "Macintosh HD").</li>
                     </ol>
-                    <p>Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/installation/installation-process.html" target="_blank" class="text-primary hover:underline font-semibold">Installation Process</a> page for more details.</p>
+                    <p>Refer to: <a href="https://dortania.github.io/OpenCore-Install-Guide/installation/installation-process.html" target="_blank" class="text-primary hover:underline">Dortania Installation Process</a></p>
                 </div>
 
                 <div class="content-section card-shadow">
-                    <h3>6. Settling In: Post-Install Tuning for Laptops</h3>
-                    <p>Congratulations, macOS is installed! But the journey isn't over. Now you need to make it boot from the internal drive and fix any remaining hardware issues. This is often the most iterative and time-consuming part for laptops.</p>
-                    <h4>6.1. Copy EFI to Internal Drive</h4>
-                    <ol>
-                        <li>Boot into your new macOS installation (still using the USB drive for OpenCore).</li>
-                        <li>Mount the EFI partition of your internal macOS drive (e.g., using MountEFI or Hackintool).</li>
-                        <li>Mount the EFI partition of your USB installer drive.</li>
-                        <li>Copy the entire <code>EFI</code> folder from your USB's EFI partition to your internal drive's EFI partition.</li>
-                    </ol>
-                    <p>Now you should be able to boot macOS from your internal drive without the USB installer. Remove the USB and test. If it fails, you may need to reselect the internal drive's UEFI entry in your BIOS boot order.</p>
-
-                    <h4>6.2. Fixing What's Broken (Common Laptop Post-Install Tasks)</h4>
-                    <p>Refer extensively to Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/" target="_blank" class="text-primary hover:underline font-semibold">Post-Install Guide</a> (Universal and Laptop Specifics).</p>
+                    <h3>6. Post-Install Tuning for Laptops</h3>
+                    <p>Once macOS is installed, boot from the internal drive by copying your EFI folder from the USB to the internal drive's EFI partition.</p>
+                    <p>Now, fix what's not working. This is often the most time-consuming part for laptops.</p>
                     <ul>
-                        <li><strong>Graphics Acceleration:</strong> Verify full iGPU acceleration. Go to "About This Mac." Your iGPU should be listed correctly (e.g., "Intel UHD Graphics 620 1536 MB"). The UI should be smooth, not laggy. If not, revisit DeviceProperties for your iGPU in <code>config.plist</code>.</li>
-                        <li><strong>Audio:</strong> Test speakers, headphones, and microphone. If not working, try different <code>alcid=X</code> boot arguments (find compatible layout IDs for your codec) or ensure AppleALC.kext is loaded correctly. Some laptops need <code>SSDT-HPET</code> or IRQ conflict fixes.</li>
-                        <li><strong>Wi-Fi & Bluetooth:</strong> If you didn't replace an incompatible card, install the necessary kexts (e.g., OpenIntelWireless suite) and ensure they are correctly loaded. Test connectivity and stability.</li>
-                        <li><strong>Trackpad/Keyboard:</strong> Ensure all keys work, including brightness and volume keys (may need ACPI patching or specific kexts like YogaSMC for Lenovo). Test all trackpad gestures. If gestures are poor or the trackpad is jumpy, you might need to experiment with different VoodooI2C satellite kexts or VoodooRMI.</li>
-                        <li><strong>USB Mapping:</strong> This is <strong>CRUCIAL</strong> for sleep, port stability, and preventing issues. macOS has a 15 USB port limit per controller. Laptops often have many internal devices on USB hubs. You must map your USB ports to disable unused ones and correctly define internal vs. external ports. Use Hackintool (macOS) or USBMap (Python script). Follow Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/usb/" target="_blank" class="text-primary hover:underline">USB Mapping Guide</a> meticulously.</li>
-                        <li><strong>Power Management & Sleep:</strong>
-                            <ul>
-                                <li>Verify CPU power management is working (e.g., using Intel Power Gadget to see CPU frequency scaling and C-states). May require <code>SSDT-PLUG</code> or <code>CPUFriend.kext</code> with custom frequency data.</li>
-                                <li>Test sleep/wake. Common issues include instant wake, black screen on wake, or failure to sleep. This often ties into USB mapping, ACPI errors, or incorrect graphics/power management setup. Check console logs for wake reasons.</li>
-                                <li>Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/universal/pm.html" target="_blank" class="text-primary hover:underline">Power Management Guide</a>.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Battery Status:</strong> Ensure the battery percentage shows correctly and updates. <code>SMCBatteryManager.kext</code> (part of VirtualSMC) usually handles this. Some laptops may need ACPI battery patches (e.g., <code>SSDT-BATT</code>).</li>
-                        <li><strong>Brightness Control:</strong> Ensure brightness keys and the slider in System Settings work. Requires <code>SSDT-PNLF</code> and correct iGPU patching.</li>
-                        <li><strong>HDMI/DisplayPort Audio/Video:</strong> Test external display connectivity and audio output over HDMI/DP. This relies on correct iGPU framebuffer patching.</li>
-                        <li><strong>iServices (iMessage, FaceTime, iCloud):</strong> If you generated a unique SMBIOS correctly (SystemProductName, MLB, SystemSerialNumber, SystemUUID, ROM), iServices should work. If not, review Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html" target="_blank" class="text-primary hover:underline">iServices Fixing Guide</a>. Ensure your Ethernet is set to <code>en0</code>.</li>
+                        <li><strong>Graphics:</strong> Ensure full acceleration. Check "About This Mac".</li>
+                        <li><strong>Audio:</strong> Test speakers, headphones, microphone. May need different `alcid`.</li>
+                        <li><strong>Wi-Fi & Bluetooth:</strong> Install necessary kexts and firmware.</li>
+                        <li><strong>Trackpad/Keyboard:</strong> Ensure all gestures and special keys work. May need VoodooI2C tuning or specific VoodooPS2 kexts.</li>
+                        <li><strong>USB Mapping:</strong> Crucial for sleep and port functionality. Use tools like USBMap or Hackintool. <a href="https://dortania.github.io/OpenCore-Post-Install/usb/" target="_blank" class="text-primary hover:underline">Dortania USB Mapping Guide</a>.</li>
+                        <li><strong>Power Management & Sleep:</strong> Verify CPU power states (use Intel Power Gadget). Test sleep/wake. May require CPUFriend.kext and further ACPI patching. <a href="https://dortania.github.io/OpenCore-Post-Install/universal/pm.html" target="_blank" class="text-primary hover:underline">Dortania Power Management</a>.</li>
+                        <li><strong>Battery Status:</strong> Ensure battery percentage shows correctly. May need specific ACPI patches (SSDT-BATT).</li>
+                        <li><strong>Brightness Control:</strong> Ensure brightness keys work (SSDT-PNLF).</li>
+                        <li><strong>HDMI/DisplayPort Audio/Video:</strong> Test external display connectivity.</li>
                     </ul>
+                    <p>Refer to: <a href="https://dortania.github.io/OpenCore-Post-Install/" target="_blank" class="text-primary hover:underline">Dortania Post-Install Guide (Universal and Laptop Specifics)</a></p>
                 </div>
                 
                 <div class="content-section card-shadow">
                     <h3>7. Troubleshooting Common Laptop Issues</h3>
-                    <p>Hackintoshing is a journey of troubleshooting. Refer to the main <a href="#troubleshooting" class="text-primary hover:underline font-semibold">Troubleshooting section</a> of this guide for general pointers. For laptops, specific pain points often include:</p>
+                    <p>Refer to the main <a href="#troubleshooting" class="text-primary hover:underline">Troubleshooting section</a> of this guide. Specific laptop issues often revolve around:</p>
                     <ul>
-                        <li><strong>Sleep/Wake Problems:</strong> Instant wake (check <code>log show --last boot | grep -i "wake reason"</code>), black screen on wake (often iGPU or display connector issue), or no sleep at all. USB mapping, ACPI errors, and power management settings are key suspects.</li>
-                        <li><strong>Trackpad Issues:</strong> No detection, jumpy cursor, or missing gestures. Ensure correct VoodooI2C/VoodooRMI kexts and satellites are loaded, and check for GPIO pinning SSDTs if required for your model.</li>
-                        <li><strong>Battery Drain / Incorrect Readings:</strong> Ensure proper CPU power management and that the dGPU (if any) is fully disabled. Check SMCBatteryManager.kext and ACPI patches.</li>
-                        <li><strong>Wi-Fi/Bluetooth Instability:</strong> Incorrect kexts, firmware issues, or conflicts. Ensure USB mapping is correct for internal Bluetooth.</li>
-                        <li><strong>Overheating:</strong> Usually due to poor CPU power management or an active (but unsupported) dGPU.</li>
-                        <li><strong>No HDMI/DP Output or Audio:</strong> Incorrect iGPU framebuffer patching (<code>AAPL,ig-platform-id</code>, connector types, etc.).</li>
+                        <li>Sleep/Wake problems (Instant wake, black screen on wake).</li>
+                        <li>Trackpad gesture issues or complete non-functionality.</li>
+                        <li>Battery drain or incorrect readings.</li>
+                        <li>Internal Wi-Fi/Bluetooth not detected or unstable.</li>
+                        <li>Overheating due to poor CPU power management or un-disabled dGPU.</li>
                     </ul>
-                    <p>Dortania's guides are your best friend here:</p>
-                    <ul>
-                        <li><a href="https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html" target="_blank" class="text-primary hover:underline font-semibold">General OpenCore Troubleshooting</a></li>
-                        <li><a href="https://dortania.github.io/OpenCore-Post-Install/troubleshooting/" target="_blank" class="text-primary hover:underline font-semibold">Post-Install Troubleshooting</a></li>
-                    </ul>
+                    <p>Dortania's Troubleshooting sections are invaluable: 
+                        <a href="https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html" target="_blank" class="text-primary hover:underline">General Troubleshooting</a>, 
+                        <a href="https://dortania.github.io/OpenCore-Post-Install/troubleshooting/" target="_blank" class="text-primary hover:underline">Post-Install Troubleshooting</a>.
+                    </p>
                 </div>
 
                  <div class="content-section card-shadow">
-                    <h3>8. Staying Current & Community Resources</h3>
-                    <p>The Hackintosh landscape evolves. New macOS versions can break things, and kexts/OpenCore get updated.</p>
-                    <ul>
-                        <li><strong>Backups are Your Lifeline:</strong> Before any major macOS update or significant EFI change, <strong>ALWAYS</strong> back up your working EFI folder to a safe place (like another USB drive). Consider full system backups with Time Machine or Carbon Copy Cloner.</li>
-                        <li><strong>Updating OpenCore & Kexts:</strong> Periodically check for updates to OpenCore and your kexts. Read changelogs carefully. Updating OpenCore often requires updating your <code>config.plist</code> to match the new <code>Sample.plist</code> structure.</li>
-                        <li><strong>The Community:</strong> You are not alone!
+                    <h3>8. Essential Resources & Communities</h3>
+                    <p>You are not alone! The Hackintosh community is vast and helpful.</p>
+                     <ul class="space-y-2">
+                        <li><strong>Primary Guide:</strong> <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="font-semibold text-primary hover:underline">Dortania OpenCore Install Guide</a> - The definitive resource.</li>
+                        <li><strong>Kexts & Tools:</strong> <a href="https://github.com/acidanthera" target="_blank" class="font-semibold text-primary hover:underline">Acidanthera on GitHub</a> (OpenCore, Lilu, WhateverGreen, etc.)</li>
+                        <li><strong>Forums & Communities:</strong>
                             <ul>
-                                <li><strong>Primary Guide:</strong> <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="font-semibold text-primary hover:underline">Dortania OpenCore Install Guide</a> - The definitive resource.</li>
-                                <li><strong>Kexts & Tools:</strong> <a href="https://github.com/acidanthera" target="_blank" class="font-semibold text-primary hover:underline">Acidanthera on GitHub</a> (OpenCore, Lilu, WhateverGreen, etc.) and other developers like <a href="https://github.com/corpnewt" target="_blank" class="text-primary hover:underline">corpnewt</a>.</li>
-                                <li><strong>Forums & Communities:</strong>
-                                    <ul>
-                                        <li><a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="text-primary hover:underline">r/hackintosh Subreddit</a></li>
-                                        <li><a href="https://www.insanelymac.com/forum/" target="_blank" class="text-primary hover:underline">InsanelyMac Forums</a></li>
-                                    </ul>
-                                </li>
-                                <li><strong>Specific Laptop Guides/EFIs:</strong> Search GitHub for your laptop model + "Hackintosh" or "OpenCore EFI". Use these as references and learning tools, not as direct copy-paste solutions. Understand what each file and setting does.</li>
+                                <li><a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="text-primary hover:underline">r/hackintosh Subreddit</a></li>
+                                <li><a href="https://www.insanelymac.com/forum/" target="_blank" class="text-primary hover:underline">InsanelyMac Forums</a></li>
+                                <li><a href="https://www.tonymacx86.com/forums/" target="_blank" class="text-primary hover:underline">Tonymacx86 Forums</a> (Note: Primarily Clover-focused in the past, but OpenCore discussion exists. Be mindful of their specific rules and software recommendations like UniBeast/MultiBeast which are generally not recommended for vanilla OpenCore installs).</li>
                             </ul>
                         </li>
+                        <li><strong>Specific Laptop Guides/EFIs:</strong> Search GitHub for your laptop model + "Hackintosh" or "OpenCore EFI". Use these as references, not direct copy-paste solutions, as they might not be perfectly tailored or up-to-date for your exact hardware or desired macOS version.</li>
                     </ul>
-                    <p class="note">Building a Hackintosh laptop is a challenging but incredibly rewarding experience. It teaches you a lot about how computers work at a low level. Good luck, and be patient!</p>
                 </div>
             </div>
         </section>
@@ -2033,4 +1809,238 @@
                             data: chartData,
                             backgroundColor: 'rgba(74, 144, 226, 0.2)',
                             borderColor: 'rgba(74, 144, 226, 1)',
-                            pointBackgroundColor: 'rgba(74, 144, 2
+                            pointBackgroundColor: 'rgba(74, 144, 226, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(74, 144, 226, 1)'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: angleLinesColor },
+                                grid: { color: gridColor },
+                                pointLabels: { font: { size: isComparisonChart ? 10 : 12 }, color: pointLabelColor },
+                                suggestedMin: 0,
+                                suggestedMax: 5,
+                                ticks: {
+                                    stepSize: 1,
+                                    backdropColor: isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)',
+                                    color: tickColor,
+                                    showLabelBackdrop: !isComparisonChart 
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: !isComparisonChart, 
+                                position: 'top',
+                                labels: { color: legendLabelColor }
+                            }
+                        }
+                    }
+                });
+            }
+
+
+            function showComparisonModal(laptopIds) {
+                comparisonModalContent.innerHTML = ''; 
+                Object.values(comparisonChartInstances).forEach(chart => chart.destroy()); 
+                comparisonChartInstances = {};
+                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+
+                laptopIds.forEach((id, index) => {
+                    const data = laptopData[id];
+                    if (!data) return;
+
+                    const laptopDiv = document.createElement('div');
+                    laptopDiv.className = 'bg-secondary p-4 rounded-lg card-shadow flex flex-col'; 
+                    laptopDiv.innerHTML = `
+                        <h3 class="text-xl font-bold mb-3 text-primary">${data.name}</h3>
+                        <img src="${data.image}" alt="${data.name}" class="w-full h-40 object-cover rounded-md mb-3" onerror="this.onerror=null;this.src='https.placehold.co/400x200/212529/F8F9FA?text=No+Image';">
+                        <p class="text-xs text-medium mb-1"><strong>Score:</strong> ${data.score}%</p>
+                        ${data.details.cpuBenchmark ? `<p class="text-xs text-medium mb-2"><strong>CPU Bench:</strong> ~${data.details.cpuBenchmark.score}</p>` : ''}
+                        
+                        <h4 class="font-semibold text-sm mt-2 mb-1">Key Specs:</h4>
+                        <ul class="text-xs text-medium list-none space-y-0.5 mb-2">
+                            <li><strong>RAM:</strong> ${data.details.ram}</li>
+                            <li><strong>Storage:</strong> ${data.details.storage}</li>
+                            <li><strong>macOS:</strong> ${data.details.macosSupport.min} - ${data.details.macosSupport.max}</li>
+                        </ul>
+                        
+                        <div class="comparison-chart-container mt-auto">
+                            <canvas id="compare-chart-${id}"></canvas>
+                        </div>
+                    `;
+                    comparisonModalContent.appendChild(laptopDiv);
+
+                    const ctx = document.getElementById(`compare-chart-${id}`).getContext('2d');
+                    comparisonChartInstances[id] = createRadarChart(ctx, data.name, data.details.chartData, currentTheme, true);
+                });
+
+                comparisonModal.classList.remove('hidden');
+                comparisonModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function hideComparisonModal() {
+                comparisonModal.classList.add('hidden');
+                comparisonModal.classList.remove('flex');
+                if (!detailModal.classList.contains('flex')) { 
+                     document.body.style.overflow = 'auto';
+                }
+            }
+            
+            priorityBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const priority = e.currentTarget.dataset.priority;
+                    const searchTerm = findBarInput ? findBarInput.value : "";
+                    renderLaptops(priority, searchTerm);
+
+                    priorityBtns.forEach(b => b.classList.remove('active-filter'));
+                    e.currentTarget.classList.add('active-filter');
+                    
+                    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            detailModalCloseBtn.addEventListener('click', hideDetailModal);
+            detailModal.addEventListener('click', (e) => {
+                // Close only if the click is on the modal background itself, not its content
+                if (e.target === detailModal.querySelector('.bg-white > div:first-child')) { // This might need adjustment if modal structure changes
+                    // This logic is tricky with full-screen modal, rely on close button.
+                }
+            });
+
+
+            comparisonModalCloseBtn.addEventListener('click', hideComparisonModal);
+            comparisonModal.addEventListener('click', (e) => {
+                if (e.target === comparisonModal) hideComparisonModal();
+            });
+
+
+            const componentTabsContainer = document.getElementById('component-tabs');
+            const componentContentContainer = document.getElementById('component-content');
+            
+            function renderComponentContent(key) {
+                const data = componentData[key];
+                if (!data) return;
+                
+                let contentHTML = `<p class="text-center text-medium mb-6">${data.intro}</p><div class="space-y-4">`;
+                data.items.forEach(item => {
+                    let statusClass, icon, darkStatusClass;
+                    if (item.status === 'good') {
+                        statusClass = 'border-l-4 border-green-500 bg-green-50';
+                        darkStatusClass = 'dark:bg-green-900/50 dark:border-green-400';
+                        icon = '✔';
+                    } else if (item.status === 'mid') {
+                        statusClass = 'border-l-4 border-yellow-500 bg-yellow-50';
+                        darkStatusClass = 'dark:bg-yellow-700/50 dark:border-yellow-400';
+                        icon = '〰️';
+                    } else { 
+                        statusClass = 'border-l-4 border-red-500 bg-red-50';
+                        darkStatusClass = 'dark:bg-red-900/50 dark:border-red-400';
+                        icon = '❌';
+                    }
+                    contentHTML += `
+                        <div class="p-4 rounded-lg ${statusClass} ${darkStatusClass}">
+                            <h4 class="font-bold text-dark">${icon} ${item.name}</h4>
+                            <p class="text-sm text-medium mt-1">${item.desc}</p>
+                        </div>
+                    `;
+                });
+                contentHTML += `</div>`;
+                componentContentContainer.innerHTML = contentHTML;
+
+                document.querySelectorAll('.component-tab').forEach(t => t.classList.remove('active'));
+                document.querySelector(`.component-tab[data-key="${key}"]`).classList.add('active');
+            }
+
+            Object.keys(componentData).forEach((key, index) => {
+                const tab = document.createElement('button');
+                tab.innerText = key;
+                tab.dataset.key = key;
+                tab.className = `component-tab font-semibold py-2 px-4 rounded-md cursor-pointer border-2 border-transparent ${index === 0 ? 'active' : 'bg-gray-200 dark:bg-gray-700'}`;
+                tab.addEventListener('click', () => renderComponentContent(key));
+                componentTabsContainer.appendChild(tab);
+            });
+            
+            renderComponentContent(Object.keys(componentData)[0]); 
+            
+            // Initial render call with current filters
+            const initialSearchTermValue = findBarInput ? findBarInput.value : "";
+            const initialPriorityFilterValue = document.querySelector('#priority-filter-buttons .active-filter')?.dataset.priority || "all";
+            renderLaptops(initialPriorityFilterValue, initialSearchTermValue);
+
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                if (document.documentElement.classList.contains('dark')) {
+                    mobileMenu.classList.add('dark:bg-gray-800');
+                } else {
+                    mobileMenu.classList.remove('dark:bg-gray-800');
+                }
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            function changeActiveLink() {
+                let index = sections.length;
+                const headerHeight = document.querySelector('header').offsetHeight || 70;
+                while(--index >= 0 && window.scrollY + headerHeight + 20 < sections[index].offsetTop) {} 
+                
+                navLinks.forEach((link) => link.classList.remove('active'));
+                
+                if (index >= 0) { 
+                    const activeSectionId = sections[index].id;
+                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${activeSectionId}"]`);
+                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${activeSectionId}"]`);
+
+                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
+                    if (activeMobileLink) activeMobileLink.classList.add('active');
+                } else if (sections.length > 0) { 
+                    const firstSectionId = sections[0].id;
+                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${firstSectionId}"]`);
+                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${firstSectionId}"]`);
+                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
+                    if (activeMobileLink) activeMobileLink.classList.add('active');
+                }
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                         window.scrollTo({
+                            top: targetSection.offsetTop - (document.querySelector('header').offsetHeight || 70),
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (!mobileMenu.classList.contains('hidden')) {
+                       mobileMenu.classList.add('hidden');
+                    }
+                    navLinks.forEach(lnk => lnk.classList.remove('active'));
+                    link.classList.add('active');
+                    const otherMenuSelector = link.closest('#mobile-menu') ? '.hidden.md\\:flex' : '#mobile-menu';
+                    const correspondingLink = document.querySelector(`${otherMenuSelector} .nav-link[href="${targetId}"]`);
+                    if(correspondingLink) {
+                        // Ensure other corresponding links are also deactivated before activating the new one
+                        document.querySelectorAll(`${otherMenuSelector} .nav-link`).forEach(l => l.classList.remove('active'));
+                        correspondingLink.classList.add('active');
+                    }
+
+                });
+            });
+
+            window.addEventListener('scroll', changeActiveLink);
+            changeActiveLink(); 
+        });
+    </script>
+</body>
+</html>
