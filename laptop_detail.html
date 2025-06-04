@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Details - Hackintosh Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles (Light Mode) - Consistent with other pages */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .bg-primary { background-color: #4A90E2; }
+        .text-primary { color: #4A90E2; }
+        .border-primary { border-color: #4A90E2; }
+        .bg-secondary { background-color: #f0f4f8; }
+        .text-dark { color: #212529; }
+        .text-medium { color: #495057; }
+        .text-light { color: #adb5bd; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .nav-link { transition: color 0.2s, border-color 0.2s; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .nav-link.active { color: #4A90E2; border-bottom-width: 2px; border-color: #4A90E2; }
+        .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
+        .chart-container { position: relative; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
+        @media (min-width: 768px) { .chart-container { height: 320px; } }
+        
+        /* Dark Mode Styles - Consistent with other pages */
+        .dark body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .dark .bg-white { background-color: #2d3748; }
+        .dark .text-dark { color: #e2e8f0; }
+        .dark .text-medium { color: #a0aec0; }
+        .dark .text-light { color: #718096; }
+        .dark .bg-secondary { background-color: #2d3748; }
+        .dark .card-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2); }
+        .dark .border-primary { border-color: #63b3ed; }
+        .dark .text-primary { color: #63b3ed; }
+        .dark .bg-primary { background-color: #3182ce; }
+        .dark .nav-link.active { color: #63b3ed; border-color: #63b3ed; }
+        .dark #find-bar { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; }
+        .dark #find-bar::placeholder { color: #a0aec0; }
+
+        .gemini-output {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #e9ecef; /* Light mode background for output */
+            border-radius: 0.375rem; /* rounded-md */
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.5;
+            min-height: 50px;
+            border: 1px solid #dee2e6; /* Light border */
+        }
+        .dark .gemini-output {
+            background-color: #374151; /* Darker background for output in dark mode */
+            border-color: #4b5563; /* Darker border in dark mode */
+            color: #d1d5db; /* Lighter text for output in dark mode */
+        }
+        .gemini-output ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; }
+        .gemini-output li { margin-bottom: 0.25rem; }
+        .gemini-output p { margin-bottom: 0.5rem; }
+        .gemini-output strong { font-weight: 600; }
+
+        .detail-section {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .dark .detail-section {
+            background-color: #2d3748;
+        }
+         .detail-section h3 {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 0.75rem; /* mb-3 */
+            color: #4A90E2; /* text-primary */
+        }
+        .dark .detail-section h3 {
+            color: #63b3ed; /* dark:text-primary */
+        }
+         .detail-section ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            font-size: 0.875rem; /* text-sm */
+            color: #495057; /* text-medium */
+            space-y: 0.25rem; /* space-y-1 */
+        }
+        .dark .detail-section ul {
+            color: #a0aec0; /* dark:text-medium */
+        }
+    </style>
+</head>
+<body class="text-dark">
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-2 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-primary">Hackintosh Laptop Guide</a>
+            <div class="flex items-center">
+                 <div class="relative mr-4">
+                    <input type="search" id="find-bar-header" placeholder="Find a laptop..." class="px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div class="hidden md:flex space-x-3 lg:space-x-4 mr-4">
+                    <a href="index.html" class="nav-link text-sm lg:text-base">Home</a>
+                    <a href="explorer.html" class="nav-link text-sm lg:text-base">Explorer</a>
+                    <a href="build_guide.html" class="nav-link text-sm lg:text-base">Laptop Builds</a>
+                    <a href="components.html" class="nav-link text-sm lg:text-base">Components</a>
+                    <a href="essentials.html" class="nav-link text-sm lg:text-base">Essentials</a>
+                    <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
+                    <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
+                    </svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="index.html" class="block py-2 px-6 text-sm nav-link">Home</a>
+            <a href="explorer.html" class="block py-2 px-6 text-sm nav-link">Laptop Explorer</a>
+            <a href="build_guide.html" class="block py-2 px-6 text-sm nav-link">Laptop Builds</a>
+            <a href="components.html" class="block py-2 px-6 text-sm nav-link">Component Checker</a>
+            <a href="essentials.html" class="block py-2 px-6 text-sm nav-link">The Essentials</a>
+            <a href="buy_used.html" class="block py-2 px-6 text-sm nav-link">Where to Buy Used</a>
+            <a href="troubleshooting.html" class="block py-2 px-6 text-sm nav-link">Troubleshooting Guide</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div id="laptop-detail-content" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
+            <!-- Laptop details will be injected here by JavaScript -->
+            <p id="loading-laptop-details" class="text-center text-xl text-medium py-10">Loading laptop details...</p>
+        </div>
+    </main>
+
+    <footer class="text-center py-8 border-t dark:border-gray-700">
+        <p class="text-sm text-medium">&copy; <span id="current-year"></span> Hackintosh Laptop Guide. For educational purposes only.</p>
+    </footer>
+    
+    <script id="data-script">
+        // Contents of js/data.js (Assume this is populated with laptopData and componentData)
+        const laptopData = { /* ... Full laptopData object from previous version ... */ 
+            "t480":{name:"Lenovo ThinkPad T480",priority:["ease","budget"],image:"https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T480",score:85,summary:"A community favorite known for its robustness, upgradeability, and extensive documentation, making it a top choice for beginners.",details:{cpu:"8th Gen Intel U-Series (i5/i7)",igpu:"Intel UHD 620 (Well Supported)",dgpu:"NVIDIA MX150 (Must be disabled)",wifi:"Intel (Replaceable). Works with kexts.",audio:"Realtek ALC3287/ALC257",trackpad:"Synaptics (SMBus/I2C/PS2)",ram:"Up to 32GB DDR4 (2 slots), User Upgradeable",storage:"M.2 NVMe SSD + optional 2.5\" SATA SSD/HDD bay",macosSupport:{min:"macOS Mojave 10.14",max:"macOS Sonoma 14.x"},cpuBenchmark:{score:3200,source:"Geekbench 5 Multi (i5-8250U)"},pros:["Excellent community support","Highly upgradeable (RAM, SSD, Wi-Fi)","Robust build quality","Relatively straightforward setup"],cons:["dGPU models require disabling","SD card reader can be inconsistent","Thunderbolt 3 support can be finicky"],kexts:["Lilu","WhateverGreen","VirtualSMC","AppleALC","VoodooPS2Controller","VoodooRMI","VoodooI2C","IntelMausi","OpenIntelWireless suite"],chartData:[4,3,3,5]}},
+            // ... ALL OTHER LAPTOP ENTRIES ...
+        };
+        const componentData = { /* ... Full componentData object from previous version ... */ 
+             "CPU":{intro:"The CPU is the brain. Intel CPUs from 8th-10th Gen are the 'sweet spot'. Newer generations and AMD CPUs introduce significant challenges for laptops.",items:[{name:"Intel 8th-10th Gen (Coffee/Comet/Ice Lake U/H)",status:"good",desc:"Recommended: Excellent choice. Best balance of performance, iGPU compatibility (UHD 620/630, Iris Plus), and community support."},{name:"Intel 11th+ Gen (Tiger/Alder Lake & newer)",status:"bad",desc:"Avoid for Laptops: Their Iris Xe iGPUs lack graphics acceleration in macOS, making them unusable for a good experience unless it's a rare model where iGPU can be fully disabled and a supported AMD dGPU is present (uncommon in laptops)."},{name:"Intel 4th-7th Gen (Haswell/Broadwell/Skylake/Kaby Lake)",status:"mid",desc:"Viable with Effort: Good for budget builds. Compatibility is generally good with appropriate patching (e.g. HD 4600, HD 5500, HD 620), but lower performance. Great for learning on cheaper hardware."},{name:"AMD Ryzen (All series for laptops)",status:"bad",desc:"Avoid for Laptops: Requires complex patches (NootedRed for iGPU), and support for iGPU, power management, sleep, and other features is very inconsistent, experimental, and often breaks."}]},
+             // ... Add ALL other component data here ...
+        };
+    </script>
+    <script id="theme-script">
+        // Contents of js/theme.js
+        const ThemeManager = (() => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIconLight = document.getElementById('theme-icon-light');
+            const themeIconDark = document.getElementById('theme-icon-dark');
+
+            function applyTheme(theme) {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    if (themeIconLight) themeIconLight.classList.add('hidden');
+                    if (themeIconDark) themeIconDark.classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    if (themeIconLight) themeIconLight.classList.remove('hidden');
+                    if (themeIconDark) themeIconDark.classList.add('hidden');
+                }
+                 // Update chart themes if ChartManager and its update function exist
+                if (typeof ChartManager !== 'undefined' && ChartManager && typeof ChartManager.updateAllChartThemes === 'function') {
+                    ChartManager.updateAllChartThemes(theme);
+                }
+            }
+
+            function applySavedTheme(){
+                const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                applyTheme(savedTheme);
+            }
+
+            function init() {
+                if (themeToggle) { 
+                    themeToggle.addEventListener('click', () => {
+                        const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                        localStorage.setItem('theme', newTheme);
+                        applyTheme(newTheme); 
+                    });
+                }
+                applySavedTheme(); 
+            }
+            
+            return {
+                init,
+                applyTheme, 
+                applySavedTheme
+            };
+        })();
+    </script>
+    <script id="navigation-script">
+        // Contents of js/navigation.js
+        const NavigationManager = (() => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('header .nav-link'); 
+
+            function updateActiveLink() {
+                const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const linkPath = (link.getAttribute('href') || "").split('/').pop();
+                    if (linkPath === currentPath || (currentPath === '' && linkPath === 'index.html') ) { 
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            function init() {
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                        if (document.documentElement.classList.contains('dark')) {
+                            mobileMenu.classList.add('dark:bg-gray-800');
+                        } else {
+                            mobileMenu.classList.remove('dark:bg-gray-800');
+                        }
+                    });
+                }
+
+                document.querySelectorAll('#mobile-menu .nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                });
+                
+                updateActiveLink(); 
+            }
+
+            return {
+                init,
+                updateActiveLink
+            };
+        })();
+    </script>
+    <script id="charts-script">
+        // Contents of js/charts.js (or specific to this page)
+        const ChartManager = (() => {
+            let detailChartInstance = null; // Keep track of the chart instance
+
+            function createRadarChart(ctx, label, chartData, theme) {
+                const isDark = theme === 'dark';
+                const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                const pointLabelColor = isDark ? '#e2e8f0' : '#495057';
+                const angleLinesColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+                const tickColor = pointLabelColor;
+                const legendLabelColor = pointLabelColor;
+
+                if (detailChartInstance) {
+                    detailChartInstance.destroy(); // Destroy previous instance if exists
+                }
+
+                detailChartInstance = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Ease', 'Perf', 'Port', 'Budget'], 
+                        datasets: [{
+                            label: label,
+                            data: chartData,
+                            backgroundColor: 'rgba(74, 144, 226, 0.2)',
+                            borderColor: 'rgba(74, 144, 226, 1)',
+                            pointBackgroundColor: 'rgba(74, 144, 226, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(74, 144, 226, 1)'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: angleLinesColor },
+                                grid: { color: gridColor },
+                                pointLabels: { font: { size: 12 }, color: pointLabelColor },
+                                suggestedMin: 0,
+                                suggestedMax: 5,
+                                ticks: {
+                                    stepSize: 1,
+                                    backdropColor: isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)',
+                                    color: tickColor,
+                                    showLabelBackdrop: true 
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true, 
+                                position: 'top',
+                                labels: { color: legendLabelColor }
+                            }
+                        }
+                    }
+                });
+                return detailChartInstance;
+            }
+            
+            function updateAllChartThemes(theme) { // Renamed for clarity
+                if (detailChartInstance) {
+                    const isDark = theme === 'dark';
+                    const gridColor = isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
+                    const pointLabelColor = isDark ? '#e2e8f0' : '#495057';
+                    const angleLinesColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
+                    
+                    detailChartInstance.options.scales.r.grid.color = gridColor;
+                    detailChartInstance.options.scales.r.pointLabels.color = pointLabelColor;
+                    detailChartInstance.options.scales.r.angleLines.color = angleLinesColor;
+                    detailChartInstance.options.scales.r.ticks.backdropColor = isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)';
+                    detailChartInstance.options.scales.r.ticks.color = pointLabelColor;
+                    if (detailChartInstance.options.plugins && detailChartInstance.options.plugins.legend) {
+                       detailChartInstance.options.plugins.legend.labels.color = pointLabelColor;
+                    }
+                    detailChartInstance.update();
+                }
+            }
+
+            return {
+                createRadarChart,
+                updateAllChartThemes
+            };
+        })();
+    </script>
+    <script id="gemini-api-script">
+        // Contents of js/gemini_api.js (or specific to this page)
+        const GeminiAPIManager = (() => {
+            const GEMINI_API_URL_BASE = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+            const API_KEY = ""; // Canvas provides this
+
+            async function callGeminiAPI(promptText) {
+                const chatHistory = [{ role: "user", parts: [{ text: promptText }] }];
+                const payload = { contents: chatHistory };
+                
+                try {
+                    const response = await fetch(`${GEMINI_API_URL_BASE}?key=${API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        const errorBody = await response.text();
+                        console.error("Gemini API Error Response:", errorBody);
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorBody}`);
+                    }
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error("Unexpected Gemini API response structure:", result);
+                        return "Error: Could not retrieve valid content from AI.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API:", error);
+                    return `Error: Could not connect to AI. Details: ${error.message}`;
+                }
+            }
+            return { callGeminiAPI };
+        })();
+    </script>
+
+    <!-- SCRIPT FOR LAPTOP DETAIL PAGE -->
+    <script id="laptop-detail-page-script">
+        document.addEventListener('DOMContentLoaded', () => {
+            const laptopDetailContent = document.getElementById('laptop-detail-content');
+            const loadingMessage = document.getElementById('loading-laptop-details');
+            const urlParams = new URLSearchParams(window.location.search);
+            const laptopId = urlParams.get('id');
+
+            if (!laptopId || !laptopData || !laptopData[laptopId]) {
+                if(loadingMessage) loadingMessage.textContent = 'Error: Laptop not found or data is missing.';
+                console.error('Laptop ID missing or laptop data not found for ID:', laptopId);
+                return;
+            }
+            if(loadingMessage) loadingMessage.style.display = 'none'; // Hide loading message
+
+            const data = laptopData[laptopId];
+
+            laptopDetailContent.innerHTML = `
+                <a href="explorer.html" class="inline-block mb-6 text-primary hover:underline">&larr; Back to Explorer</a>
+                <h2 class="text-3xl font-bold mb-2 text-dark dark:text-gray-100">${data.name}</h2>
+                <p class="text-lg text-medium mb-6">${data.summary}</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <img src="${data.image}" alt="${data.name}" class="w-full rounded-lg mb-6 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
+                        
+                        <div class="detail-section card-shadow">
+                            <h3>Core Specifications</h3>
+                            <ul class="text-sm text-medium space-y-1">
+                                <li><strong>CPU:</strong> ${data.details.cpu}</li>
+                                <li><strong>iGPU:</strong> ${data.details.igpu}</li>
+                                ${data.details.dgpu && data.details.dgpu !== "None" ? `<li><strong>dGPU:</strong> ${data.details.dgpu}</li>` : ''}
+                                <li><strong>RAM:</strong> ${data.details.ram}</li>
+                                <li><strong>Storage:</strong> ${data.details.storage}</li>
+                                <li><strong>Wi-Fi:</strong> ${data.details.wifi}</li>
+                                <li><strong>Audio:</strong> ${data.details.audio}</li>
+                                <li><strong>Trackpad:</strong> ${data.details.trackpad}</li>
+                            </ul>
+                        </div>
+
+                        <div class="detail-section card-shadow mt-6">
+                            <h3>macOS Compatibility</h3>
+                            <ul class="text-sm text-medium space-y-1">
+                                <li><strong>Min Supported:</strong> ${data.details.macosSupport.min}</li>
+                                <li><strong>Max Supported:</strong> ${data.details.macosSupport.max}</li>
+                                ${data.details.cpuBenchmark ? `<li><strong>CPU Benchmark:</strong> ~${data.details.cpuBenchmark.score} (${data.details.cpuBenchmark.source})</li>` : ''}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="detail-section card-shadow">
+                            <h3>Compatibility Report</h3>
+                            <div class="mb-4">
+                                <h4 class="font-semibold text-green-600 dark:text-green-400">What Works Well 👍</h4>
+                                <ul class="list-disc list-inside text-sm text-medium space-y-1 mt-1">
+                                    ${data.details.pros.map(p => `<li>${p}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-yellow-600 dark:text-yellow-400">Key Challenges ⚠️</h4>
+                                <ul class="list-disc list-inside text-sm text-medium space-y-1 mt-1">
+                                    ${data.details.cons.map(c => `<li>${c}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="detail-section card-shadow mt-6">
+                            <h3>Essential Kexts (Typical)</h3>
+                            <p class="text-sm text-medium">${data.details.kexts.join(', ')}</p>
+                        </div>
+                        
+                        <div class="detail-section card-shadow mt-6">
+                            <h3>Ratings</h3>
+                            <div class="chart-container">
+                                <canvas id="laptop-detail-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini API Features -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    <div class="detail-section card-shadow">
+                        <h3>AI Compatibility Insights</h3>
+                        <button id="gemini-compatibility-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
+                            ✨ Get AI Insights
+                        </button>
+                        <div id="gemini-compatibility-output" class="gemini-output">
+                            Click the button to generate insights.
+                        </div>
+                    </div>
+                    <div class="detail-section card-shadow">
+                        <h3>AI Post-Install Checklist</h3>
+                        <button id="gemini-checklist-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
+                            ✨ Generate Checklist
+                        </button>
+                        <div id="gemini-checklist-output" class="gemini-output">
+                           Click the button to generate a checklist.
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Initialize Chart
+            const chartCtx = document.getElementById('laptop-detail-chart').getContext('2d');
+            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            if (typeof ChartManager !== 'undefined') {
+                ChartManager.createRadarChart(chartCtx, data.name, data.details.chartData, currentTheme);
+            }
+
+
+            // Add event listeners for Gemini buttons
+            const compatibilityBtn = document.getElementById('gemini-compatibility-btn');
+            const checklistBtn = document.getElementById('gemini-checklist-btn');
+
+            if (compatibilityBtn) {
+                compatibilityBtn.addEventListener('click', async () => {
+                    const outputDiv = document.getElementById('gemini-compatibility-output');
+                    outputDiv.innerHTML = '<p class="text-medium animate-pulse">✨ Generating compatibility insights...</p>';
+                    const prompt = `
+                        As a Hackintosh expert, provide brief compatibility insights for the following laptop configuration. 
+                        Focus on key considerations, common pitfalls, and what to double-check during setup.
+                        Be concise and helpful for someone planning a Hackintosh build. Output in simple HTML with paragraphs or bullet points if appropriate.
+
+                        Laptop: ${data.name}
+                        CPU: ${data.details.cpu}
+                        Integrated GPU: ${data.details.igpu}
+                        Dedicated GPU: ${data.details.dgpu || "None"}
+                        Wi-Fi: ${data.details.wifi}
+                        Audio Codec: ${data.details.audio}
+                        Trackpad Type: ${data.details.trackpad}
+                        Typical Kexts: ${data.details.kexts.join(', ')}
+                    `;
+                    const insights = await GeminiAPIManager.callGeminiAPI(prompt);
+                    outputDiv.innerHTML = insights; // Gemini should return basic HTML or Markdown that browsers can render
+                });
+            }
+
+            if (checklistBtn) {
+                checklistBtn.addEventListener('click', async () => {
+                    const outputDiv = document.getElementById('gemini-checklist-output');
+                    outputDiv.innerHTML = '<p class="text-medium animate-pulse">✨ Generating post-install checklist...</p>';
+                    const prompt = `
+                        Generate a concise, actionable post-installation checklist for a Hackintosh build on a "${data.name}" 
+                        with the following key components:
+                        CPU: ${data.details.cpu}
+                        iGPU: ${data.details.igpu}
+                        Wi-Fi: ${data.details.wifi}
+                        Audio: ${data.details.audio}
+                        Trackpad: ${data.details.trackpad}
+
+                        Focus on common items to verify and tune after macOS is installed. 
+                        Format the output as an HTML unordered list (ul and li tags).
+                    `;
+                    const checklist = await GeminiAPIManager.callGeminiAPI(prompt);
+                    outputDiv.innerHTML = checklist; // Expecting HTML list from Gemini
+                });
+            }
+        });
+    </script>
+
+    <!-- MAIN INITIALIZATION SCRIPT (conceptually from js/main.js) -->
+    <script id="main-script">
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof ThemeManager !== 'undefined') ThemeManager.init();
+            if (typeof NavigationManager !== 'undefined') NavigationManager.init();
+            
+            const currentYearEl = document.getElementById('current-year');
+            if (currentYearEl) {
+                currentYearEl.textContent = new Date().getFullYear();
+            }
+
+            const findBarHeader = document.getElementById('find-bar-header');
+            if (findBarHeader) {
+                findBarHeader.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        const searchTerm = findBarHeader.value.trim();
+                        if (searchTerm) {
+                            window.location.href = `explorer.html?search=${encodeURIComponent(searchTerm)}`;
+                        } else {
+                            window.location.href = 'explorer.html'; 
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html
