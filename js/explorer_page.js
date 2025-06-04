@@ -53,10 +53,8 @@ const ExplorerPage = (() => {
         if (currentSearchTerm.trim() !== "") {
             const lowerSearchTerm = currentSearchTerm.trim().toLowerCase();
             laptopsToRender = laptopsToRender.filter(([id, data]) => {
-                // Check name and summary first
                 if (data.name && data.name.toLowerCase().includes(lowerSearchTerm)) return true;
                 if (data.summary && data.summary.toLowerCase().includes(lowerSearchTerm)) return true;
-                // Check details object
                 if (data.details) {
                     if (data.details.cpu && data.details.cpu.toLowerCase().includes(lowerSearchTerm)) return true;
                     if (data.details.igpu && data.details.igpu.toLowerCase().includes(lowerSearchTerm)) return true;
@@ -128,8 +126,10 @@ const ExplorerPage = (() => {
     
     /**
      * Initializes the Explorer page functionalities.
+     * This function will be called by js/main.js.
      */
     function init() {
+        console.log("ExplorerPage init called"); // For debugging
         laptopGrid = document.getElementById('laptop-grid');
         priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons-explorer');
         findBarExplorer = document.getElementById('find-bar-explorer');
@@ -139,7 +139,6 @@ const ExplorerPage = (() => {
         clearSelectionBtn = document.getElementById('clear-selection-btn');
         selectedCountSpan = document.getElementById('selected-count');
 
-        // Load selections from localStorage
         const storedSelections = localStorage.getItem('selectedLaptopsForComparison');
         if (storedSelections) {
             try {
@@ -147,12 +146,10 @@ const ExplorerPage = (() => {
             } catch (e) {
                 console.error("Error parsing selected laptops from localStorage:", e);
                 selectedLaptopsForComparison = [];
-                localStorage.removeItem('selectedLaptopsForComparison'); // Clear corrupted data
+                localStorage.removeItem('selectedLaptopsForComparison');
             }
         }
 
-
-        // Priority filter buttons on explorer page
         if (priorityFilterButtonsContainer) {
             const priorityBtnsExplorer = priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all');
             priorityBtnsExplorer.forEach(btn => {
@@ -165,7 +162,6 @@ const ExplorerPage = (() => {
             });
         }
         
-        // Find bar on explorer page
         if (findBarExplorer) {
             findBarExplorer.addEventListener('input', (e) => {
                 currentSearchTerm = e.target.value;
@@ -173,7 +169,6 @@ const ExplorerPage = (() => {
             });
         }
 
-        // Compare selected button navigation
         if (compareSelectedBtn) {
             compareSelectedBtn.addEventListener('click', () => {
                 if (selectedLaptopsForComparison.length >= 2) {
@@ -182,7 +177,6 @@ const ExplorerPage = (() => {
             });
         }
         
-        // Clear selection button
         if (clearSelectionBtn) {
             clearSelectionBtn.addEventListener('click', () => {
                 selectedLaptopsForComparison = [];
@@ -192,7 +186,6 @@ const ExplorerPage = (() => {
             });
         }
 
-        // Initial setup based on URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const priorityFromUrl = urlParams.get('priority');
         const searchTermFromUrl = urlParams.get('search');
@@ -204,11 +197,10 @@ const ExplorerPage = (() => {
                 priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all').forEach(b => b.classList.remove('active-filter'));
                 activeBtn.classList.add('active-filter');
             }
-        } else if (priorityFilterButtonsContainer) { // Default to 'all' if no priority in URL
+        } else if (priorityFilterButtonsContainer) { 
              const allBtn = priorityFilterButtonsContainer.querySelector(`[data-priority="all"]`);
              if(allBtn) allBtn.classList.add('active-filter');
         }
-
 
         if (searchTermFromUrl) {
             currentSearchTerm = searchTermFromUrl;
