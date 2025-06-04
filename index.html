@@ -25,7 +25,7 @@
         .text-medium { color: #495057; }
         .text-light { color: #adb5bd; }
         .card-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-        .nav-link { transition: color 0.2s, border-color 0.2s; }
+        .nav-link { transition: color 0.2s, border-color 0.2s; padding-top: 0.5rem; padding-bottom: 0.5rem; } /* Added padding for better touch */
         .nav-link.active { color: #4A90E2; border-bottom-width: 2px; border-color: #4A90E2; }
         .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
         .modal-bg { background-color: rgba(0,0,0,0.5); }
@@ -56,7 +56,22 @@
         .dark .priority-btn.bg-white, .dark .priority-btn-all.bg-white { background-color: #4a5568; color: #e2e8f0; border-color: #63b3ed;}
         .dark .timeline-item::before { border-top-color: #4a5568; }
         .dark .absolute.bg-primary { background-color: #3182ce; }
-        .dark #laptop-modal .bg-white, .dark #comparison-modal .bg-white { background-color: #2d3748; } /* Modal specific dark background */
+        /* Updated Modal Styles for full-screen effect */
+        .dark #laptop-modal .bg-white { background-color: #1f2937; } /* Darker full-screen modal background */
+        #laptop-modal.flex { /* when shown */
+            padding: 0; 
+        }
+        #laptop-modal > div { /* The direct child, originally the white card */
+            width: 100%;
+            height: 100%;
+            max-width: 100%; 
+            max-height: 100%; 
+            border-radius: 0; 
+            box-shadow: none; /* Remove shadow for full screen */
+        }
+        .dark #laptop-modal > div {
+             background-color: #1f2937; /* Ensure dark background for content area */
+        }
         .dark #laptop-modal .border-b, .dark #comparison-modal .border-b { border-color: #4a5568; }
         .dark #laptop-modal #modal-close-btn, .dark #comparison-modal #modal-close-btn { color: #a0aec0; }
         .dark #laptop-modal #modal-close-btn:hover, .dark #comparison-modal #modal-close-btn:hover { color: #e2e8f0; }
@@ -66,22 +81,23 @@
         .dark .status-bad-bg { background-color: rgba(220, 53, 69, 0.2); border-color: #dc3545 }
         .dark .hover\:bg-blue-50:hover { background-color: #3182ce20; }
         .dark .hover\:bg-blue-600:hover { background-color: #2c5282; }
+        .dark #find-bar { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; }
+        .dark #find-bar::placeholder { color: #a0aec0; }
 
-        /* Comparison Modal Specific Chart Container */
+
         .comparison-chart-container {
             position: relative;
             width: 100%;
-            max-width: 350px; /* Smaller for side-by-side */
+            max-width: 350px; 
             margin-left: auto;
             margin-right: auto;
-            height: 280px; /* Smaller height */
+            height: 280px; 
         }
         .priority-btn, .priority-btn-all {
-            /* common styles for all filter buttons */
             font-weight: bold;
-            padding: 0.75rem 1.5rem; /* py-3 px-6 */
-            border-radius: 0.5rem; /* rounded-lg */
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); /* shadow-lg */
+            padding: 0.75rem 1.5rem; 
+            border-radius: 0.5rem; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06); 
             transition-property: background-color, border-color, color, transform, box-shadow;
             transition-duration: .15s;
             transition-timing-function: cubic-bezier(.4,0,.2,1);
@@ -90,54 +106,132 @@
             transform: scale(1.05);
         }
         .priority-btn.active-filter, .priority-btn-all.active-filter {
-            background-color: #4A90E2; /* bg-primary */
+            background-color: #4A90E2; 
             color: white;
         }
         .dark .priority-btn.active-filter, .dark .priority-btn-all.active-filter {
-             background-color: #3182ce; /* dark:bg-primary */
+             background-color: #3182ce; 
         }
 
         .priority-btn:not(.active-filter), .priority-btn-all:not(.active-filter) {
             background-color: white;
-            color: #4A90E2; /* text-primary */
+            color: #4A90E2; 
             border-width: 2px;
-            border-color: #4A90E2; /* border-primary */
+            border-color: #4A90E2; 
         }
         .dark .priority-btn:not(.active-filter), .dark .priority-btn-all:not(.active-filter) {
-            background-color: #4a5568; /* dark mode bg for non-active */
-            color: #e2e8f0; /* dark mode text for non-active */
-            border-color: #63b3ed; /* dark mode border for non-active */
+            background-color: #4a5568; 
+            color: #e2e8f0; 
+            border-color: #63b3ed; 
         }
-        .troubleshooting-item, .buy-item {
-            background-color: #ffffff; /* bg-white */
+        .content-section { /* For new sections */
+            background-color: #ffffff; 
             padding: 1.5rem; /* p-6 */
             border-radius: 0.75rem; /* rounded-xl */
+            margin-bottom: 2rem; /* mb-8 */
         }
-        .dark .troubleshooting-item, .dark .buy-item {
-            background-color: #2d3748; /* dark:bg-gray-800 equivalent */
+        .dark .content-section {
+            background-color: #2d3748; 
         }
+        .content-section h3 { /* Main section titles */
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem; /* mb-4 */
+            color: #4A90E2; /* text-primary */
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb; /* Light border */
+        }
+        .dark .content-section h3 {
+            color: #63b3ed; /* dark:text-primary */
+            border-bottom-color: #4a5568; /* Darker border */
+        }
+         .content-section h4 { /* Sub-section titles */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            margin-top: 1.25rem; /* mt-5 */
+            margin-bottom: 0.5rem; /* mb-2 */
+            color: #374151; /* A slightly muted dark color */
+        }
+        .dark .content-section h4 {
+            color: #cbd5e1; /* A lighter color for dark mode */
+        }
+        .content-section ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            font-size: 0.875rem; /* text-sm */
+            color: #495057; /* text-medium */
+            space-y: 0.375rem; /* space-y-1.5 for better readability */
+            padding-left: 0.5rem; /* Slight indent for lists */
+        }
+        .dark .content-section ul {
+            color: #a0aec0; /* dark:text-medium */
+        }
+        .content-section p {
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.6; /* Improved line spacing for paragraphs */
+            color: #495057; /* text-medium */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+         .dark .content-section p {
+            color: #a0aec0; /* dark:text-medium */
+        }
+        .content-section strong { /* Make strong text stand out a bit more */
+            color: #2c5282; /* Darker blue for light mode */
+        }
+        .dark .content-section strong {
+            color: #90cdf4; /* Lighter blue for dark mode */
+        }
+        .content-section code { /* Basic styling for inline code */
+            background-color: #eef2f7;
+            color: #d6336c;
+            padding: 0.125rem 0.375rem;
+            border-radius: 0.25rem;
+            font-size: 0.8em;
+        }
+        .dark .content-section code {
+            background-color: #2d3748;
+            color: #f687b3;
+        }
+        .content-section .note { /* For important notes */
+            background-color: #fffbeb; /* Light yellow */
+            border-left: 4px solid #f59e0b; /* Amber border */
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+        }
+        .dark .content-section .note {
+            background-color: #4a3a1d; /* Darker yellow */
+            border-left-color: #d97706; /* Darker amber */
+            color: #fef3c7;
+        }
+
     </style>
 </head>
 <body class="text-dark">
 
     <header class="bg-white shadow-md sticky top-0 z-40">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+        <nav class="container mx-auto px-6 py-2 flex justify-between items-center"> <!-- Reduced py for tighter header -->
             <h1 class="text-xl font-bold text-primary">Hackintosh Laptop Guide</h1>
             <div class="flex items-center">
-                <div class="hidden md:flex space-x-6 mr-4"> <!-- Reduced space for more items -->
-                    <a href="#home" class="nav-link active">Home</a>
-                    <a href="#explorer" class="nav-link">Explorer</a>
-                    <a href="#components" class="nav-link">Components</a>
-                    <a href="#essentials" class="nav-link">Essentials</a>
-                    <a href="#where-to-buy" class="nav-link">Buy Used</a>
-                    <a href="#troubleshooting" class="nav-link">Troubleshoot</a>
-                    <a href="#blog" class="nav-link">Blog</a>
+                 <div class="relative mr-4">
+                    <input type="search" id="find-bar" placeholder="Find a laptop..." class="px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div class="hidden md:flex space-x-3 lg:space-x-4 mr-4"> <!-- Adjusted spacing -->
+                    <a href="#home" class="nav-link active text-sm lg:text-base">Home</a>
+                    <a href="#explorer" class="nav-link text-sm lg:text-base">Explorer</a>
+                    <a href="#laptop-builds" class="nav-link text-sm lg:text-base">Laptop Builds</a> <!-- New Nav Link -->
+                    <a href="#components" class="nav-link text-sm lg:text-base">Components</a>
+                    <a href="#essentials" class="nav-link text-sm lg:text-base">Essentials</a>
+                    <a href="#where-to-buy" class="nav-link text-sm lg:text-base">Buy Used</a>
+                    <a href="#troubleshooting" class="nav-link text-sm lg:text-base">Troubleshoot</a>
+                    <a href="#blog" class="nav-link text-sm lg:text-base">Blog</a>
                 </div>
                 <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
-                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
                     </svg>
-                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
@@ -149,6 +243,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white">
             <a href="#home" class="block py-2 px-6 text-sm nav-link active">Home</a>
             <a href="#explorer" class="block py-2 px-6 text-sm nav-link">Laptop Explorer</a>
+            <a href="#laptop-builds" class="block py-2 px-6 text-sm nav-link">Laptop Builds</a> <!-- New Nav Link -->
             <a href="#components" class="block py-2 px-6 text-sm nav-link">Component Checker</a>
             <a href="#essentials" class="block py-2 px-6 text-sm nav-link">The Essentials</a>
             <a href="#where-to-buy" class="block py-2 px-6 text-sm nav-link">Where to Buy Used</a>
@@ -160,8 +255,8 @@
     <main class="container mx-auto p-4 md:p-8">
         
         <section id="home" class="text-center py-12 md:py-20">
-            <h2 class="text-4xl md:text-5xl font-bold mb-4">Find Your Perfect Hackintosh Laptop</h2>
-            <p class="text-lg text-medium max-w-3xl mx-auto mb-8">This interactive guide translates the complex world of Hackintoshing into a clear path. We'll help you select a laptop based on your priorities, understand component compatibility, and navigate the setup process. No single laptop is the 'best'—the best choice is the one that's right for you.</p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">Build Your Dream macOS Laptop</h2>
+            <p class="text-lg text-medium max-w-3xl mx-auto mb-8">Ready to dive into the exciting world of Hackintosh laptops? This interactive guide will help you choose the perfect laptop, understand component compatibility, and navigate the setup process like a pro. Let's find your dream machine!</p>
             <div class="space-y-4">
                 <h3 class="text-2xl font-semibold mb-4">What's Your Main Priority?</h3>
                 <div id="priority-filter-buttons" class="flex flex-wrap justify-center gap-4">
@@ -176,7 +271,7 @@
         <section id="explorer" class="py-12">
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold mb-2">Laptop Explorer</h2>
-                <p class="text-medium max-w-2xl mx-auto">Here are highly recommended models based on extensive community testing and documentation. Use the priority buttons above to filter the results, or browse all top contenders. Select laptops to compare and click the 'Compare Selected' button.</p>
+                <p class="text-medium max-w-2xl mx-auto">Here are highly recommended models based on extensive community testing and documentation. Use the priority buttons above or the find bar to filter the results. Select laptops to compare and click the 'Compare Selected' button.</p>
             </div>
             <div id="laptop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Laptop cards will be injected here by JavaScript -->
@@ -190,6 +285,351 @@
                 </button>
             </div>
         </section>
+
+        <!-- Laptop Builds Section - Significantly Expanded -->
+        <section id="laptop-builds" class="py-12">
+            <div class="text-center mb-12 px-4">
+                <h2 class="text-3xl font-bold mb-2">The Comprehensive Laptop Hackintosh Build Guide (OpenCore)</h2>
+                <p class="text-medium max-w-3xl mx-auto">Welcome to the detailed guide for building your OpenCore-based Hackintosh laptop. This process requires patience, attention to detail, and a willingness to learn. The "vanilla" approach means we're creating an installation as close to a real Mac as possible, without relying on pre-made tools like UniBeast or MultiBeast. Always treat the official <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="text-primary hover:underline font-semibold">Dortania OpenCore Install Guide</a> as your primary, authoritative resource.</p>
+            </div>
+
+            <div class="space-y-10"> {/* Increased spacing between major steps */}
+                <div class="content-section card-shadow">
+                    <h3>1. Deep Dive: Research & Meticulous Planning</h3>
+                    <p>This is arguably the most crucial phase. A well-researched plan saves countless hours of troubleshooting. Your goal is to understand every component in your target laptop and its Hackintosh compatibility status.</p>
+                    <ul>
+                        <li><strong>Your Laptop's DNA:</strong> Identify the exact CPU (e.g., i5-8250U, i7-1065G7), integrated GPU (iGPU, e.g., Intel UHD 620, Iris Plus G7), dedicated GPU (dGPU, if any, e.g., NVIDIA MX250), Wi-Fi/Bluetooth chipset, audio codec (e.g., Realtek ALC257), Ethernet controller, and trackpad type (PS/2, SMBus, I2C). Manufacturer spec sheets, device manager (Windows/Linux), or hardware info tools can help.</li>
+                        <li><strong>Leverage This Guide:</strong> Use our <a href="#explorer" class="text-primary hover:underline font-semibold">Laptop Explorer</a> to see if your model (or a very similar one) is listed. Pay attention to the "Pros," "Cons," and "Essential Kexts." Use the <a href="#components" class="text-primary hover:underline font-semibold">Component Checker</a> for general compatibility insights.</li>
+                        <li><strong>Dortania's Wisdom:</strong>
+                            <ul>
+                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/macos-limits.html" target="_blank" class="text-primary hover:underline">Hardware Limitations Page:</a> Understand what macOS simply won't support (e.g., most modern NVIDIA dGPUs, some Wi-Fi cards).</li>
+                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/AMD/" target="_blank" class="text-primary hover:underline">AMD Vanilla Guide:</a> If you're attempting an AMD laptop (strongly discouraged for beginners due to complexity), this is your starting point. Intel is highly preferred for laptops.</li>
+                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/ktext.html#kexts" target="_blank" class="text-primary hover:underline">Kext Information:</a> Learn about common kexts.</li>
+                                <li><a href="https://dortania.github.io/OpenCore-Install-Guide/acpi-customization/README.html" target="_blank" class="text-primary hover:underline">ACPI Patching Guide:</a> Laptops almost always need ACPI patching.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Community Intelligence:</strong> Search forums like <a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="text-primary hover:underline">r/hackintosh</a>, <a href="https://www.insanelymac.com/forum/" target="_blank" class="text-primary hover:underline">InsanelyMac</a>, and even (with caution) Tonymacx86 for your *exact laptop model* + "Hackintosh" or "OpenCore." Look for success stories, guides, and EFI repositories.
+                            <p class="note"><strong>Warning:</strong> While pre-built EFIs from others can be a starting reference, <em>never</em> use them blindly. They might be outdated, contain unnecessary kexts/patches, or lack proper SMBIOS data. Understand every part of an EFI before using it.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section card-shadow">
+                    <h3>2. Gathering Your Arsenal: Prerequisites & Preparation</h3>
+                    <p>With your research done, it's time to collect the necessary software and files. Organization is key here. Create a dedicated folder for your Hackintosh project.</p>
+                    
+                    <h4>Essential Software Toolkit (Cross-Platform)</h4>
+                    <p>These tools are indispensable for creating and managing your OpenCore EFI. Always download from official GitHub repositories to avoid malware or outdated versions.</p>
+                    <ul>
+                        <li><strong><a href="https://github.com/corpnewt/ProperTree" target="_blank" class="text-primary hover:underline font-semibold">ProperTree:</a></strong> A cross-platform Python-based GUI for editing <code>.plist</code> files, especially your OpenCore <code>config.plist</code>. It includes OpenCore snapshotting and clean snapshot features.</li>
+                        <li><strong><a href="https://github.com/corpnewt/MountEFI" target="_blank" class="text-primary hover:underline font-semibold">MountEFI:</a></strong> A simple script (macOS/Linux) or manual commands (Windows) to mount the hidden EFI partition of your drives. This is where OpenCore resides.</li>
+                        <li><strong><a href="https://github.com/corpnewt/gibMacOS" target="_blank" class="text-primary hover:underline font-semibold">gibMacOS:</a></strong> A Python script to download macOS recovery images directly from Apple's servers. This is the recommended way to get your macOS installer.</li>
+                        <li><strong><a href="https://github.com/corpnewt/SSDTTime" target="_blank" class="text-primary hover:underline font-semibold">SSDTTime:</a></strong> (Primarily Linux, or Windows with WSL) A Python script that can help dump your DSDT and generate some basic, common SSDTs (like PLUG for CPU power management, EC for embedded controller, AWAC/RTC fixes).</li>
+                        <li><strong><a href="https://github.com/headkaze/Hackintool" target="_blank" class="text-primary hover:underline font-semibold">Hackintool:</a></strong> (macOS only) A powerful utility for post-install, useful for USB port mapping, PCI device info, framebuffer patching, and more. <a href="https://github.com/corpnewt/USBMap" target="_blank" class="text-primary hover:underline font-semibold">USBMap</a> is an alternative focused solely on USB mapping.</li>
+                    </ul>
+
+                    <h4>Core OpenCore Components</h4>
+                    <p>These form the foundation of your bootable EFI.</p>
+                    <ul>
+                        <li><strong><a href="https://github.com/acidanthera/OpenCorePkg/releases" target="_blank" class="text-primary hover:underline font-semibold">OpenCorePkg:</a></strong> Download the latest <strong>RELEASE</strong> version. You'll primarily use files from the <code>EFI/BOOT</code> (<code>BOOTx64.efi</code>) and <code>EFI/OC</code> (<code>OpenCore.efi</code>, <code>Drivers</code>, <code>Kexts</code>, <code>ACPI</code>, <code>Resources</code>, and <code>Sample.plist</code> which you'll rename to <code>config.plist</code>) directories.</li>
+                        <li><strong>Essential Kexts (Kernel Extensions):</strong> Kexts are like drivers for macOS. Download the latest RELEASE versions, typically from <a href="https://github.com/acidanthera" target="_blank" class="text-primary hover:underline">Acidanthera</a> and other reputable developers.
+                            <ul>
+                                <li><strong>Lilu.kext:</strong> The foundation for many other kexts, providing a patching platform. (Required by most)</li>
+                                <li><strong>VirtualSMC.kext:</strong> Emulates the System Management Controller found on real Macs. Essential for booting. Also grab its companion sensor kexts: <code>SMCProcessor.kext</code> (CPU temperature), <code>SMCSuperIO.kext</code> (fan speeds, if supported), and potentially <code>SMCLightSensor.kext</code> or <code>SMCBatteryManager.kext</code>.</li>
+                                <li><strong>WhateverGreen.kext:</strong> For graphics patching (iGPU acceleration, display output fixes, etc.).</li>
+                                <li><strong>AppleALC.kext:</strong> For enabling native audio. Requires a specific <code>alcid</code> boot argument or DeviceProperty for your audio codec.</li>
+                                <li><strong>Ethernet Kext:</strong> <code>IntelMausi.kext</code> for most Intel LAN chipsets, <code>RealtekRTL8111.kext</code> for many Realtek gigabit chipsets, etc. Identify your LAN controller.</li>
+                                <li><strong>Wi-Fi/Bluetooth Kexts:</strong>
+                                    <ul>
+                                        <li>For Intel Wi-Fi: The <a href="https://github.com/OpenIntelWireless/itlwm" target="_blank" class="text-primary hover:underline">OpenIntelWireless</a> project (<code>itlwm.kext</code> for Wi-Fi, often used with <code>HeliPort.app</code>, or <code>AirportItlwm.kext</code> for a more native-like experience for specific macOS versions). For Bluetooth, <code>IntelBluetoothFirmware.kext</code> and <code>IntelBTPatcher.kext</code> (or <code>BlueToolFixup.kext</code> on newer macOS).</li>
+                                        <li>For Broadcom Wi-Fi (if you replaced your card): <code>AirportBrcmFixup.kext</code>. For Bluetooth, <code>BrcmPatchRAM3.kext</code> (or <code>BrcmPatchRAM2</code> for older cards), <code>BrcmFirmwareData.kext</code>, and <code>BlueToolFixup.kext</code> (on newer macOS).</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Input Kexts (Keyboard, Trackpad):</strong>
+                                    <ul>
+                                        <li><code>VoodooPS2Controller.kext:</code> For PS/2 keyboards and older PS/2 trackpads.</li>
+                                        <li><code>VoodooI2C.kext:</code> For modern I2C trackpads (common on most laptops from the last 5-7 years). Requires satellite kexts like <code>VoodooI2CHID.kext</code>, <code>VoodooI2CSynaptics.kext</code>, <code>VoodooI2CELAN.kext</code>, etc., depending on your trackpad's make.</li>
+                                        <li><code>VoodooRMI.kext:</code> Alternative for some Synaptics trackpads using SMBus or I2C, often providing better gesture support.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p class="note">Refer to the "Essential Kexts (Typical)" list in our <a href="#explorer" class="text-primary hover:underline font-semibold">Laptop Explorer</a> for a starting point specific to listed models. Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/ktext.html" target="_blank" class="text-primary hover:underline">kext guide</a> is essential reading.</p>
+                        </li>
+                        <li><strong>Essential ACPI Tables (SSDTs - System Service Descriptor Tables):</strong> These are small files that patch or add information to your system's DSDT (Differentiated System Description Table) to improve macOS compatibility.
+                            <ul>
+                                <li><strong>Pre-built SSDTs:</strong> Dortania's <a href="https://dortania.github.io/Getting-Started-With-ACPI/SSDT-Basic.html" target="_blank" class="text-primary hover:underline">Getting Started With ACPI</a> guide provides common pre-built SSDTs:
+                                    <ul>
+                                        <li><code>SSDT-PLUG-DRTNIA.aml</code> (or generated by SSDTTime): For CPU power management on Intel systems.</li>
+                                        <li><code>SSDT-EC-USBX-LAPTOP.aml</code> (or generated by SSDTTime): Fixes embedded controller and USB power issues on laptops.</li>
+                                        <li><code>SSDT-PNLF.aml</code>: For backlight control (brightness). Often needs to be paired with <code>WhateverGreen.kext</code> and correct iGPU patching.</li>
+                                        <li><code>SSDT-XOSI.aml</code>: Simulates a different OS to Windows to enable certain ACPI features.</li>
+                                        <li>Others like <code>SSDT-AWAC.aml</code> (for systems with AWAC clocks), <code>SSDT-RTC0.aml</code> (for RTC issues), <code>SSDT-HPET.aml</code> (IRQ fixes, often needed on HP).</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Custom SSDTs:</strong> Laptops often require custom SSDTs for:
+                                    <ul>
+                                        <li>Disabling unsupported dGPUs (e.g., <code>SSDT-DDGPU.aml</code> or <code>SSDT-Optimus.aml</code>).</li>
+                                        <li>Trackpad enabling/fixing (e.g., <code>SSDT-TPD0.aml</code> or specific GPIO pinning SSDTs).</li>
+                                        <li>Battery status patching (e.g., <code>SSDT-BATT.aml</code> - though VirtualSMC's BatteryManager often handles this).</li>
+                                        <li>Fixing brightness keys.</li>
+                                    </ul>
+                                    Creating these requires more advanced knowledge, often involving DSDT extraction and analysis. Refer to Dortania's ACPI guides.
+                                </li>
+                            </ul>
+                        </li>
+                         <li><strong>Firmware Drivers (<code>.efi</code> files for <code>EFI/OC/Drivers</code>):</strong>
+                            <ul>
+                                <li><code>HfsPlus.efi</code> (or <code>VBoxHfs.efi</code>): For reading HFS+ formatted drives (like macOS installers). <code>OpenHfsPlus.efi</code> is a newer alternative from Acidanthera.</li>
+                                <li><code>OpenRuntime.efi</code>: Essential companion to OpenCore, providing memory management and other runtime services. Replaces AptioMemoryFix.</li>
+                                <li> Potentially others like <code>OpenCanopy.efi</code> (for GUI boot picker), or specific filesystem drivers if needed.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="content-section card-shadow">
+                    <h3>3. Crafting Your Key: OpenCore <code>config.plist</code> Setup</h3>
+                    <p>The <code>config.plist</code> is the brain of your OpenCore setup. It tells OpenCore what patches to apply, which kexts and SSDTs to load, and how to present your hardware to macOS. This is the most complex part and requires meticulous attention to detail. <strong>Use ProperTree for editing.</strong></p>
+                    <p>Start by taking the <code>Sample.plist</code> from the OpenCorePkg download, renaming it to <code>config.plist</code>, and placing it in your <code>EFI/OC/</code> folder. Then, follow the Dortania guide specific to your laptop's CPU generation (e.g., <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html" target="_blank" class="text-primary hover:underline">Coffee Lake Laptop</a>, <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/kaby-lake.html" target="_blank" class="text-primary hover:underline">Kaby Lake Laptop</a>, etc.).</p>
+                    <p>Key sections in <code>config.plist</code> and their laptop relevance:</p>
+                    <ul>
+                        <li><strong>ACPI:</strong>
+                            <ul>
+                                <li><code>Add</code>: List your compiled <code>.aml</code> SSDT files here. Order can matter for dependencies.</li>
+                                <li><code>Delete</code>: Rarely used, for removing problematic stock ACPI tables.</li>
+                                <li><code>Patch</code>: Apply binary patches to your DSDT/SSDTs. Crucial for things like renaming devices (e.g., <code>_OSI</code> to <code>XOSI</code> for <code>SSDT-XOSI</code>, renaming <code>GFX0</code> to <code>IGPU</code>), fixing brightness keys, or battery status.</li>
+                                <li><code>Quirks</code>: Settings related to ACPI handling (e.g., <code>FadtEnableReset</code>, <code>NormalizeHeaders</code>).</li>
+                            </ul>
+                        </li>
+                        <li><strong>DeviceProperties:</strong>
+                            <ul>
+                                <li><code>Add</code>: This is where you define properties for specific hardware paths (PciRoot paths). Extremely important for:
+                                    <ul>
+                                        <li><strong>iGPU Framebuffer Patching:</strong> Setting <code>AAPL,ig-platform-id</code>, <code>device-id</code>, and other properties for your Intel iGPU to enable full graphics acceleration, display outputs (HDMI/DP), and fix graphical glitches. Values are specific to your iGPU model and sometimes laptop display type.</li>
+                                        <li><strong>Audio Layout ID:</strong> Setting <code>alc-layout-id</code> (e.g., as a number like <code>13</code>) for your audio codec, used by AppleALC.kext.</li>
+                                        <li>Wi-Fi/Ethernet properties if needed for specific cards.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Kernel:</strong>
+                            <ul>
+                                <li><code>Add</code>: List your <code>.kext</code> files here. <strong>Order is critical:</strong> Lilu must come first, followed by its plugins (like VirtualSMC, WhateverGreen, AppleALC), then other hardware kexts. Ensure the <code>BundlePath</code>, <code>ExecutablePath</code> (usually empty), and <code>PlistPath</code> are correct. Use ProperTree's OC Snapshot feature (Cmd/Ctrl+Shift+R) to help populate this section correctly after placing kexts in the <code>Kexts</code> folder.</li>
+                                <li><code>Block</code>: For blocking problematic stock kexts (rarely needed for laptops).</li>
+                                <li><code>Emulate</code>: For CPU spoofing (e.g., for unsupported CPUs, not common for compatible Intel laptops).</li>
+                                <li><code>Patch</code>: Apply binary patches to the macOS kernel or kexts. Examples include patches for AMD CPUs, specific USB fixes, or enabling TRIM on third-party NVMe drives (though <code>SetApfsTrimTimeout</code> in NVRAM is preferred for TRIM).</li>
+                                <li><code>Quirks</code>: Kernel-related settings like <code>AppleCpuPmCfgLock</code> and <code>AppleXcpmCfgLock</code> (if CFG Lock cannot be disabled in BIOS), <code>DisableIoMapper</code> (if VT-d is enabled), <code>PanicNoKextDump</code>, <code>PowerTimeoutKernelPanic</code>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Misc:</strong>
+                            <ul>
+                                <li><code>Boot</code>: Settings for the OpenCore boot picker: <code>PickerMode</code> (<code>Builtin</code> or <code>External</code> for OpenCanopy GUI), <code>Timeout</code>, <code>ShowPicker</code>, <code>HideAuxiliary</code>, <code>LauncherOption</code> (for Windows compatibility).</li>
+                                <li><code>Debug</code>: <code>AppleDebug</code> (for verbose logging), <code>ApplePanic</code> (to save panic logs to disk), <code>Target</code> (controls where logs go). Set <code>Target</code> to <code>67</code> (or <code>0x43</code>) for boot and on-screen logs during troubleshooting.</li>
+                                <li><code>Security</code>: <code>Vault</code> (for EFI security, optional), <code>ScanPolicy</code> (controls what drives OpenCore shows), <code>SecureBootModel</code> (for mimicking Apple Secure Boot, e.g., <code>Default</code> or <code>j137</code> for MacBookPro15,1), <code>DmgLoading</code> (<code>Signed</code> or <code>Any</code>). <code>ExposeSensitiveData</code> can be useful.</li>
+                                <li><code>Tools</code>: Add EFI tools like a UEFI shell.</li>
+                            </ul>
+                        </li>
+                        <li><strong>NVRAM:</strong>
+                            <ul>
+                                <li><code>Add</code>:
+                                    <ul>
+                                        <li><code>7C436110-AB2A-4BBB-A880-FE41995C9F82</code> (System Integrity Protection / boot-args UUID):
+                                            <ul>
+                                                <li><code>boot-args</code>: Essential boot arguments like <code>-v</code> (verbose mode for troubleshooting), <code>debug=0x100</code> (more debug info), <code>keepsyms=1</code> (keeps symbols for panic logs), <code>alcid=X</code> (audio layout ID for AppleALC), <code>igfxonln=1</code> (forces all displays online for iGPU, sometimes helps with black screens).</li>
+                                                <li><code>csr-active-config</code>: Controls System Integrity Protection (SIP). Set according to Dortania's guide (e.g., <code>00000000</code> for SIP enabled, <code>E7030000</code> for SIP fully disabled - not recommended long-term).</li>
+                                                <li><code>prev-lang:kbd</code>: Sets default language/keyboard layout.</li>
+                                                <li><code>run-efi-updater</code>: Set to <code>No</code> to prevent auto-updates of Mac firmware (not applicable to Hackintoshes but good practice).</li>
+                                            </ul>
+                                        </li>
+                                        <li><code>4D1EDE05-38C7-4A6A-9CC6-4BCCA8B38C14</code> (OC Variables UUID):
+                                            <ul>
+                                                 <li><code>DefaultBackgroundColor</code>: Sets boot picker background color.</li>
+                                                 <li><code>UIScale</code>: <code>01</code> for normal, <code>02</code> for HiDPI boot picker.</li>
+                                                 <li><code>SetApfsTrimTimeout</code>: Set to a value like <code>9000000</code> (microseconds) to enable TRIM for APFS on non-Apple NVMe SSDs.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><code>Delete</code>: For clearing unwanted NVRAM variables.</li>
+                                <li><code>LegacySchema</code>: For older systems or specific NVRAM emulation.</li>
+                            </ul>
+                        </li>
+                        <li><strong>PlatformInfo:</strong>
+                            <ul>
+                                <li><code>Generic</code>: This is where you set your SMBIOS (System Management BIOS) information. This tells macOS what kind of Mac it's running on. <strong>This is critical for iServices (iMessage, FaceTime, iCloud) and hardware compatibility.</strong>
+                                    <ul>
+                                        <li>Use GenSMBIOS (another Python script by corpnewt) to generate a unique SMBIOS for your chosen model (e.g., <code>MacBookPro15,2</code> for an 8th Gen Coffee Lake laptop, <code>MacBookPro16,3</code> for a 10th Gen Ice Lake laptop). Choose a model that closely matches your CPU and iGPU generation.</li>
+                                        <li>You'll need to fill in <code>SystemProductName</code>, <code>MLB</code> (Main Logic Board serial), <code>SystemSerialNumber</code>, and <code>SystemUUID</code>. <strong>Ensure these are unique.</strong></li>
+                                        <li><code>ROM</code>: Can be set to your Ethernet MAC address (lowercase, no colons) or an Apple ROM.</li>
+                                    </ul>
+                                </li>
+                                <li><code>UpdateDataHub</code>, <code>UpdateNVRAM</code>, <code>UpdateSMBIOS</code>, <code>UpdateSMBIOSMode</code>: Control how SMBIOS data is injected. <code>Create</code> is common for <code>UpdateSMBIOSMode</code>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>UEFI:</strong>
+                            <ul>
+                                <li><code>APFS</code>: Settings for APFS driver loading.</li>
+                                <li><code>Drivers</code>: List your <code>.efi</code> drivers here (e.g., <code>HfsPlus.efi</code>, <code>OpenRuntime.efi</code>).</li>
+                                <li><code>Input</code>: Settings for keyboard/mouse input in the UEFI environment (e.g., <code>KeyForgetThreshold</code>, <code>PointerSpeedDiv</code>).</li>
+                                <li><code>Output</code>: Settings for display output in UEFI (e.g., <code>TextRenderer</code>, <code>Resolution</code>).</li>
+                                <li><code>ProtocolOverrides</code>: Fixes for specific UEFI protocol issues.</li>
+                                <li><code>Quirks</code>: UEFI-related fixes (e.g., <code>ExitBootServicesDelay</code>, <code>ReleaseUsbOwnership</code>, <code>RequestBootVarRouting</code>).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="note"><strong>Sanity Check:</strong> After configuring, use an online OpenCore config validator or ProperTree's "OC Clean Snapshot" feature with the sample <code>.plist</code> for your OpenCore version to check for common errors. However, these tools don't guarantee a working config, only structural correctness.</p>
+                </div>
+                
+                <div class="content-section card-shadow">
+                    <h3>4. Building the Bridge: USB Creation & BIOS Setup</h3>
+                    <h4>4.1. Creating the macOS Installer USB</h4>
+                    <p>You'll need a USB drive (16GB+ recommended). Follow Dortania's comprehensive guide: <a href="https://dortania.github.io/OpenCore-Install-Guide/installer-guide/" target="_blank" class="text-primary hover:underline font-semibold">Making the Installer</a>. This guide covers creating the installer from macOS, Windows, or Linux using <code>gibMacOS</code>.</p>
+                    <p>Once the macOS installer is created on the USB drive, you need to add OpenCore to it:</p>
+                    <ol>
+                        <li>Mount the EFI partition of the USB drive (using MountEFI script or disk utility tools).</li>
+                        <li>Create an <code>EFI</code> folder on this EFI partition.</li>
+                        <li>Inside this <code>EFI</code> folder, copy your entire prepared <code>OC</code> folder (which contains your <code>config.plist</code>, <code>Kexts</code>, <code>ACPI</code>, <code>Drivers</code>, etc.) and the <code>BOOT</code> folder (containing <code>BOOTx64.efi</code>) from your OpenCorePkg download.</li>
+                    </ol>
+                    <p>Your USB's EFI partition should look something like: <code>EFI -> [BOOT, OC]</code>.</p>
+
+                    <h4>4.2. Configuring the Sanctum: BIOS Settings for Laptops</h4>
+                    <p>Correct BIOS settings are non-negotiable. Incorrect settings are a primary cause of boot failures. Settings vary by manufacturer (Dell, Lenovo, HP, etc.) and even by specific model. Consult Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/coffee-lake.html#bios-settings" target="_blank" class="text-primary hover:underline">BIOS Settings page (example for Coffee Lake)</a> and search online for your specific laptop model + "Hackintosh BIOS settings."</p>
+                    <p>General BIOS settings to configure (names may vary):</p>
+                    <ul>
+                        <li><strong>Disable:</strong>
+                            <ul>
+                                <li>Secure Boot</li>
+                                <li>Fast Boot / Quick Boot</li>
+                                <li>Intel SGX (Software Guard Extensions)</li>
+                                <li>CFG Lock (MSR 0xE2 Lock): If this option is not available, you <strong>MUST</strong> enable the <code>AppleCpuPmCfgLock</code> and <code>AppleXcpmCfgLock</code> quirks in your <code>config.plist</code>. A modded BIOS to disable CFG Lock is ideal but risky.</li>
+                                <li>VT-d (Virtualization Technology for Directed I/O): Disable if you don't use it for other OSes. If you must keep it enabled, ensure the <code>DisableIoMapper</code> quirk is set to <code>True</code> in your <code>config.plist</code>.</li>
+                                <li>CSM (Compatibility Support Module): Must be disabled for UEFI booting.</li>
+                                <li>Legacy Boot / Legacy USB Support (ensure UEFI is primary)</li>
+                                <li>Wake on LAN / Wake on WLAN</li>
+                                <li>Discrete GPU (dGPU) if an option exists (e.g., "Switchable Graphics" set to "Integrated" or "UMA Only"). This is rare; usually requires an SSDT.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Enable:</strong>
+                            <ul>
+                                <li>XHCI Handoff</li>
+                                <li>OS Type / OS Optimized Defaults: Set to "Windows UEFI Mode" or "Other OS" (paradoxically, this often works best).</li>
+                                <li>Above 4G Decoding (if available, crucial for some hardware).</li>
+                                <li>Hyper-Threading (if your CPU supports it).</li>
+                                <li>Execute Disable Bit / XD Function.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Set:</strong>
+                            <ul>
+                                <li>SATA Mode to <strong>AHCI</strong> (not RAID or IDE).</li>
+                                <li>Boot Mode to <strong>UEFI Only</strong> (not Legacy or Both).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="note">After changing BIOS settings, save and exit. You may need to find the boot menu key for your laptop (e.g., F12, F10, F9, Esc, Enter) to select the USB drive for booting.</p>
+                </div>
+
+                <div class="content-section card-shadow">
+                    <h3>5. The Maiden Voyage: Installation Process</h3>
+                    <p>With your USB drive prepared and BIOS settings configured, it's time to boot and install macOS.</p>
+                    <ol>
+                        <li>Insert the USB drive and restart your laptop. Press the boot menu key repeatedly during startup to select your USB drive (it might be listed as "EFI USB Device," "UEFI: [USB Brand Name]," or similar).</li>
+                        <li>If OpenCore loads correctly, you'll see the OpenCore boot picker. Use arrow keys and Enter to select the entry that says "Install macOS [Version Name]" (e.g., "Install macOS Sonoma").
+                            <p class="note">If you don't reach the picker or encounter a kernel panic, enable verbose mode (<code>-v</code> in boot-args) and check the last few lines of text for clues. Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html" target="_blank" class="text-primary hover:underline">Troubleshooting Guide</a>.</p>
+                        </li>
+                        <li>The macOS installer will load. Once in the recovery environment:
+                            <ul>
+                                <li>Select <strong>Disk Utility</strong>.</li>
+                                <li>Show all devices (View > Show All Devices).</li>
+                                <li>Select your target internal SSD/NVMe drive (not the partition, but the drive itself).</li>
+                                <li>Click <strong>Erase</strong>. Name it (e.g., "Macintosh HD"), choose <strong>APFS</strong> as the format, and <strong>GUID Partition Map</strong> as the scheme. Then click Erase.</li>
+                                <li>Quit Disk Utility.</li>
+                            </ul>
+                        </li>
+                        <li>Select <strong>Install macOS [Version Name]</strong> (or Reinstall macOS).</li>
+                        <li>Follow the on-screen prompts, selecting your newly formatted "Macintosh HD" as the destination.</li>
+                        <li>The installation process involves several stages and reboots. <strong>Each time the system reboots, you must manually boot from your USB drive again and, in the OpenCore picker, select the new macOS installer entry on your internal drive (it might be named "macOS Installer" or the name you gave your drive, like "Macintosh HD").</strong> Do not select the USB installer entry after the first phase.</li>
+                        <li>Eventually, you'll reach the macOS setup assistant (language, country, user account, etc.). Complete this.</li>
+                    </ol>
+                    <p>Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Install-Guide/installation/installation-process.html" target="_blank" class="text-primary hover:underline font-semibold">Installation Process</a> page for more details.</p>
+                </div>
+
+                <div class="content-section card-shadow">
+                    <h3>6. Settling In: Post-Install Tuning for Laptops</h3>
+                    <p>Congratulations, macOS is installed! But the journey isn't over. Now you need to make it boot from the internal drive and fix any remaining hardware issues. This is often the most iterative and time-consuming part for laptops.</p>
+                    <h4>6.1. Copy EFI to Internal Drive</h4>
+                    <ol>
+                        <li>Boot into your new macOS installation (still using the USB drive for OpenCore).</li>
+                        <li>Mount the EFI partition of your internal macOS drive (e.g., using MountEFI or Hackintool).</li>
+                        <li>Mount the EFI partition of your USB installer drive.</li>
+                        <li>Copy the entire <code>EFI</code> folder from your USB's EFI partition to your internal drive's EFI partition.</li>
+                    </ol>
+                    <p>Now you should be able to boot macOS from your internal drive without the USB installer. Remove the USB and test. If it fails, you may need to reselect the internal drive's UEFI entry in your BIOS boot order.</p>
+
+                    <h4>6.2. Fixing What's Broken (Common Laptop Post-Install Tasks)</h4>
+                    <p>Refer extensively to Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/" target="_blank" class="text-primary hover:underline font-semibold">Post-Install Guide</a> (Universal and Laptop Specifics).</p>
+                    <ul>
+                        <li><strong>Graphics Acceleration:</strong> Verify full iGPU acceleration. Go to "About This Mac." Your iGPU should be listed correctly (e.g., "Intel UHD Graphics 620 1536 MB"). The UI should be smooth, not laggy. If not, revisit DeviceProperties for your iGPU in <code>config.plist</code>.</li>
+                        <li><strong>Audio:</strong> Test speakers, headphones, and microphone. If not working, try different <code>alcid=X</code> boot arguments (find compatible layout IDs for your codec) or ensure AppleALC.kext is loaded correctly. Some laptops need <code>SSDT-HPET</code> or IRQ conflict fixes.</li>
+                        <li><strong>Wi-Fi & Bluetooth:</strong> If you didn't replace an incompatible card, install the necessary kexts (e.g., OpenIntelWireless suite) and ensure they are correctly loaded. Test connectivity and stability.</li>
+                        <li><strong>Trackpad/Keyboard:</strong> Ensure all keys work, including brightness and volume keys (may need ACPI patching or specific kexts like YogaSMC for Lenovo). Test all trackpad gestures. If gestures are poor or the trackpad is jumpy, you might need to experiment with different VoodooI2C satellite kexts or VoodooRMI.</li>
+                        <li><strong>USB Mapping:</strong> This is <strong>CRUCIAL</strong> for sleep, port stability, and preventing issues. macOS has a 15 USB port limit per controller. Laptops often have many internal devices on USB hubs. You must map your USB ports to disable unused ones and correctly define internal vs. external ports. Use Hackintool (macOS) or USBMap (Python script). Follow Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/usb/" target="_blank" class="text-primary hover:underline">USB Mapping Guide</a> meticulously.</li>
+                        <li><strong>Power Management & Sleep:</strong>
+                            <ul>
+                                <li>Verify CPU power management is working (e.g., using Intel Power Gadget to see CPU frequency scaling and C-states). May require <code>SSDT-PLUG</code> or <code>CPUFriend.kext</code> with custom frequency data.</li>
+                                <li>Test sleep/wake. Common issues include instant wake, black screen on wake, or failure to sleep. This often ties into USB mapping, ACPI errors, or incorrect graphics/power management setup. Check console logs for wake reasons.</li>
+                                <li>Refer to Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/universal/pm.html" target="_blank" class="text-primary hover:underline">Power Management Guide</a>.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Battery Status:</strong> Ensure the battery percentage shows correctly and updates. <code>SMCBatteryManager.kext</code> (part of VirtualSMC) usually handles this. Some laptops may need ACPI battery patches (e.g., <code>SSDT-BATT</code>).</li>
+                        <li><strong>Brightness Control:</strong> Ensure brightness keys and the slider in System Settings work. Requires <code>SSDT-PNLF</code> and correct iGPU patching.</li>
+                        <li><strong>HDMI/DisplayPort Audio/Video:</strong> Test external display connectivity and audio output over HDMI/DP. This relies on correct iGPU framebuffer patching.</li>
+                        <li><strong>iServices (iMessage, FaceTime, iCloud):</strong> If you generated a unique SMBIOS correctly (SystemProductName, MLB, SystemSerialNumber, SystemUUID, ROM), iServices should work. If not, review Dortania's <a href="https://dortania.github.io/OpenCore-Post-Install/universal/iservices.html" target="_blank" class="text-primary hover:underline">iServices Fixing Guide</a>. Ensure your Ethernet is set to <code>en0</code>.</li>
+                    </ul>
+                </div>
+                
+                <div class="content-section card-shadow">
+                    <h3>7. Troubleshooting Common Laptop Issues</h3>
+                    <p>Hackintoshing is a journey of troubleshooting. Refer to the main <a href="#troubleshooting" class="text-primary hover:underline font-semibold">Troubleshooting section</a> of this guide for general pointers. For laptops, specific pain points often include:</p>
+                    <ul>
+                        <li><strong>Sleep/Wake Problems:</strong> Instant wake (check <code>log show --last boot | grep -i "wake reason"</code>), black screen on wake (often iGPU or display connector issue), or no sleep at all. USB mapping, ACPI errors, and power management settings are key suspects.</li>
+                        <li><strong>Trackpad Issues:</strong> No detection, jumpy cursor, or missing gestures. Ensure correct VoodooI2C/VoodooRMI kexts and satellites are loaded, and check for GPIO pinning SSDTs if required for your model.</li>
+                        <li><strong>Battery Drain / Incorrect Readings:</strong> Ensure proper CPU power management and that the dGPU (if any) is fully disabled. Check SMCBatteryManager.kext and ACPI patches.</li>
+                        <li><strong>Wi-Fi/Bluetooth Instability:</strong> Incorrect kexts, firmware issues, or conflicts. Ensure USB mapping is correct for internal Bluetooth.</li>
+                        <li><strong>Overheating:</strong> Usually due to poor CPU power management or an active (but unsupported) dGPU.</li>
+                        <li><strong>No HDMI/DP Output or Audio:</strong> Incorrect iGPU framebuffer patching (<code>AAPL,ig-platform-id</code>, connector types, etc.).</li>
+                    </ul>
+                    <p>Dortania's guides are your best friend here:</p>
+                    <ul>
+                        <li><a href="https://dortania.github.io/OpenCore-Install-Guide/troubleshooting/troubleshooting.html" target="_blank" class="text-primary hover:underline font-semibold">General OpenCore Troubleshooting</a></li>
+                        <li><a href="https://dortania.github.io/OpenCore-Post-Install/troubleshooting/" target="_blank" class="text-primary hover:underline font-semibold">Post-Install Troubleshooting</a></li>
+                    </ul>
+                </div>
+
+                 <div class="content-section card-shadow">
+                    <h3>8. Staying Current & Community Resources</h3>
+                    <p>The Hackintosh landscape evolves. New macOS versions can break things, and kexts/OpenCore get updated.</p>
+                    <ul>
+                        <li><strong>Backups are Your Lifeline:</strong> Before any major macOS update or significant EFI change, <strong>ALWAYS</strong> back up your working EFI folder to a safe place (like another USB drive). Consider full system backups with Time Machine or Carbon Copy Cloner.</li>
+                        <li><strong>Updating OpenCore & Kexts:</strong> Periodically check for updates to OpenCore and your kexts. Read changelogs carefully. Updating OpenCore often requires updating your <code>config.plist</code> to match the new <code>Sample.plist</code> structure.</li>
+                        <li><strong>The Community:</strong> You are not alone!
+                            <ul>
+                                <li><strong>Primary Guide:</strong> <a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="font-semibold text-primary hover:underline">Dortania OpenCore Install Guide</a> - The definitive resource.</li>
+                                <li><strong>Kexts & Tools:</strong> <a href="https://github.com/acidanthera" target="_blank" class="font-semibold text-primary hover:underline">Acidanthera on GitHub</a> (OpenCore, Lilu, WhateverGreen, etc.) and other developers like <a href="https://github.com/corpnewt" target="_blank" class="text-primary hover:underline">corpnewt</a>.</li>
+                                <li><strong>Forums & Communities:</strong>
+                                    <ul>
+                                        <li><a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="text-primary hover:underline">r/hackintosh Subreddit</a></li>
+                                        <li><a href="https://www.insanelymac.com/forum/" target="_blank" class="text-primary hover:underline">InsanelyMac Forums</a></li>
+                                    </ul>
+                                </li>
+                                <li><strong>Specific Laptop Guides/EFIs:</strong> Search GitHub for your laptop model + "Hackintosh" or "OpenCore EFI". Use these as references and learning tools, not as direct copy-paste solutions. Understand what each file and setting does.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="note">Building a Hackintosh laptop is a challenging but incredibly rewarding experience. It teaches you a lot about how computers work at a low level. Good luck, and be patient!</p>
+                </div>
+            </div>
+        </section>
+
 
         <section id="components" class="py-12 bg-white rounded-xl card-shadow">
             <div class="text-center mb-12 px-4">
@@ -213,7 +653,7 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl card-shadow">
-                    <h3 class="text-2xl font-semibold mb-4 text-primary">The Build Process at a Glance</h3>
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">The Build Process at a Glance (Simplified)</h3>
                     <div class="relative pl-8 space-y-8">
                         <div class="absolute left-4 h-full border-l-2 border-dashed border-gray-300 dark:border-gray-600"></div>
                         <div class="relative timeline-item">
@@ -227,16 +667,17 @@
                             <p class="text-medium text-sm">Configure BIOS settings and create a bootable macOS installer USB with OpenCore.</p>
                         </div>
                         <div class="relative timeline-item">
-                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">3</div>
+                               <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">3</div>
                             <h4 class="font-bold">Installation</h4>
                             <p class="text-medium text-sm">Boot from the USB and install macOS. This step often requires troubleshooting.</p>
                         </div>
                         <div class="relative timeline-item">
-                             <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">4</div>
+                               <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">4</div>
                             <h4 class="font-bold">Post-Install Tuning</h4>
                             <p class="text-medium text-sm">Copy the EFI to the main drive and fix remaining issues (Wi-Fi, audio, USB mapping, sleep, etc.).</p>
                         </div>
                     </div>
+                     <p class="mt-4 text-medium text-sm">For a detailed step-by-step process, see the <a href="#laptop-builds" class="text-primary hover:underline">Laptop Builds</a> section.</p>
                 </div>
                  <div class="bg-white p-6 rounded-xl card-shadow">
                     <h3 class="text-2xl font-semibold mb-4 text-primary">Core Philosophy & Resources</h3>
@@ -253,15 +694,14 @@
             </div>
         </section>
 
-        <!-- Where to Buy Used Laptops Section -->
         <section id="where-to-buy" class="py-12 bg-white rounded-xl card-shadow">
             <div class="text-center mb-12 px-4">
                 <h2 class="text-3xl font-bold mb-2">Where to Buy Used Laptops</h2>
                 <p class="text-medium max-w-2xl mx-auto">Finding a good deal on a used Hackintosh-compatible laptop requires some patience and research. Here are some popular platforms and tips:</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8">
-                <div class="buy-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">eBay</h3>
+                <div class="content-section !p-4 !mb-0"> <!-- Using content-section for consistent styling -->
+                    <h3 class="!text-lg">eBay</h3>
                     <p class="text-medium text-sm mb-2">A vast marketplace for new and used laptops. Use specific model numbers (e.g., "ThinkPad T480") and check seller ratings carefully.</p>
                     <ul class="list-disc list-inside text-sm text-medium space-y-1">
                         <li>Look for detailed descriptions and actual photos.</li>
@@ -270,8 +710,8 @@
                     </ul>
                     <a href="https://www.ebay.com" target="_blank" class="inline-block mt-3 text-primary font-semibold hover:underline">Visit eBay →</a>
                 </div>
-                <div class="buy-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">Local Classifieds</h3>
+                <div class="content-section !p-4 !mb-0">
+                    <h3 class="!text-lg">Local Classifieds</h3>
                     <p class="text-medium text-sm mb-2">Websites like Facebook Marketplace, Craigslist (use with caution), or local equivalents can offer good deals. Inspect the laptop in person if possible.</p>
                     <ul class="list-disc list-inside text-sm text-medium space-y-1">
                         <li>Meet in a safe, public place.</li>
@@ -279,8 +719,8 @@
                         <li>Negotiate politely.</li>
                     </ul>
                 </div>
-                <div class="buy-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">Refurbished Laptop Retailers</h3>
+                <div class="content-section !p-4 !mb-0">
+                    <h3 class="!text-lg">Refurbished Laptop Retailers</h3>
                     <p class="text-medium text-sm mb-2">Many online retailers specialize in refurbished business laptops (e.g., Dell Outlet, Lenovo Outlet, Amazon Renewed, Newegg Refurbished). These often come with a limited warranty.</p>
                      <ul class="list-disc list-inside text-sm text-medium space-y-1">
                         <li>Check warranty terms and condition grades.</li>
@@ -291,16 +731,15 @@
             <p class="text-center text-medium mt-8 px-4"><strong>General Tip:</strong> Always research the specific model's Hackintosh compatibility *before* purchasing. Check forums for user experiences with that exact model or configuration.</p>
         </section>
 
-        <!-- Troubleshooting Guide Section -->
         <section id="troubleshooting" class="py-12">
             <div class="text-center mb-12 px-4">
                 <h2 class="text-3xl font-bold mb-2">Basic Troubleshooting Guide</h2>
                 <p class="text-medium max-w-2xl mx-auto">Hackintoshing can involve some trial and error. Here are a few common issues and starting points for solutions. Always refer to Dortania's OpenCore Install Guide for detailed troubleshooting.</p>
             </div>
             <div class="space-y-8 px-4 md:px-8">
-                <div class="troubleshooting-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">Kernel Panics During Boot/Install</h3>
-                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                <div class="content-section card-shadow">
+                    <h3>Kernel Panics During Boot/Install</h3>
+                    <ul>
                         <li><strong>Incorrect BIOS Settings:</strong> Double-check all required BIOS settings (VT-d disabled, CFG Lock disabled, Secure Boot disabled, etc.).</li>
                         <li><strong>Missing/Incorrect Kexts:</strong> Ensure VirtualSMC, Lilu, WhateverGreen, and CPU-specific power management kexts are present and up-to-date.</li>
                         <li><strong>Incorrect `config.plist` Setup:</strong> Verify ACPI patches, DeviceProperties for iGPU, SMBIOS, and kernel patches. Use ProperTree to edit.</li>
@@ -308,27 +747,27 @@
                         <li><strong>Verbose Mode:</strong> Boot with `-v` flag to see where it hangs. Search the last few lines for clues.</li>
                     </ul>
                 </div>
-                <div class="troubleshooting-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">No Graphics Acceleration (Laggy UI)</h3>
-                     <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                <div class="content-section card-shadow">
+                    <h3>No Graphics Acceleration (Laggy UI)</h3>
+                     <ul>
                         <li><strong>iGPU Not Configured:</strong> Ensure correct `AAPL,ig-platform-id` and other DeviceProperties are set for your Intel iGPU in `config.plist`.</li>
                         <li><strong>WhateverGreen Missing/Outdated:</strong> This kext is essential for graphics.</li>
                         <li><strong>Unsupported dGPU Active:</strong> If your laptop has an NVIDIA dGPU, it must be disabled via SSDT patches.</li>
                         <li><strong>Incorrect SMBIOS:</strong> Use an SMBIOS that matches your CPU generation and iGPU type.</li>
                     </ul>
                 </div>
-                <div class="troubleshooting-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">No Wi-Fi / Bluetooth</h3>
-                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                <div class="content-section card-shadow">
+                    <h3>No Wi-Fi / Bluetooth</h3>
+                    <ul>
                         <li><strong>Incompatible Wi-Fi Card:</strong> Many stock cards (Realtek, some Killer/Atheros) don't work. Replace with a compatible Broadcom or Intel card.</li>
                         <li><strong>Missing Kexts:</strong> For Intel cards, use `AirportItlwm.kext` or `itlwm.kext` + `HeliPort.app`. For Broadcom, `AirportBrcmFixup.kext` and related Bluetooth kexts (`BrcmPatchRAM`, `BrcmFirmwareData`).</li>
                         <li><strong>USB Mapping (for Bluetooth):</strong> Internal Bluetooth often connects via USB. Ensure USB ports are correctly mapped.</li>
                         <li><strong>OCLP Patches:</strong> Some Broadcom cards require OpenCore Legacy Patcher's root patches on newer macOS versions.</li>
                     </ul>
                 </div>
-                <div class="troubleshooting-item card-shadow">
-                    <h3 class="text-xl font-semibold mb-3 text-primary">No Audio</h3>
-                    <ul class="list-disc list-inside text-sm text-medium space-y-1">
+                <div class="content-section card-shadow">
+                    <h3>No Audio</h3>
+                    <ul>
                         <li><strong>AppleALC.kext Missing/Outdated:</strong> This is the primary kext for audio.</li>
                         <li><strong>Incorrect `alcid` (Layout ID):</strong> Find the correct layout ID for your audio codec (e.g., ALC257) and set it as a boot argument (`alcid=X`) or in DeviceProperties.</li>
                         <li><strong>Codec Not Supported:</strong> Rare, but some codecs have poor or no support.</li>
@@ -338,7 +777,6 @@
             <p class="text-center text-medium mt-8 px-4">This is not an exhaustive list. The Hackintosh community is your best resource. When asking for help, provide detailed information about your hardware, OpenCore version, `config.plist` (remove serials!), and verbose boot logs.</p>
         </section>
 
-        <!-- Blog Section Placeholder -->
         <section id="blog" class="py-12 bg-white rounded-xl card-shadow">
             <div class="text-center mb-12 px-4">
                 <h2 class="text-3xl font-bold mb-2">Hackintosh Insights Blog</h2>
@@ -347,7 +785,7 @@
             <div class="px-4 md:px-8 space-y-6">
                 <div class="p-6 border dark:border-gray-700 rounded-lg">
                     <h3 class="text-xl font-semibold mb-2 text-primary">Sample Post: Understanding OpenCore Basics</h3>
-                    <p class="text-sm text-light mb-2">June 3, 2025</p>
+                    <p class="text-sm text-light mb-2">June 4, 2025</p>
                     <p class="text-medium text-sm">OpenCore is the bootloader of choice for modern Hackintoshes, offering a more robust and future-proof solution compared to older methods... <a href="#" class="text-primary hover:underline">Read More →</a></p>
                 </div>
                 <div class="p-6 border dark:border-gray-700 rounded-lg">
@@ -362,12 +800,12 @@
 
     </main>
     
-    <!-- Laptop Detail Modal -->
-    <div id="laptop-modal" class="fixed inset-0 z-50 modal-bg hidden items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+    <!-- Laptop Detail Modal (now full-screen overlay) -->
+    <div id="laptop-modal" class="fixed inset-0 z-50 modal-bg hidden"> <!-- Removed: items-center justify-center p-4 -->
+        <div class="bg-white dark:bg-gray-800 w-full h-full overflow-y-auto"> <!-- Removed: rounded-xl shadow-2xl max-w-4xl max-h-[90vh] -->
+            <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center">
                 <h2 id="modal-title" class="text-2xl font-bold"></h2>
-                <button id="modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white">&times;</button>
             </div>
             <div id="modal-content" class="p-6">
                 <!-- Content injected by JS -->
@@ -377,10 +815,10 @@
 
     <!-- Laptop Comparison Modal -->
     <div id="comparison-modal" class="fixed inset-0 z-[60] modal-bg hidden items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-            <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto dark:bg-gray-800">
+            <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center">
                 <h2 id="comparison-modal-title" class="text-2xl font-bold">Laptop Comparison</h2>
-                <button id="comparison-modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="comparison-modal-close-btn" class="text-2xl font-bold text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white">&times;</button>
             </div>
             <div id="comparison-modal-content" class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Comparison content injected by JS -->
@@ -391,7 +829,7 @@
 
     <script>
         const laptopData = {
-            // Laptops (MacBook Pro removed)
+            // Existing Laptops from previous version
             "t480": {
                 name: "Lenovo ThinkPad T480",
                 priority: ["ease", "budget"],
@@ -411,30 +849,30 @@
                     cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i5-8250U)" },
                     pros: ["Excellent community support", "Highly upgradeable (RAM, SSD, Wi-Fi)", "Robust build quality", "Relatively straightforward setup"],
                     cons: ["dGPU models require disabling", "SD card reader can be inconsistent", "Thunderbolt 3 support can be finicky"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2/VoodooRMI", "IntelMausi", "OpenIntelWireless suite"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "VoodooRMI", "VoodooI2C", "IntelMausi", "OpenIntelWireless suite"],
                     chartData: [4, 3, 3, 5] // Ease, Perf, Port, Budget
                 }
             },
-            "x1c67": {
-                name: "Lenovo ThinkPad X1 Carbon (6/7th Gen)",
+            "x1c67": { // Covers X1 Carbon Gen 6 and Gen 7
+                name: "Lenovo ThinkPad X1 Carbon (6th/7th Gen)",
                 priority: ["ease", "performance"],
-                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+X1+Carbon",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=X1+Carbon+6/7",
                 score: 80,
                 summary: "A premium, lightweight ultrabook that combines portability with strong Hackintosh compatibility, ideal for users on the go.",
                 details: {
-                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    cpu: "8th Gen Intel U-Series (i5/i7, e.g. i7-8650U, i7-8565U)",
                     igpu: "Intel UHD 620 (Well Supported)",
                     dgpu: "None",
-                    wifi: "Intel (Replaceable, though some models soldered). Works with kexts.",
-                    audio: "Realtek ALC285/ALC3287",
+                    wifi: "Intel (Replaceable in Gen 6, often soldered in Gen 7 - check specific model). Works with OpenIntelWireless.",
+                    audio: "Realtek ALC285/ALC3287 (Gen 6) / ALC3287 (Gen 7)",
                     trackpad: "Synaptics (I2C/SMBus)",
                     ram: "8GB/16GB LPDDR3 (Soldered)",
                     storage: "M.2 NVMe SSD",
                     macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
                     cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i7-8650U)" },
                     pros: ["Premium, lightweight design", "Excellent keyboard", "Good community support"],
-                    cons: ["RAM is soldered (not upgradeable)", "Thunderbolt/HDMI can be unreliable on some units", "Can be more expensive"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C/VoodooRMI", "OpenIntelWireless suite", "YogaSMC (optional)"],
+                    cons: ["RAM is soldered", "Wi-Fi soldered on some Gen 7 models", "Thunderbolt can be finicky"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooRMI", "OpenIntelWireless suite", "YogaSMC (optional for some features)"],
                     chartData: [4, 3, 5, 3] 
                 }
             },
@@ -457,30 +895,30 @@
                     cpuBenchmark: { score: 5500, source: "Geekbench 5 Multi (i7-8750H)" },
                     pros: ["Powerful H-series CPU", "Excellent 4K display option", "Good iGPU performance"],
                     cons: ["NVIDIA dGPU MUST be disabled via complex ACPI patches", "Stock Killer Wi-Fi card requires replacement", "Thunderbolt hot-plug is often unreliable"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "Custom SSDTs for dGPU disable", "Kexts for replacement Wi-Fi"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "Custom SSDTs for dGPU disable", "AirportBrcmFixup or OpenIntelWireless for replacement Wi-Fi"],
                     chartData: [2, 5, 3, 3] 
                 }
             },
-            "xps13-9370": { 
+            "xps13-9370": { // Also generally covers 9380
                 name: "Dell XPS 13 (9370/9380)",
                 priority: ["ease"],
-                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13",
-                score: 65,
-                summary: "A compact and stylish ultrabook with good base compatibility, but hampered by some persistent hardware issues.",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13+9370",
+                score: 65, // Score lowered due to known issues
+                summary: "A compact and stylish ultrabook with 8th Gen Intel. Good base compatibility, but audio jack and Wi-Fi need attention.",
                 details: {
                     cpu: "8th Gen Intel U-Series (i5/i7)",
                     igpu: "Intel UHD 620 (Well Supported)",
                     dgpu: "None",
                     wifi: "Killer (Must be replaced with Broadcom/Intel)",
-                    audio: "Realtek ALC3271 (Audio jack issues common)",
+                    audio: "Realtek ALC3271 (Audio jack issues common, may require ComboJack or specific patches)",
                     trackpad: "Synaptics/ELAN (I2C)",
                     ram: "8GB/16GB LPDDR3 (Soldered)",
                     storage: "M.2 NVMe SSD",
                     macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
                     cpuBenchmark: { score: 3300, source: "Geekbench 5 Multi (i7-8550U)" },
-                    pros: ["Very compact and portable", "Premium design and display", "Good iGPU performance"],
-                    cons: ["3.5mm Audio Jack is often non-functional or requires complex fixes", "Stock Killer Wi-Fi card requires replacement", "Soldered RAM"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "Kexts for replacement Wi-Fi"],
+                    pros: ["Very compact and portable", "Premium design and display"],
+                    cons: ["3.5mm Audio Jack often non-functional or requires complex fixes", "Stock Killer Wi-Fi card requires replacement", "Soldered RAM"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "AirportBrcmFixup or OpenIntelWireless for replacement Wi-Fi", "ComboJack (for audio jack if needed)"],
                     chartData: [3, 3, 5, 2]
                 }
             },
@@ -503,7 +941,7 @@
                     cpuBenchmark: { score: 2800, source: "Geekbench 5 Multi (i5-7200U)" },
                     pros: ["Very affordable", "Good community support for its age", "Upgradeable RAM/Storage"],
                     cons: ["Older CPU generation", "Less performance for demanding tasks", "May require more patching for newer macOS features"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2/VoodooRMI", "IntelMausi", "OpenIntelWireless suite"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "VoodooRMI", "IntelMausi", "OpenIntelWireless suite"],
                     chartData: [3, 2, 4, 5]
                 }
             },
@@ -512,7 +950,7 @@
                 priority: ["budget", "ease"],
                 image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13+9360",
                 score: 72,
-                summary: "A popular older XPS model, good for Hackintoshing on a budget. Requires Wi-Fi card replacement.",
+                summary: "A popular older XPS model (7th Gen Intel), good for Hackintoshing on a budget. Requires Wi-Fi card replacement.",
                 details: {
                     cpu: "7th Gen Intel U-Series (i5/i7)",
                     igpu: "Intel HD 620 / Iris Plus 640 (Well Supported)",
@@ -526,53 +964,31 @@
                     cpuBenchmark: { score: 2900, source: "Geekbench 5 Multi (i7-7500U)" },
                     pros: ["Good build quality", "Excellent display", "Relatively easy setup once Wi-Fi is sorted"],
                     cons: ["Wi-Fi card replacement necessary", "Soldered RAM", "Battery life can be average"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "AirportBrcmFixup (for Broadcom Wi-Fi)"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "AirportBrcmFixup or OpenIntelWireless for replacement Wi-Fi"],
                     chartData: [4, 2, 5, 4]
                 }
             },
-            "x1c6": { 
-                name: "Lenovo ThinkPad X1 Carbon (6th Gen)",
-                priority: ["ease", "performance"],
-                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=X1+Carbon+6th",
-                score: 82, 
-                summary: "Excellent ultrabook with strong Hackintosh compatibility. Very portable and reliable.",
+            // x1c6 is covered by x1c67
+            "spectre-x360-15t": { // This is for 15-inch H series
+                name: "HP Spectre x360 15t (8th/9th Gen Intel H)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=HP+Spectre+x360+15",
+                score: 60, 
+                summary: "Powerful and stylish 15-inch convertible, but HP laptops can be more challenging for Hackintosh, especially with dGPU.",
                 details: {
-                    cpu: "8th Gen Intel U-Series (i5/i7)",
-                    igpu: "Intel UHD 620",
-                    dgpu: "None",
-                    wifi: "Intel (Replaceable), works with OpenIntelWireless",
-                    audio: "Realtek ALC3287",
-                    trackpad: "Synaptics (I2C)",
-                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    cpu: "8th/9th Gen Intel H-Series (e.g., i7-8750H, i7-9750H)",
+                    igpu: "Intel UHD 630",
+                    dgpu: "NVIDIA GTX 1050Ti/1650 (Must be disabled)",
+                    wifi: "Intel (Often soldered, check specific model), works with OpenIntelWireless",
+                    audio: "Realtek (Varies, may need specific layout ID, Conexant on some models - can be very tricky)",
+                    trackpad: "Synaptics/ELAN (I2C, can be tricky)",
+                    ram: "8GB/16GB DDR4 (Often soldered or 1 slot accessible)",
                     storage: "M.2 NVMe SSD",
                     macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
-                    cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i7-8650U)" },
-                    pros: ["Very lightweight", "Great keyboard", "Strong community support", "Good battery life on macOS"],
-                    cons: ["Soldered RAM", "Display brightness could be higher for outdoor use"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
-                    chartData: [4, 3, 5, 3]
-                }
-            },
-            "spectre-x360-15t": {
-                name: "HP Spectre x360 15t (9th Gen Intel)",
-                priority: ["performance"],
-                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=HP+Spectre+x360",
-                score: 60, 
-                summary: "Powerful and stylish convertible, but HP laptops can be more challenging for Hackintosh.",
-                details: {
-                    cpu: "9th Gen Intel H-Series (e.g., i7-9750H)",
-                    igpu: "Intel UHD 630",
-                    dgpu: "NVIDIA GTX 1650 (Must be disabled)",
-                    wifi: "Intel (Often soldered, check specific model), works with OpenIntelWireless",
-                    audio: "Realtek (Varies, may need specific layout ID)",
-                    trackpad: "Synaptics/ELAN (I2C, can be tricky)",
-                    ram: "8GB/16GB DDR4 (Often soldered)",
-                    storage: "M.2 NVMe SSD",
-                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
-                    cpuBenchmark: { score: 6000, source: "Geekbench 5 Multi (i7-9750H)" },
-                    pros: ["Very powerful CPU", "Excellent 4K AMOLED display options", "Premium 2-in-1 design"],
-                    cons: ["HP BIOS can be restrictive", "dGPU disabling essential and can be complex", "Touchscreen/Pen support hit-or-miss", "Component access/replacement difficult"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (if applicable)", "OpenIntelWireless", "SSDTs for disabling dGPU and fixing functions"],
+                    cpuBenchmark: { score: 5800, source: "Geekbench 5 Multi (i7-9750H est.)" },
+                    pros: ["Very powerful CPU", "Excellent 4K display options", "Premium 2-in-1 design"],
+                    cons: ["HP BIOS can be restrictive (CFG Lock)", "dGPU disabling essential and can be complex", "Touchscreen/Pen support hit-or-miss", "Audio can be very problematic (especially Conexant)"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (if applicable)", "OpenIntelWireless", "SSDTs for disabling dGPU and fixing functions (HPET, IRQ)"],
                     chartData: [2, 5, 4, 2]
                 }
             },
@@ -581,12 +997,12 @@
                 priority: ["performance", "ease"],
                 image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+XPS+13+9300",
                 score: 78,
-                summary: "Modern XPS with Ice Lake CPU and Iris Plus graphics, generally good compatibility.",
+                summary: "Modern XPS with Ice Lake CPU and Iris Plus graphics, generally good compatibility. Check for soldered SSD.",
                 details: {
                     cpu: "10th Gen Intel Ice Lake U-Series (i5/i7)",
                     igpu: "Intel Iris Plus Graphics (G4/G7, Well Supported)",
                     dgpu: "None",
-                    wifi: "Killer AX1650 (Intel based, works with OpenIntelWireless) or AX500-DBS (Soldered, check model)",
+                    wifi: "Killer AX1650 (Intel based, works with OpenIntelWireless) or AX500-DBS (Soldered, check model!)",
                     audio: "Realtek ALC3271/ALC711 (Audio jack issues less common than 9370/80 but possible)",
                     trackpad: "Synaptics/ELAN (I2C)",
                     ram: "8GB/16GB/32GB LPDDR4X (Soldered)",
@@ -594,7 +1010,7 @@
                     macosSupport: { min: "macOS Catalina 10.15.4", max: "macOS Sonoma 14.x" },
                     cpuBenchmark: { score: 4200, source: "Geekbench 5 Multi (i7-1065G7)" },
                     pros: ["Excellent Iris Plus graphics performance", "Modern design, very compact", "Good battery life"],
-                    cons: ["Soldered RAM and potentially soldered SSD", "Wi-Fi can be tricky if not Intel AX200 based Killer card", "Thermal throttling under heavy load"],
+                    cons: ["Soldered RAM and potentially soldered SSD (verify model!)", "Wi-Fi can be tricky if not Intel AX200 based Killer card", "Thermal throttling under heavy load"],
                     kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
                     chartData: [4, 4, 5, 3]
                 }
@@ -618,7 +1034,7 @@
                     cpuBenchmark: { score: 2500, source: "Geekbench 5 Multi (i7-4700MQ upgrade)" },
                     pros: ["Extremely affordable", "Highly upgradeable (CPU, RAM, Storage, Trackpad, Screen)", "Robust build", "Large community"],
                     cons: ["Stock trackpad is poor", "Requires Wi-Fi card replacement", "Bulky compared to modern laptops", "Needs effort for best results"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "AirportBrcmFixup (or other Wi-Fi kext)"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "AirportBrcmFixup or other Wi-Fi kext"],
                     chartData: [3, 3, 2, 5] 
                 }
             },
@@ -645,29 +1061,652 @@
                     chartData: [3, 1, 4, 5]
                 }
             },
-            "precision-5530": {
-                name: "Dell Precision 5530",
+            "precision-5530": { // Also covers 5520, 5540 generally
+                name: "Dell Precision 5520/5530/5540",
                 priority: ["performance"],
-                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Dell+Precision+5530",
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Precision+55x0",
                 score: 70, 
-                summary: "Workstation version of XPS 15, often with Xeon/Quadro. Powerful but dGPU (Quadro) needs disabling.",
+                summary: "Workstation version of XPS 15 (7th-9th Gen H/Xeon). Powerful but dGPU (Quadro) needs disabling. Similar challenges to XPS 15.",
                 details: {
-                    cpu: "8th Gen Intel H-Series (i5/i7/i9, Xeon E-2176M)",
-                    igpu: "Intel UHD 630 / P630 (Xeon)",
-                    dgpu: "NVIDIA Quadro P1000/P2000 (MUST be disabled)",
+                    cpu: "7th-9th Gen Intel H-Series (i5/i7/i9, Xeon)",
+                    igpu: "Intel HD/UHD 630 / P630 (Xeon)",
+                    dgpu: "NVIDIA Quadro (e.g., M1200, P1000/P2000, T1000/T2000) (MUST be disabled)",
                     wifi: "Intel/Killer (Must be replaced or use OpenIntelWireless)",
                     audio: "Realtek ALC3266/ALC298",
                     trackpad: "Synaptics (I2C)",
                     ram: "Up to 64GB DDR4 (2 slots, ECC option with Xeon), User Upgradeable",
                     storage: "M.2 NVMe SSD (Often 2 slots)",
-                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
-                    cpuBenchmark: { score: 6200, source: "Geekbench 5 Multi (Xeon E-2176M)" },
-                    pros: ["Extremely powerful CPU options (including Xeon)", "ECC RAM support", "Often dual NVMe slots", "Robust build for professional use"],
+                    macosSupport: { min: "macOS Sierra 10.12 (7th Gen) / Mojave 10.14 (8th/9th Gen)", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 6000, source: "Geekbench 5 Multi (Xeon E-2176M est.)" },
+                    pros: ["Extremely powerful CPU options", "ECC RAM support (with Xeon)", "Often dual NVMe slots", "Robust build"],
                     cons: ["Quadro dGPU MUST be disabled (similar complexity to GTX)", "Can be expensive", "Wi-Fi replacement often needed"],
-                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDTs for dGPU disable", "OpenIntelWireless (if applicable)"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDTs for dGPU disable", "AirportBrcmFixup or OpenIntelWireless for replacement Wi-Fi"],
                     chartData: [2, 5, 3, 2]
                 }
+            },
+             "t490": {
+                name: "Lenovo ThinkPad T490",
+                priority: ["ease", "performance"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T490",
+                score: 82,
+                summary: "A solid successor to the T480, offering good performance and compatibility with 8th/10th Gen Intel CPUs. Still a great choice for Hackintosh.",
+                details: {
+                    cpu: "8th/10th Gen Intel U-Series (i5/i7, e.g., i5-8265U, i7-10510U)",
+                    igpu: "Intel UHD 620 (Well Supported)",
+                    dgpu: "NVIDIA MX250 (Optional, must be disabled)",
+                    wifi: "Intel (Usually replaceable or works with OpenIntelWireless)",
+                    audio: "Realtek ALC3287/ALC257",
+                    trackpad: "Synaptics (SMBus/I2C/PS2)",
+                    ram: "Up to 40GB/48GB DDR4 (Some soldered + 1 slot)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3500, source: "Geekbench 5 Multi (i5-8265U)" },
+                    pros: ["Good community support", "Relatively modern specs", "Good keyboard and build"],
+                    cons: ["dGPU models require disabling", "Some RAM might be soldered", "Thunderbolt can be tricky"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "VoodooRMI", "VoodooI2C", "IntelMausi", "OpenIntelWireless suite"],
+                    chartData: [4, 3, 4, 3]
+                }
+            },
+            "latitude7x90": { // Covers 7490 and 7390
+                name: "Dell Latitude 7490 / 7390",
+                priority: ["ease", "budget"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=Latitude+7x90",
+                score: 78,
+                summary: "A business-class laptop with 8th Gen Intel CPUs, similar in capability to the T480. Good compatibility and often found at reasonable prices.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7, e.g., i5-8350U, i7-8650U)",
+                    igpu: "Intel UHD 620 (Well Supported)",
+                    dgpu: "None",
+                    wifi: "Intel (Usually replaceable, works with OpenIntelWireless) or Qualcomm (replace)",
+                    audio: "Realtek ALC3246/ALC295",
+                    trackpad: "ALPS/Synaptics (I2C/PS2)",
+                    ram: "Up to 32GB DDR4 (2 slots), User Upgradeable",
+                    storage: "M.2 NVMe/SATA SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3300, source: "Geekbench 5 Multi (i5-8350U)" },
+                    pros: ["Solid build quality", "Upgradeable RAM and SSD", "Good keyboard", "Often affordable"],
+                    cons: ["Trackpad can vary (ALPS sometimes less ideal than Synaptics)", "Check Wi-Fi card before buying, may need replacement if Qualcomm"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "IntelMausi", "OpenIntelWireless suite"],
+                    chartData: [4, 3, 4, 4]
+                }
+            },
+            "elitebook840g6": { // Also covers G5 generally
+                name: "HP EliteBook 840 G5 / G6",
+                priority: ["performance", "ease"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=EliteBook+840+G56",
+                score: 75,
+                summary: "A sleek business ultrabook with 8th Gen Intel CPUs. HP laptops can be more challenging but G5/G6 have decent compatibility reports.",
+                details: {
+                    cpu: "7th/8th Gen Intel U-Series (i5/i7, e.g., i5-8265U, i7-8565U)",
+                    igpu: "Intel HD/UHD 620 (Well Supported)",
+                    dgpu: "Optional AMD Radeon 550X/RX540 (Needs specific configuration/disabling if problematic)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Conexant CX8200 (Can be tricky, may need specific layout-id or even `SSDT-HPET` fixes)",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots), User Upgradeable",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS High Sierra 10.13 (G5) / Mojave 10.14 (G6)", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3450, source: "Geekbench 5 Multi (i7-8565U)" },
+                    pros: ["Premium build quality and design", "Good display options", "Upgradeable RAM/SSD"],
+                    cons: ["HP BIOS can be restrictive (CFG Lock often needs to be disabled via modded BIOS or specific quirks)", "Audio can be problematic (Conexant)", "AMD dGPU version needs careful handling"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC (with correct layout-id)", "VoodooI2C", "OpenIntelWireless suite", "SSDTTime for HPET/IRQ fixes might be needed"],
+                    chartData: [3, 3, 4, 3]
+                }
+            },
+            // New entries based on user list
+            "xps15-9550": {
+                name: "Dell XPS 15 (9550)",
+                priority: ["performance", "budget"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=XPS+15+9550",
+                score: 68,
+                summary: "Older XPS 15 (6th Gen Intel H-series). Still capable but requires dGPU disable and Wi-Fi replacement.",
+                details: {
+                    cpu: "6th Gen Intel H-Series (Skylake, e.g., i7-6700HQ)",
+                    igpu: "Intel HD 530 (Well Supported)",
+                    dgpu: "NVIDIA GTX 960M (MUST be disabled)",
+                    wifi: "Broadcom/Dell DW1830 (Stock, good) or Killer (Replace)",
+                    audio: "Realtek ALC298",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe/SATA SSD + 2.5\" SATA bay (on some configs)",
+                    macosSupport: { min: "OS X El Capitan 10.11", max: "macOS Ventura 13.x (Sonoma with OCLP)" },
+                    cpuBenchmark: { score: 4500, source: "Geekbench 5 Multi (i7-6700HQ est.)" },
+                    pros: ["Affordable performance", "Good display options"],
+                    cons: ["NVIDIA dGPU MUST be disabled", "Wi-Fi may need replacement if Killer", "Battery life can be average"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDT-DGPU-DISABLE", "AirportBrcmFixup (if DW1830)"],
+                    chartData: [2, 4, 3, 4]
+                }
+            },
+            "xps15-9560": {
+                name: "Dell XPS 15 (9560)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=XPS+15+9560",
+                score: 70,
+                summary: "7th Gen Intel H-series XPS. Similar to 9550/9570, dGPU disable and Wi-Fi check are key.",
+                details: {
+                    cpu: "7th Gen Intel H-Series (Kaby Lake, e.g., i7-7700HQ)",
+                    igpu: "Intel HD 630 (Well Supported)",
+                    dgpu: "NVIDIA GTX 1050 (MUST be disabled)",
+                    wifi: "Killer (Must be replaced with Broadcom/Intel)",
+                    audio: "Realtek ALC298",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Sierra 10.12", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 5000, source: "Geekbench 5 Multi (i7-7700HQ est.)" },
+                    pros: ["Good performance for the price", "Excellent display"],
+                    cons: ["NVIDIA dGPU MUST be disabled", "Stock Killer Wi-Fi requires replacement"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDT-DGPU-DISABLE", "AirportBrcmFixup or OpenIntelWireless for replacement Wi-Fi"],
+                    chartData: [2, 4, 3, 3]
+                }
+            },
+            "xps15-7590": {
+                name: "Dell XPS 15 (7590)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=XPS+15+7590",
+                score: 72,
+                summary: "9th Gen Intel H-series XPS. Powerful, but dGPU disable and potential Wi-Fi swap needed.",
+                details: {
+                    cpu: "9th Gen Intel H-Series (Coffee Lake Refresh, e.g., i7-9750H)",
+                    igpu: "Intel UHD 630 (Well Supported)",
+                    dgpu: "NVIDIA GTX 1650 (MUST be disabled)",
+                    wifi: "Killer AX1650 (Intel-based, works with OpenIntelWireless) or other (check!)",
+                    audio: "Realtek ALC298/ALC3266",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 64GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD (Often 2 slots)",
+                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 6000, source: "Geekbench 5 Multi (i7-9750H est.)" },
+                    pros: ["Very powerful CPU", "OLED display option", "Often dual M.2 slots"],
+                    cons: ["NVIDIA dGPU MUST be disabled", "Wi-Fi can be Killer AX based (good) or other (problematic)", "Thermals can be a concern"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "SSDT-DGPU-DISABLE", "OpenIntelWireless (if AX Killer card)"],
+                    chartData: [2, 5, 3, 2]
+                }
+            },
+            "lenovo-p52s": {
+                name: "Lenovo ThinkPad P52s",
+                priority: ["performance", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ThinkPad+P52s",
+                score: 70,
+                summary: "Mobile workstation with 8th Gen U-series CPU and NVIDIA Quadro P500 (must be disabled). Similar to T480 with a dGPU.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "NVIDIA Quadro P500 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC3287/ALC257",
+                    trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "Up to 32GB DDR4 (1 soldered + 1 slot or 2 slots, check config)",
+                    storage: "M.2 NVMe SSD + optional 2.5\" bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3300, source: "Geekbench 5 Multi (i7-8650U est.)" },
+                    pros: ["Good ThinkPad build", "Upgradeable storage", "Decent iGPU"],
+                    cons: ["Quadro dGPU MUST be disabled", "Thunderbolt can be tricky"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "OpenIntelWireless", "SSDT-DGPU-DISABLE"],
+                    chartData: [3, 3, 3, 3]
+                }
+            },
+             "lenovo-p53s": {
+                name: "Lenovo ThinkPad P53s",
+                priority: ["performance", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ThinkPad+P53s",
+                score: 72,
+                summary: "Similar to P52s but with 8th/10th Gen U-series CPU options and NVIDIA Quadro P520 (must be disabled).",
+                details: {
+                    cpu: "8th/10th Gen Intel U-Series (Whiskey Lake/Comet Lake)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "NVIDIA Quadro P520 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC3287/ALC257",
+                    trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "Up to 40GB/48GB DDR4 (Soldered + 1 slot)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3600, source: "Geekbench 5 Multi (i7-10510U est.)" },
+                    pros: ["Good ThinkPad build", "Modern CPU options", "Decent iGPU"],
+                    cons: ["Quadro dGPU MUST be disabled", "Some RAM soldered", "Thunderbolt can be tricky"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "OpenIntelWireless", "SSDT-DGPU-DISABLE"],
+                    chartData: [3, 4, 3, 3]
+                }
+            },
+            "lenovo-l480": {
+                name: "Lenovo ThinkPad L480",
+                priority: ["budget", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ThinkPad+L480",
+                score: 77,
+                summary: "Budget-friendly 14-inch ThinkPad with 8th Gen Intel U-series. Good alternative to T480.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i3/i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional AMD Radeon 530 (MUST be disabled or ensure model is iGPU only)",
+                    wifi: "Intel/Realtek (Replace if Realtek, Intel works with OpenIntelWireless)",
+                    audio: "Realtek ALC257/ALC3287",
+                    trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD + optional 2.5\" bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3100, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Affordable", "Upgradeable", "Good keyboard"],
+                    cons: ["AMD dGPU version needs dGPU disabled", "Check Wi-Fi card"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "OpenIntelWireless (if Intel Wi-Fi)", "SSDT-DGPU-DISABLE (if dGPU present)"],
+                    chartData: [4, 3, 3, 4]
+                }
+            },
+            "lenovo-l490": {
+                name: "Lenovo ThinkPad L490",
+                priority: ["budget", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ThinkPad+L490",
+                score: 78,
+                summary: "Successor to L480, with 8th/10th Gen Intel U-series. Solid budget choice.",
+                details: {
+                    cpu: "8th/10th Gen Intel U-Series (Whiskey Lake/Comet Lake)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional AMD Radeon 535/RX 550X (MUST be disabled or ensure model is iGPU only)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC257/ALC3287",
+                    trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "Up to 64GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD + optional 2.5\" bay",
+                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i5-8265U est.)" },
+                    pros: ["Affordable", "Upgradeable", "Modern CPU options"],
+                    cons: ["AMD dGPU version needs dGPU disabled"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "OpenIntelWireless", "SSDT-DGPU-DISABLE (if dGPU present)"],
+                    chartData: [4, 3, 3, 4]
+                }
+            },
+            "ideapad-330s-14ikb": {
+                name: "Lenovo IdeaPad 330S-14IKB / 330S-15IKB",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=IdeaPad+330S",
+                score: 65,
+                summary: "Budget IdeaPad with 8th Gen Intel. Can be Hackintoshed but requires more effort than ThinkPads. Check specific config.",
+                details: {
+                    cpu: "7th/8th Gen Intel U-Series (e.g. i5-8250U)",
+                    igpu: "Intel HD/UHD 620",
+                    dgpu: "Optional NVIDIA MX110/MX130/MX150 or AMD Radeon 535/540 (MUST be disabled)",
+                    wifi: "Qualcomm Atheros/Realtek (Usually needs replacement with Intel/Broadcom)",
+                    audio: "Realtek ALC236 / Conexant (Conexant is problematic)",
+                    trackpad: "Synaptics/ELAN (I2C, ELAN can be tricky)",
+                    ram: "4GB Soldered + 1 Slot (Up to 12GB/20GB)",
+                    storage: "M.2 SATA/NVMe SSD + optional 2.5\" bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 3000, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Very affordable"],
+                    cons: ["dGPU MUST be disabled", "Wi-Fi replacement almost always needed", "Audio can be tricky (especially Conexant)", "Build quality average", "BIOS limitations"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (and satellites)", "SSDT-DGPU-DISABLE", "Replacement Wi-Fi kexts"],
+                    chartData: [2, 3, 3, 5]
+                }
+            },
+            "ideapad-530s-14ikb": {
+                name: "Lenovo IdeaPad 530S-14IKB / 530S-15IKB",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=IdeaPad+530S",
+                score: 68,
+                summary: "Slightly more premium IdeaPad with 8th Gen Intel. Similar Hackintosh challenges to 330S but often better components.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (e.g. i5-8250U, i7-8550U)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional NVIDIA MX130/MX150 (MUST be disabled)",
+                    wifi: "Intel/Realtek (Replace if Realtek, Intel works with OpenIntelWireless)",
+                    audio: "Realtek ALC236",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "Up to 16GB DDR4 (Soldered or 1 slot, check config)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Affordable", "Decent build for the price"],
+                    cons: ["dGPU MUST be disabled", "Check Wi-Fi card (replace if Realtek)", "BIOS limitations"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (and satellites)", "SSDT-DGPU-DISABLE", "OpenIntelWireless (if Intel Wi-Fi)"],
+                    chartData: [3, 3, 4, 4]
+                }
+            },
+            "hp-probook-450g7": {
+                name: "HP ProBook 450 G7",
+                priority: ["ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ProBook+450+G7",
+                score: 70,
+                summary: "Mainstream HP business laptop with 10th Gen Intel Comet Lake. Generally compatible but HP quirks apply.",
+                details: {
+                    cpu: "10th Gen Intel U-Series (Comet Lake, i3/i5/i7)",
+                    igpu: "Intel UHD Graphics (Comet Lake GT1/GT2)",
+                    dgpu: "Optional NVIDIA MX130/MX250 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC236/ALC3204",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD + 2.5\" bay",
+                    macosSupport: { min: "macOS Catalina 10.15.4", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3500, source: "Geekbench 5 Multi (i5-10210U est.)" },
+                    pros: ["Upgradeable", "Modern CPU"],
+                    cons: ["HP BIOS (CFG Lock, etc.)", "dGPU MUST be disabled", "Audio might need specific layout"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "SSDTs for HP (HPET, IRQ, DGPU disable)"],
+                    chartData: [3, 3, 3, 3]
+                }
+            },
+            "hp-spectre-x360-13-intel": { // Generic for 13-inch U series
+                name: "HP Spectre x360 13 (8th-10th Gen Intel U)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Spectre+x360+13",
+                score: 65,
+                summary: "Premium 13-inch convertible. Hackintosh possible but expect HP-specific challenges (BIOS, audio, power management).",
+                details: {
+                    cpu: "8th-10th Gen Intel U-Series (Kaby Lake R, Whiskey Lake, Ice Lake, Comet Lake)",
+                    igpu: "Intel UHD 620 / Iris Plus",
+                    dgpu: "None",
+                    wifi: "Intel (Often soldered, works with OpenIntelWireless)",
+                    audio: "Conexant/Realtek (Conexant is very problematic, Realtek needs specific layout)",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB LPDDR3/LPDDR4X (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3800, source: "Geekbench 5 Multi (i7-1065G7 est.)" },
+                    pros: ["Excellent design", "Great display", "Very portable"],
+                    cons: ["HP BIOS limitations (CFG Lock)", "Audio is often a major pain point (Conexant!)", "Soldered RAM/Wi-Fi", "Touchscreen/pen support unreliable"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC (if Realtek, good luck if Conexant)", "VoodooI2C", "OpenIntelWireless", "Many custom SSDTs likely needed"],
+                    chartData: [2, 4, 5, 2]
+                }
+            },
+            "hp-zbook-studio-g5": { // Example ZBook
+                name: "HP ZBook Studio G5 (Intel H)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ZBook+Studio+G5",
+                score: 60,
+                summary: "Powerful mobile workstation. Hackintosh is complex due to dGPU (Quadro) and HP specifics. For advanced users.",
+                details: {
+                    cpu: "8th Gen Intel H-Series (i7/Xeon)",
+                    igpu: "Intel UHD 630 / P630",
+                    dgpu: "NVIDIA Quadro P1000/P2000 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Conexant (Likely problematic)",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 64GB DDR4 (ECC with Xeon)",
+                    storage: "M.2 NVMe SSD (Often dual slots)",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 6000, source: "Geekbench 5 Multi (i7-8850H est.)" },
+                    pros: ["Extremely powerful", "Professional build", "Great displays"],
+                    cons: ["HP BIOS", "Quadro dGPU MUST be disabled (complex)", "Conexant audio is a nightmare", "Heavy and expensive"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC (maybe?)", "VoodooI2C", "OpenIntelWireless", "Extensive custom SSDTs for DGPU, HPET, IRQ etc."],
+                    chartData: [1, 5, 2, 1]
+                }
+            },
+            "asus-zenbook-ux430ua": {
+                name: "ASUS ZenBook UX430UA/UX331UA (8th Gen)",
+                priority: ["ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ZenBook+UX430",
+                score: 70,
+                summary: "Popular ultrabook series with 8th Gen Intel. Good compatibility overall, but check specific model for Wi-Fi/audio.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional NVIDIA MX150 (UX430UN/UX331UN - MUST be disabled)",
+                    wifi: "Intel/Qualcomm Atheros (Replace if Qualcomm, Intel works with OpenIntelWireless)",
+                    audio: "Conexant/Realtek (Conexant problematic, Realtek ALC294/ALC255 common)",
+                    trackpad: "ELAN/FocalTech (I2C - VoodooI2C needed, FocalTech can be less smooth)",
+                    ram: "8GB/16GB LPDDR3/DDR4 (Often soldered)",
+                    storage: "M.2 SATA/NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Slim and light", "Good displays"],
+                    cons: ["dGPU (if present) MUST be disabled", "Wi-Fi may need replacement", "Audio can be tricky (Conexant)", "Soldered RAM common"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (and ELAN/FocalTech satellites)", "OpenIntelWireless (if Intel Wi-Fi)", "SSDT-DGPU-DISABLE (if dGPU)"],
+                    chartData: [3, 3, 5, 3]
+                }
+            },
+            "asus-vivobook-s510un": {
+                name: "ASUS VivoBook S15 S510UN / S14 S410UN",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=VivoBook+S510",
+                score: 67,
+                summary: "Mainstream ASUS VivoBook with 8th Gen Intel and MX150. dGPU disable is key.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "NVIDIA MX130/MX150 (MUST be disabled)",
+                    wifi: "Intel/Qualcomm Atheros/Realtek (Replace if not Intel)",
+                    audio: "Realtek ALC256/ALC294 or Conexant",
+                    trackpad: "ELAN/FocalTech/Synaptics (I2C)",
+                    ram: "4GB/8GB Soldered + 1 Slot (Up to 12GB/20GB/36GB)",
+                    storage: "M.2 SATA/NVMe SSD + 2.5\" bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 3100, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Affordable", "Upgradeable storage/some RAM"],
+                    cons: ["dGPU MUST be disabled", "Wi-Fi usually needs replacement", "Audio can be tricky", "Build quality is average"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C (and satellites)", "SSDT-DGPU-DISABLE", "Replacement Wi-Fi kexts"],
+                    chartData: [2, 3, 3, 4]
+                }
+            },
+            "asus-rog-intel": { // Generic for Intel ROG laptops
+                name: "ASUS ROG Laptop (Intel H-Series)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=ASUS+ROG+Intel",
+                score: 55,
+                summary: "Gaming laptops with powerful Intel H-series CPUs. Hackintosh is very complex due to NVIDIA dGPUs, custom hardware, and aggressive power management. For experts only.",
+                details: {
+                    cpu: "Intel H-Series (Various Gens)",
+                    igpu: "Intel UHD/Iris Xe (Iris Xe problematic for iGPU output if newer gen)",
+                    dgpu: "NVIDIA RTX/GTX (MUST be disabled, and often hard to do so effectively for internal display)",
+                    wifi: "Intel (Usually works with OpenIntelWireless) or Mediatek (Replace)",
+                    audio: "Realtek (Often with custom AMPs, can be tricky)",
+                    trackpad: "ELAN/Synaptics (I2C)",
+                    ram: "16GB+ DDR4/DDR5",
+                    storage: "M.2 NVMe SSD (Often multiple slots)",
+                    macosSupport: { min: "Varies by CPU Gen", max: "macOS Sonoma 14.x (highly dependent)" },
+                    cpuBenchmark: { score: 7000, source: "Geekbench 5 Multi (High-end H-series est.)" },
+                    pros: ["Extreme performance potential (CPU-wise)"],
+                    cons: ["NVIDIA dGPU is primary challenge (disabling, routing display)", "Complex ACPI", "Custom keyboard/lighting often unsupported", "Thermals/power management difficult", "Not for beginners"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "Many custom SSDTs required"],
+                    chartData: [1, 5, 2, 1]
+                }
+            },
+            "xiaomi-mi-notebook-pro-2019": { // Also covers 2020 generally
+                name: "Xiaomi Mi Notebook Pro (2019/2020 Intel)",
+                priority: ["ease", "performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Mi+Notebook+Pro",
+                score: 78,
+                summary: "Popular for its MacBook-like design and good Hackintosh compatibility. 8th/10th Gen Intel U-series.",
+                details: {
+                    cpu: "8th Gen Whiskey Lake / 10th Gen Comet Lake U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "NVIDIA MX150/MX250/MX350 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC256/ALC298",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB DDR4 (Soldered)",
+                    storage: "M.2 NVMe SSD (Often dual slots on 15-inch)",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3700, source: "Geekbench 5 Multi (i7-10510U est.)" },
+                    pros: ["Great design", "Good display", "Strong community support", "Relatively straightforward"],
+                    cons: ["dGPU MUST be disabled", "Soldered RAM", "Fingerprint sensor N/A"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "SSDT-DGPU-DISABLE", "Custom SSDTs for brightness keys, etc."],
+                    chartData: [4, 4, 4, 3]
+                }
+            },
+            "msi-prestige-14-a10sc": {
+                name: "MSI Prestige 14 (e.g., A10SC, Intel)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=MSI+Prestige+14",
+                score: 65,
+                summary: "Thin and light MSI with 10th Gen Intel U and dedicated NVIDIA (must be disabled). BIOS can be tricky.",
+                details: {
+                    cpu: "10th Gen Intel U-Series (Comet Lake, i5/i7)",
+                    igpu: "Intel UHD Graphics",
+                    dgpu: "NVIDIA GTX 1650 Max-Q / MX250/MX330 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC298",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "8GB/16GB LPDDR3/DDR4 (Soldered or single slot, check config)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Catalina 10.15", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3800, source: "Geekbench 5 Multi (i7-10710U est.)" },
+                    pros: ["Lightweight", "Good performance (CPU)"],
+                    cons: ["dGPU MUST be disabled", "MSI BIOS can be limited/quirky", "Soldered RAM on some models", "Cooling might be a concern"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "SSDT-DGPU-DISABLE"],
+                    chartData: [2, 4, 4, 2]
+                }
+            },
+             "msi-gs65-stealth": {
+                name: "MSI GS65 Stealth Thin (8th Gen Intel)",
+                priority: ["performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=MSI+GS65",
+                score: 58,
+                summary: "Powerful gaming laptop with 8th Gen Intel H-series. Very complex Hackintosh due to NVIDIA dGPU and custom features.",
+                details: {
+                    cpu: "8th Gen Intel H-Series (i7-8750H)",
+                    igpu: "Intel UHD 630",
+                    dgpu: "NVIDIA GTX 1060/1070 Max-Q (MUST be disabled)",
+                    wifi: "Killer (Intel based - works with OpenIntelWireless, or Rivet - replace)",
+                    audio: "Realtek ALC298/ALC1220 (Can be tricky with Nahimic)",
+                    trackpad: "Synaptics (I2C)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 NVMe SSD (Often dual slots)",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 5500, source: "Geekbench 5 Multi (i7-8750H est.)" },
+                    pros: ["High CPU performance", "Good display (high refresh rate N/A in macOS)"],
+                    cons: ["NVIDIA dGPU disable is critical and complex", "MSI BIOS quirks", "Custom lighting/keyboard features N/A", "Audio can be difficult"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless (if Killer AX based)", "Extensive custom SSDTs"],
+                    chartData: [1, 5, 3, 2]
+                }
+            },
+            "acer-swift-3-sf314-57": { // Example Swift 3
+                name: "Acer Swift 3 (e.g., SF314-57, 10th Gen Ice Lake)",
+                priority: ["budget", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Acer+Swift+3",
+                score: 70,
+                summary: "Affordable ultrabook with Intel CPUs. Compatibility varies by exact model; Ice Lake versions are decent.",
+                details: {
+                    cpu: "10th Gen Intel U-Series (Ice Lake, i5/i7) or older gens",
+                    igpu: "Intel Iris Plus (Ice Lake) / UHD 620 (older gens)",
+                    dgpu: "Optional NVIDIA MX250/MX350 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless) or Atheros/Realtek (Replace)",
+                    audio: "Realtek ALC255/ALC256",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB LPDDR4/DDR4 (Often soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Catalina 10.15.4 (Ice Lake)", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3900, source: "Geekbench 5 Multi (i7-1065G7 est.)" },
+                    pros: ["Good value", "Lightweight", "Iris Plus graphics (Ice Lake)"],
+                    cons: ["dGPU (if present) MUST be disabled", "Check Wi-Fi card", "Soldered RAM common", "Acer BIOS can be limited"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless (if Intel Wi-Fi)", "SSDT-DGPU-DISABLE (if dGPU)"],
+                    chartData: [3, 4, 4, 4]
+                }
+            },
+            "lg-gram-14z990": { // Example LG Gram (8th Gen)
+                name: "LG Gram 14/15 (e.g., 14Z990, 8th Gen Intel)",
+                priority: ["ease", "performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=LG+Gram+14",
+                score: 76,
+                summary: "Incredibly lightweight laptops with good battery life. 8th-10th Gen Intel models are generally compatible.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "None",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC256 or Conexant (Conexant is problematic!)",
+                    trackpad: "Synaptics/ELAN (I2C)",
+                    ram: "8GB/16GB DDR4 (Often 1 soldered + 1 slot, or fully soldered)",
+                    storage: "M.2 NVMe SSD (Often dual slots)",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3300, source: "Geekbench 5 Multi (i7-8565U est.)" },
+                    pros: ["Extremely lightweight", "Long battery life (even on macOS)", "Dual SSD slots common"],
+                    cons: ["Audio can be Conexant (bad!) - check specific model", "Some RAM soldered", "Build quality is light, can feel flexible"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
+                    chartData: [4, 3, 5, 3]
+                }
+            },
+            "samsung-notebook9-np900x5t": { // Example Samsung
+                name: "Samsung Notebook 9 (NP900X5T, 8th Gen Intel)",
+                priority: ["ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Samsung+Note9",
+                score: 68,
+                summary: "Lightweight Samsung laptop. Compatibility can be decent but Samsung specific ACPI/drivers might be needed.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i7-8550U)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional NVIDIA MX150 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC256",
+                    trackpad: "ELAN/Synaptics (I2C)",
+                    ram: "8GB/16GB DDR4 (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i7-8550U est.)" },
+                    pros: ["Very light", "Good display"],
+                    cons: ["dGPU (if present) MUST be disabled", "Soldered RAM", "Samsung specific firmware quirks can make setup harder", "Fewer community guides typically"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "SSDT-DGPU-DISABLE (if dGPU)", "Custom SSDTs for Samsung features if needed"],
+                    chartData: [3, 3, 5, 3]
+                }
+            },
+            "huawei-matebook-x-pro-2019": { // Covers 2018-2020
+                name: "Huawei MateBook X Pro (2018-2020 Intel)",
+                priority: ["performance", "ease"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=MateBook+X+Pro",
+                score: 77,
+                summary: "Premium ultrabook with excellent screen and good Hackintosh track record, especially earlier models.",
+                details: {
+                    cpu: "8th/10th Gen Intel U-Series (Kaby Lake R / Comet Lake)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "NVIDIA MX150/MX250 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC256 (Layout ID needed)",
+                    trackpad: "Synaptics/ELAN (I2C, good support)",
+                    ram: "8GB/16GB LPDDR3 (Soldered)",
+                    storage: "M.2 NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3600, source: "Geekbench 5 Multi (i7-10510U est.)" },
+                    pros: ["Stunning 3K display", "Great build quality", "Good community support"],
+                    cons: ["dGPU MUST be disabled", "Soldered RAM", "Webcam position (in keyboard)"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless", "SSDT-DGPU-DISABLE", "Custom SSDTs for brightness, etc."],
+                    chartData: [4, 4, 4, 2]
+                }
+            },
+            "toshiba-tecra-z50e": {
+                name: "Toshiba Tecra Z50-E (8th Gen Intel)",
+                priority: ["budget"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Tecra+Z50-E",
+                score: 65,
+                summary: "Business laptop, less common for Hackintosh but potentially workable with 8th Gen Intel. Research specific config.",
+                details: {
+                    cpu: "8th Gen Intel U-Series (i5/i7)",
+                    igpu: "Intel UHD 620",
+                    dgpu: "Optional NVIDIA MX130/MX150 (MUST be disabled)",
+                    wifi: "Intel (Works with OpenIntelWireless) or other (Replace)",
+                    audio: "Realtek (Varies)",
+                    trackpad: "Synaptics (I2C/SMBus)",
+                    ram: "Up to 32GB DDR4 (2 slots)",
+                    storage: "M.2 SATA/NVMe SSD + 2.5\" bay",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Ventura 13.x" },
+                    cpuBenchmark: { score: 3000, source: "Geekbench 5 Multi (i5-8250U est.)" },
+                    pros: ["Upgradeable", "Business build quality"],
+                    cons: ["dGPU (if present) MUST be disabled", "Less community support than Dell/Lenovo", "BIOS might be restrictive"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooPS2Controller", "OpenIntelWireless (if Intel Wi-Fi)", "SSDT-DGPU-DISABLE (if dGPU)"],
+                    chartData: [3, 3, 3, 4]
+                }
+            },
+            "chuwi-corebook-x-i5-8259u": {
+                name: "Chuwi CoreBook X (Intel i5-8259U)",
+                priority: ["budget", "performance"],
+                image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Chuwi+CoreBookX",
+                score: 72,
+                summary: "Budget laptop with a surprisingly powerful Iris Plus 655 iGPU. Good Hackintosh potential if you get this specific CPU.",
+                details: {
+                    cpu: "Intel Core i5-8259U (Coffee Lake U, 28W)",
+                    igpu: "Intel Iris Plus Graphics 655 (Excellent support)",
+                    dgpu: "None",
+                    wifi: "Intel AC 7265 or similar (Works with OpenIntelWireless)",
+                    audio: "Realtek ALC269 (Layout ID needed)",
+                    trackpad: "Generic I2C (VoodooI2C needed)",
+                    ram: "8GB/16GB DDR4 (Often soldered)",
+                    storage: "M.2 SATA/NVMe SSD",
+                    macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" },
+                    cpuBenchmark: { score: 3800, source: "Geekbench 5 Multi (i5-8259U est.)" },
+                    pros: ["Excellent iGPU performance (Iris Plus 655)", "Affordable for the specs", "Good 3:2 display"],
+                    cons: ["Build quality is budget", "Soldered RAM common", "Limited BIOS options", "Lesser known brand, fewer guides"],
+                    kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"],
+                    chartData: [3, 4, 4, 5]
+                }
             }
+
         };
 
         const componentData = {
@@ -743,6 +1782,8 @@
             const clearSelectionBtn = document.getElementById('clear-selection-btn');
             const selectedCountSpan = document.getElementById('selected-count');
             const compareActionBar = document.getElementById('compare-action-bar');
+            const findBarInput = document.getElementById('find-bar');
+
 
             let selectedLaptopsForComparison = [];
             let comparisonChartInstances = {};
@@ -778,7 +1819,7 @@
                      chart.options.scales.r.ticks.backdropColor = isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)';
                      chart.options.scales.r.ticks.color = pointLabelColor;
                      if (chart.options.plugins && chart.options.plugins.legend) {
-                        chart.options.plugins.legend.labels.color = pointLabelColor;
+                         chart.options.plugins.legend.labels.color = pointLabelColor;
                      }
                      chart.update();
                 }
@@ -795,11 +1836,30 @@
             const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             applyTheme(savedTheme);
 
-            function renderLaptops(filter = "all") { 
+            function renderLaptops(priorityFilter = "all", searchTerm = "") { 
                 laptopGrid.innerHTML = '';
-                Object.entries(laptopData).forEach(([id, data]) => {
-                    if (filter !== "all" && !data.priority.includes(filter)) return;
+                let laptopsToRender = Object.entries(laptopData);
 
+                if (priorityFilter !== "all") {
+                    laptopsToRender = laptopsToRender.filter(([id, data]) => data.priority.includes(priorityFilter));
+                }
+
+                if (searchTerm.trim() !== "") {
+                    const lowerSearchTerm = searchTerm.trim().toLowerCase();
+                    laptopsToRender = laptopsToRender.filter(([id, data]) => {
+                        return (
+                            data.name.toLowerCase().includes(lowerSearchTerm) ||
+                            data.summary.toLowerCase().includes(lowerSearchTerm) ||
+                            data.details.cpu.toLowerCase().includes(lowerSearchTerm) ||
+                            data.details.igpu.toLowerCase().includes(lowerSearchTerm) ||
+                            (data.details.dgpu && data.details.dgpu !== "None" && data.details.dgpu.toLowerCase().includes(lowerSearchTerm)) ||
+                            data.details.ram.toLowerCase().includes(lowerSearchTerm) ||
+                            data.details.storage.toLowerCase().includes(lowerSearchTerm)
+                        );
+                    });
+                }
+                
+                laptopsToRender.forEach(([id, data]) => {
                     const scoreColor = data.score >= 80 ? 'bg-green-500' : data.score >= 70 ? 'bg-yellow-500' : 'bg-red-500';
                     const isSelected = selectedLaptopsForComparison.includes(id);
                     
@@ -828,6 +1888,15 @@
                 updateCompareActionBar();
             }
             
+            if (findBarInput) {
+                findBarInput.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value;
+                    const activePriorityButton = document.querySelector('#priority-filter-buttons .active-filter');
+                    const currentPriorityFilter = activePriorityButton ? activePriorityButton.dataset.priority : "all";
+                    renderLaptops(currentPriorityFilter, searchTerm);
+                });
+            }
+
             function updateCompareActionBar() {
                 const count = selectedLaptopsForComparison.length;
                 selectedCountSpan.textContent = count;
@@ -894,7 +1963,7 @@
                                 <li><strong>Audio:</strong> ${data.details.audio}</li>
                                 <li><strong>Trackpad:</strong> ${data.details.trackpad}</li>
                              </ul>
-                             
+                            
                             <h3 class="font-bold text-lg mb-2 text-primary">macOS Compatibility</h3>
                             <ul class="text-sm text-medium space-y-1 mb-4">
                                 <li><strong>Min Supported:</strong> ${data.details.macosSupport.min}</li>
@@ -927,7 +1996,7 @@
                 `;
                 
                 detailModal.classList.remove('hidden');
-                detailModal.classList.add('flex');
+                detailModal.classList.add('flex'); // Ensure flex is added to make it visible
                 document.body.style.overflow = 'hidden';
                 
                 if(detailChartInstance) {
@@ -964,224 +2033,4 @@
                             data: chartData,
                             backgroundColor: 'rgba(74, 144, 226, 0.2)',
                             borderColor: 'rgba(74, 144, 226, 1)',
-                            pointBackgroundColor: 'rgba(74, 144, 226, 1)',
-                            pointBorderColor: '#fff',
-                            pointHoverBackgroundColor: '#fff',
-                            pointHoverBorderColor: 'rgba(74, 144, 226, 1)'
-                        }]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: { color: angleLinesColor },
-                                grid: { color: gridColor },
-                                pointLabels: { font: { size: isComparisonChart ? 10 : 12 }, color: pointLabelColor },
-                                suggestedMin: 0,
-                                suggestedMax: 5,
-                                ticks: {
-                                    stepSize: 1,
-                                    backdropColor: isDark ? 'rgba(45, 55, 72, 0.75)' : 'rgba(255, 255, 255, 0.75)',
-                                    color: tickColor,
-                                    showLabelBackdrop: !isComparisonChart 
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: !isComparisonChart, 
-                                position: 'top',
-                                labels: { color: legendLabelColor }
-                            }
-                        }
-                    }
-                });
-            }
-
-
-            function showComparisonModal(laptopIds) {
-                comparisonModalContent.innerHTML = ''; 
-                Object.values(comparisonChartInstances).forEach(chart => chart.destroy()); 
-                comparisonChartInstances = {};
-                const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-
-                laptopIds.forEach((id, index) => {
-                    const data = laptopData[id];
-                    if (!data) return;
-
-                    const laptopDiv = document.createElement('div');
-                    laptopDiv.className = 'bg-secondary p-4 rounded-lg card-shadow flex flex-col'; 
-                    laptopDiv.innerHTML = `
-                        <h3 class="text-xl font-bold mb-3 text-primary">${data.name}</h3>
-                        <img src="${data.image}" alt="${data.name}" class="w-full h-40 object-cover rounded-md mb-3" onerror="this.onerror=null;this.src='https.placehold.co/400x200/212529/F8F9FA?text=No+Image';">
-                        <p class="text-xs text-medium mb-1"><strong>Score:</strong> ${data.score}%</p>
-                        ${data.details.cpuBenchmark ? `<p class="text-xs text-medium mb-2"><strong>CPU Bench:</strong> ~${data.details.cpuBenchmark.score}</p>` : ''}
-                        
-                        <h4 class="font-semibold text-sm mt-2 mb-1">Key Specs:</h4>
-                        <ul class="text-xs text-medium list-none space-y-0.5 mb-2">
-                            <li><strong>RAM:</strong> ${data.details.ram}</li>
-                            <li><strong>Storage:</strong> ${data.details.storage}</li>
-                            <li><strong>macOS:</strong> ${data.details.macosSupport.min} - ${data.details.macosSupport.max}</li>
-                        </ul>
-                        
-                        <div class="comparison-chart-container mt-auto">
-                            <canvas id="compare-chart-${id}"></canvas>
-                        </div>
-                    `;
-                    comparisonModalContent.appendChild(laptopDiv);
-
-                    const ctx = document.getElementById(`compare-chart-${id}`).getContext('2d');
-                    comparisonChartInstances[id] = createRadarChart(ctx, data.name, data.details.chartData, currentTheme, true);
-                });
-
-                comparisonModal.classList.remove('hidden');
-                comparisonModal.classList.add('flex');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function hideComparisonModal() {
-                comparisonModal.classList.add('hidden');
-                comparisonModal.classList.remove('flex');
-                if (!detailModal.classList.contains('flex')) { 
-                     document.body.style.overflow = 'auto';
-                }
-            }
-            
-            priorityBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const priority = e.currentTarget.dataset.priority;
-                    renderLaptops(priority);
-
-                    priorityBtns.forEach(b => b.classList.remove('active-filter'));
-                    e.currentTarget.classList.add('active-filter');
-                    
-                    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-
-            detailModalCloseBtn.addEventListener('click', hideDetailModal);
-            detailModal.addEventListener('click', (e) => {
-                if (e.target === detailModal) hideDetailModal();
-            });
-
-            comparisonModalCloseBtn.addEventListener('click', hideComparisonModal);
-            comparisonModal.addEventListener('click', (e) => {
-                if (e.target === comparisonModal) hideComparisonModal();
-            });
-
-
-            const componentTabsContainer = document.getElementById('component-tabs');
-            const componentContentContainer = document.getElementById('component-content');
-            
-            function renderComponentContent(key) {
-                const data = componentData[key];
-                if (!data) return;
-                
-                let contentHTML = `<p class="text-center text-medium mb-6">${data.intro}</p><div class="space-y-4">`;
-                data.items.forEach(item => {
-                    let statusClass, icon, darkStatusClass;
-                    if (item.status === 'good') {
-                        statusClass = 'border-l-4 border-green-500 bg-green-50';
-                        darkStatusClass = 'dark:bg-green-900/50 dark:border-green-400';
-                        icon = '✔';
-                    } else if (item.status === 'mid') {
-                        statusClass = 'border-l-4 border-yellow-500 bg-yellow-50';
-                        darkStatusClass = 'dark:bg-yellow-700/50 dark:border-yellow-400';
-                        icon = '〰️';
-                    } else { 
-                        statusClass = 'border-l-4 border-red-500 bg-red-50';
-                        darkStatusClass = 'dark:bg-red-900/50 dark:border-red-400';
-                        icon = '❌';
-                    }
-                    contentHTML += `
-                        <div class="p-4 rounded-lg ${statusClass} ${darkStatusClass}">
-                            <h4 class="font-bold text-dark">${icon} ${item.name}</h4>
-                            <p class="text-sm text-medium mt-1">${item.desc}</p>
-                        </div>
-                    `;
-                });
-                contentHTML += `</div>`;
-                componentContentContainer.innerHTML = contentHTML;
-
-                document.querySelectorAll('.component-tab').forEach(t => t.classList.remove('active'));
-                document.querySelector(`.component-tab[data-key="${key}"]`).classList.add('active');
-            }
-
-            Object.keys(componentData).forEach((key, index) => {
-                const tab = document.createElement('button');
-                tab.innerText = key;
-                tab.dataset.key = key;
-                tab.className = `component-tab font-semibold py-2 px-4 rounded-md cursor-pointer border-2 border-transparent ${index === 0 ? 'active' : 'bg-gray-200 dark:bg-gray-700'}`;
-                tab.addEventListener('click', () => renderComponentContent(key));
-                componentTabsContainer.appendChild(tab);
-            });
-            
-            renderComponentContent(Object.keys(componentData)[0]); 
-            renderLaptops(); 
-
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                if (document.documentElement.classList.contains('dark')) {
-                    mobileMenu.classList.add('dark:bg-gray-800');
-                } else {
-                    mobileMenu.classList.remove('dark:bg-gray-800');
-                }
-            });
-            
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main > section'); // This will now include new sections
-
-            function changeActiveLink() {
-                let index = sections.length;
-                const headerHeight = document.querySelector('header').offsetHeight || 70;
-                while(--index >= 0 && window.scrollY + headerHeight + 20 < sections[index].offsetTop) {} // Ensure index doesn't go below 0
-                
-                navLinks.forEach((link) => link.classList.remove('active'));
-                
-                if (index >= 0) { // Check if a section is found
-                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[index].id}"]`);
-                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${sections[index].id}"]`);
-
-                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
-                    if (activeMobileLink) activeMobileLink.classList.add('active');
-                } else if (sections.length > 0) { // Default to first section if no other is active (e.g. at top of page)
-                    const activeDesktopLink = document.querySelector(`.hidden.md\\:flex .nav-link[href="#${sections[0].id}"]`);
-                    const activeMobileLink = document.querySelector(`#mobile-menu .nav-link[href="#${sections[0].id}"]`);
-                    if (activeDesktopLink) activeDesktopLink.classList.add('active');
-                    if (activeMobileLink) activeMobileLink.classList.add('active');
-                }
-            }
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                         window.scrollTo({
-                            top: targetSection.offsetTop - (document.querySelector('header').offsetHeight || 70),
-                            behavior: 'smooth'
-                        });
-                    }
-                    if (!mobileMenu.classList.contains('hidden')) {
-                       mobileMenu.classList.add('hidden');
-                    }
-                     // Manually set active class on click for immediate feedback
-                    navLinks.forEach(lnk => lnk.classList.remove('active'));
-                    link.classList.add('active');
-                    // Also update corresponding link in other menu (desktop/mobile)
-                    const otherMenuSelector = link.closest('#mobile-menu') ? '.hidden.md\\:flex' : '#mobile-menu';
-                    const correspondingLink = document.querySelector(`${otherMenuSelector} .nav-link[href="${targetId}"]`);
-                    if(correspondingLink) correspondingLink.classList.add('active');
-
-                });
-            });
-
-            window.addEventListener('scroll', changeActiveLink);
-            changeActiveLink(); 
-        });
-    </script>
-</body>
-</html>
+                            pointBackgroundColor: 'rgba(74, 144, 2
