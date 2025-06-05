@@ -1,3 +1,8 @@
+import { ScoreBar } from './components/ScoreBar.js';
+
+// Make ScoreBar available globally if needed
+window.ScoreBar = ScoreBar;
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Theme Manager
     if (typeof ThemeManager !== 'undefined' && ThemeManager && typeof ThemeManager.init === 'function') {
@@ -119,4 +124,14 @@ document.addEventListener('DOMContentLoaded', () => {
             SearchHistory.renderSearchSuggestions(searchInput.parentElement);
         });
     }
+
+    // Update laptop display on page load
+    updateLaptopDisplay();
 });
+
+function updateLaptopDisplay() {
+    const laptopsContainer = document.querySelector('#laptops-container');
+    const laptops = getCurrentFilteredLaptops();
+    
+    laptopsContainer.innerHTML = laptops.map(laptop => displayLaptop(laptop)).join('');
+}

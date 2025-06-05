@@ -1,25 +1,22 @@
-class ScoreBar {
+export class ScoreBar {
     static render(score) {
-        const percentage = scoreToPercentage(score);
-        const colorClass = getScoreColor(score);
+        const percentage = (score / 10) * 100;
+        const colorClass = this.getScoreColor(score);
         
         return `
-            <div class="flex items-center space-x-4">
-                <div class="flex-1 h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                    <div class="${colorClass} h-full transition-all duration-500 ease-out"
-                         style="width: ${percentage}%"
-                         role="progressbar"
-                         aria-valuenow="${score}"
-                         aria-valuemin="0"
-                         aria-valuemax="10">
-                    </div>
+            <div class="score-bar-wrapper">
+                <div class="score-bar-container">
+                    <div class="score-bar ${colorClass}" style="width: ${percentage}%"></div>
                 </div>
-                <span class="text-lg font-semibold min-w-[3ch] text-right">
-                    ${score.toFixed(1)}
-                </span>
+                <span class="score-value">${score.toFixed(1)}</span>
             </div>
         `;
     }
-}
 
-export default ScoreBar;
+    static getScoreColor(score) {
+        if (score >= 9) return 'score-excellent';
+        if (score >= 8) return 'score-good';
+        if (score >= 7) return 'score-average';
+        return 'score-poor';
+    }
+}
