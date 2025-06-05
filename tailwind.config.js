@@ -14,6 +14,15 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif']
+      },
+      animation: {
+        'score-fill': 'score-fill 1s ease-out forwards'
+      },
+      keyframes: {
+        'score-fill': {
+          '0%': { width: '0%' },
+          '100%': { width: 'var(--score-width)' }
+        }
       }
     }
   },
