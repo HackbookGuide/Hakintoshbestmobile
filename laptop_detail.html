@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base styles (Light Mode) - Consistent with other pages */
+        /* Base styles (Light Mode) */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #F8F9FA;
@@ -30,8 +30,8 @@
         .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
         .chart-container { position: relative; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
         @media (min-width: 768px) { .chart-container { height: 320px; } }
-        
-        /* Dark Mode Styles - Consistent with other pages */
+
+        /* Dark Mode Styles */
         .dark body {
             background-color: #1a202c;
             color: #e2e8f0;
@@ -78,7 +78,7 @@
         .dark .detail-section {
             background-color: #2d3748;
         }
-         .detail-section h3 {
+        .detail-section h3 {
             font-size: 1.25rem; 
             font-weight: 600; 
             margin-bottom: 0.75rem; 
@@ -87,12 +87,14 @@
         .dark .detail-section h3 {
             color: #63b3ed; 
         }
-         .detail-section ul {
+        .detail-section ul {
             list-style-type: disc;
             list-style-position: inside;
             font-size: 0.875rem; 
             color: #495057; 
-            space-y: 0.25rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
         .dark .detail-section ul {
             color: #a0aec0; 
@@ -105,7 +107,7 @@
         <nav class="container mx-auto px-6 py-2 flex justify-between items-center">
             <a href="index.html" class="text-xl font-bold text-primary">Hackintosh Laptop Guide</a>
             <div class="flex items-center">
-                 <div class="relative mr-4">
+                <div class="relative mr-4">
                     <input type="search" id="find-bar-header" placeholder="Find a laptop..." class="px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                 </div>
                 <div class="hidden md:flex space-x-3 lg:space-x-4 mr-4">
@@ -153,13 +155,12 @@
     </footer>
     
     <!-- External JavaScript files - ORDER MATTERS! -->
-    <script src="js/data.js"></script> <!-- Data MUST be loaded first -->
-    <script src="js/theme.js"></script> 
+    <script src="js/data.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/navigation.js"></script>
-    <script src="js/charts.js"></script> 
-    <script src="js/gemini_api.js"></script> 
-    <script src="js/laptop_detail_page.js"></script> <!-- Page-specific script -->
-    <script src="js/main.js"></script> <!-- Main initializer, should be last -->
-
+    <script src="js/charts.js"></script>
+    <script src="js/gemini_api.js"></script>
+    <script src="js/laptop_detail_page.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
