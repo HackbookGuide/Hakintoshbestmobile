@@ -3,14 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof ThemeManager !== 'undefined' && ThemeManager && typeof ThemeManager.init === 'function') {
         ThemeManager.init(); 
     } else {
-        console.error("ThemeManager is not defined or its init function is missing. Ensure js/theme.js is loaded before js/main.js.");
+        console.warn("ThemeManager is not defined or its init function is missing. Ensure js/theme.js is loaded before js/main.js if theme functionality is expected on this page.");
     }
             
     // Initialize Navigation Manager
     if (typeof NavigationManager !== 'undefined' && NavigationManager && typeof NavigationManager.init === 'function') {
         NavigationManager.init();
     } else {
-        console.error("NavigationManager is not defined or its init function is missing. Ensure js/navigation.js is loaded before js/main.js.");
+        console.warn("NavigationManager is not defined or its init function is missing. Ensure js/navigation.js is loaded before js/main.js if navigation functionality is expected on this page.");
     }
             
     // Set the current year in the footer
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         findBarHeader.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 const searchTerm = findBarHeader.value.trim();
-                let explorerUrl = 'explorer.html';
+                let explorerUrl = 'explorer.html'; // Assuming explorer.html is in the root
                 if (searchTerm) {
                     explorerUrl += `?search=${encodeURIComponent(searchTerm)}`;
                 }
@@ -35,16 +35,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Page-Specific Initializations ---
+    // Looks for a data-page-id attribute on the body to call specific page initializers.
     const pageId = document.body.dataset.pageId;
 
-    if (pageId === 'home' && typeof IndexPage !== 'undefined' && IndexPage.init) {
-        IndexPage.init();
-    } else if (pageId === 'explorer' && typeof ExplorerPage !== 'undefined' && ExplorerPage.init) {
-        ExplorerPage.init(); // This will call the init function from js/explorer_page.js
-    } else if (pageId === 'laptop-detail' && typeof LaptopDetailPage !== 'undefined' && LaptopDetailPage.init) {
-        // LaptopDetailPage.init(); // Assuming js/laptop_detail_page.js also exposes an init
-    } else if (pageId === 'comparison' && typeof ComparisonPage !== 'undefined' && ComparisonPage.init) {
-        // ComparisonPage.init(); // Assuming js/comparison_page.js also exposes an init
+    if (pageId) {
+        switch (pageId) {
+            case 'home':
+                if (typeof IndexPage !== 'undefined' && IndexPage.init) {
+                    IndexPage.init();
+                } else {
+                    // console.log("IndexPage specific script not loaded or init function missing.");
+                }
+                break;
+            case 'explorer':
+                if (typeof ExplorerPage !== 'undefined' && ExplorerPage.init) {
+                    ExplorerPage.init();
+                } else {
+                    console.warn("ExplorerPage specific script (js/explorer_page.js) not loaded or ExplorerPage.init function missing.");
+                }
+                break;
+            case 'laptop-detail':
+                if (typeof LaptopDetailPage !== 'undefined' && LaptopDetailPage.init) {
+                    LaptopDetailPage.init();
+                } else {
+                    console.warn("LaptopDetailPage specific script (js/laptop_detail_page.js) not loaded or LaptopDetailPage.init function missing.");
+                }
+                break;
+            case 'comparison':
+                if (typeof ComparisonPage !== 'undefined' && ComparisonPage.init) {
+                    ComparisonPage.init();
+                } else {
+                    console.warn("ComparisonPage specific script (js/comparison_page.js) not loaded or ComparisonPage.init function missing.");
+                }
+                break;
+            case 'components':
+                if (typeof ComponentsPage !== 'undefined' && ComponentsPage.init) {
+                    ComponentsPage.init();
+                } else {
+                     console.warn("ComponentsPage specific script (js/components_page.js) not loaded or ComponentsPage.init function missing.");
+                }
+                break;
+            // Add cases for other pages like 'build-guide', 'essentials', etc.
+            // Example:
+            // case 'build-guide':
+            //     if (typeof BuildGuidePage !== 'undefined' && BuildGuidePage.init) {
+            //         BuildGuidePage.init();
+            //     }
+            //     break;
+            default:
+                // console.log(`No specific JS initializer for page ID: ${pageId}`);
+                break;
+        }
+    } else {
+        console.warn("Body tag is missing 'data-page-id' attribute. Page-specific initializations may not run.");
     }
-    // ... any other page-specific initializations
 });
