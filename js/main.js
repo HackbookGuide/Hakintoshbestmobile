@@ -96,4 +96,27 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("Body tag is missing 'data-page-id' attribute. Page-specific initializations may not run.");
     }
+    
+    // Initialize new features
+    TooltipManager.init();
+    ShortcutManager.init();
+    
+    // Add tooltips to important elements
+    document.querySelectorAll('[data-priority]').forEach(el => {
+        el.setAttribute('data-tooltip', 'Click to filter by this priority');
+    });
+    
+    // Initialize search with history
+    const searchInput = document.querySelector('#find-bar-header');
+    if (searchInput) {
+        searchInput.addEventListener('input', e => {
+            if (e.target.value) {
+                SearchHistory.saveSearch(e.target.value);
+            }
+        });
+        
+        searchInput.addEventListener('focus', () => {
+            SearchHistory.renderSearchSuggestions(searchInput.parentElement);
+        });
+    }
 });

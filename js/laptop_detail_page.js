@@ -1,23 +1,31 @@
 function initLaptopDetailPage() {
-    console.log("LaptopDetailPage: initLaptopDetailPage called");
+    console.log("Initializing laptop detail page...");
 
     const laptopDetailContent = document.getElementById('laptop-detail-content');
     const loadingMessage = document.getElementById('loading-laptop-details');
     const urlParams = new URLSearchParams(window.location.search);
     const laptopId = urlParams.get('id');
 
+    console.log("Laptop ID from URL:", laptopId);
+
     // Error handling for missing data
     if (typeof laptopData === 'undefined') {
+        console.error("laptopData is undefined");
         showError('Error: Core application data (laptopData) could not be loaded.');
         return;
     }
 
     if (!laptopId || !laptopData[laptopId]) {
+        console.error("Invalid laptop ID or laptop not found:", laptopId);
         showError(`Error: Laptop with ID "${laptopId || 'none provided'}" not found.`);
         return;
     }
 
-    if (loadingMessage) loadingMessage.style.display = 'none';
+    console.log("Found laptop data:", laptopData[laptopId]);
+
+    if (loadingMessage) {
+        loadingMessage.style.display = 'none';
+    }
 
     const data = laptopData[laptopId];
     renderLaptopDetails(data);
@@ -25,7 +33,10 @@ function initLaptopDetailPage() {
 
 function renderLaptopDetails(data) {
     const laptopDetailContent = document.getElementById('laptop-detail-content');
-    if (!laptopDetailContent) return;
+    if (!laptopDetailContent) {
+        console.error("Laptop detail container not found");
+        return;
+    }
 
     laptopDetailContent.innerHTML = `
         <div class="laptop-detail-wrapper p-6">
@@ -53,6 +64,12 @@ function renderLaptopDetails(data) {
                         <div class="spec-item fade-in">
                             <strong>Storage:</strong> ${data.details.storage}
                         </div>
+                        <div class="spec-item fade-in">
+                            <strong>macOS:</strong> ${data.details.macosSupport}
+                        </div>
+                        <div class="spec-item fade-in">
+                            <strong>Score:</strong> ${data.score}/10
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,6 +80,7 @@ function renderLaptopDetails(data) {
         </div>
     `;
 
+    // Initialize the chart after content is rendered
     initializeChart(data);
 }
 
@@ -70,7 +88,9 @@ function showError(message) {
     const laptopDetailContent = document.getElementById('laptop-detail-content');
     const loadingMessage = document.getElementById('loading-laptop-details');
 
-    if (loadingMessage) loadingMessage.style.display = 'none';
+    if (loadingMessage) {
+        loadingMessage.style.display = 'none';
+    }
     
     if (laptopDetailContent) {
         laptopDetailContent.innerHTML = `
@@ -85,11 +105,6 @@ function showError(message) {
 }
 
 function initializeChart(data) {
-    if (typeof ChartManager === 'undefined') {
-        console.error('ChartManager not found');
-        return;
-    }
-
     const chartCtx = document.getElementById('laptopChart')?.getContext('2d');
     if (!chartCtx) {
         console.error('Chart canvas not found');
