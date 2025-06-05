@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Hackintosh Laptop Guide - Home</title>
-    <!-- Remove cdn.tailwindcss.com -->
+    <title>Hackintosh Laptop Guide</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <!-- Link to Chart.js (though not used on this specific page, common for others) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -104,13 +103,10 @@
                     <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
                     <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
                 </div>
-                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
-                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
-                    </svg>
-                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
+                <button 
+                    class="theme-toggle p-2 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                    aria-label="Toggle theme">
+                    ☀️
                 </button>
                 <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>

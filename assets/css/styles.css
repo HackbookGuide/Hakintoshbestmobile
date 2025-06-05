@@ -1372,6 +1372,61 @@ video {
   }
 }
 
+/* Theme transitions */
+html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode styles */
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body {
+    background-color: #1a1a1a;
+    color: #e5e5e5;
+}
+
+html.dark .navbar {
+    background-color: #2d2d2d;
+}
+
+html.dark .laptop-card {
+    background-color: #2d2d2d;
+    border-color: #404040;
+}
+
+html.dark .filter-btn {
+    background-color: #2d2d2d;
+    color: #e5e5e5;
+    border-color: #404040;
+}
+
+html.dark .filter-btn.active {
+    background-color: #4A90E2;
+    color: #ffffff;
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+html.dark .theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* Score Bar Styles */
 .score-bar-wrapper {
     display: flex;

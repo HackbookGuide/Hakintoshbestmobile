@@ -66,32 +66,31 @@ const ThemeManager = (() => {
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-    const darkModeToggle = document.querySelector('.dark-mode-toggle');
+    const themeToggle = document.querySelector('.theme-toggle');
     const html = document.documentElement;
 
-    // Check for saved theme preference or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Check for saved theme preference
+    const currentTheme = localStorage.getItem('theme');
     
-    // Set initial theme
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+    // Set initial theme based on saved preference or system preference
+    if (currentTheme === 'dark' || (!currentTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         html.classList.add('dark');
+        themeToggle?.setAttribute('aria-label', 'Switch to light mode');
+        themeToggle?.textContent = '🌙';
+    } else {
+        html.classList.remove('dark');
+        themeToggle?.setAttribute('aria-label', 'Switch to dark mode');
+        themeToggle?.textContent = '☀️';
     }
 
-    // Update theme toggle button state
-    const updateToggleState = () => {
-        const isDark = html.classList.contains('dark');
-        darkModeToggle.setAttribute('aria-checked', isDark.toString());
-        darkModeToggle.innerHTML = isDark ? '🌙' : '☀️';
-    };
-
-    updateToggleState();
-
-    // Handle theme toggle
-    darkModeToggle.addEventListener('click', () => {
+    // Theme toggle handler
+    themeToggle?.addEventListener('click', () => {
         html.classList.toggle('dark');
         const isDark = html.classList.contains('dark');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        updateToggleState();
+        
+        // Update toggle button
+        themeToggle.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+        themeToggle.textContent = isDark ? '🌙' : '☀️';
     });
 });
