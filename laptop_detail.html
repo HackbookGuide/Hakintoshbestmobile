@@ -46,24 +46,23 @@
         .dark .text-primary { color: #63b3ed; }
         .dark .bg-primary { background-color: #3182ce; }
         .dark .nav-link.active { color: #63b3ed; border-color: #63b3ed; }
-        .dark #find-bar-header { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; } /* Updated for header find bar */
+        .dark #find-bar-header { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; }
         .dark #find-bar-header::placeholder { color: #a0aec0; }
-
 
         .gemini-output {
             margin-top: 1rem;
             padding: 0.75rem;
-            background-color: #e9ecef; /* Light mode background for output */
-            border-radius: 0.375rem; /* rounded-md */
-            font-size: 0.875rem; /* text-sm */
+            background-color: #e9ecef; 
+            border-radius: 0.375rem; 
+            font-size: 0.875rem; 
             line-height: 1.5;
             min-height: 50px;
-            border: 1px solid #dee2e6; /* Light border */
+            border: 1px solid #dee2e6; 
         }
         .dark .gemini-output {
-            background-color: #374151; /* Darker background for output in dark mode */
-            border-color: #4b5563; /* Darker border in dark mode */
-            color: #d1d5db; /* Lighter text for output in dark mode */
+            background-color: #374151; 
+            border-color: #4b5563; 
+            color: #d1d5db; 
         }
         .gemini-output ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; }
         .gemini-output li { margin-bottom: 0.25rem; }
@@ -80,27 +79,29 @@
             background-color: #2d3748;
         }
          .detail-section h3 {
-            font-size: 1.25rem; /* text-xl */
-            font-weight: 600; /* font-semibold */
-            margin-bottom: 0.75rem; /* mb-3 */
-            color: #4A90E2; /* text-primary */
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            margin-bottom: 0.75rem; 
+            color: #4A90E2; 
         }
         .dark .detail-section h3 {
-            color: #63b3ed; /* dark:text-primary */
+            color: #63b3ed; 
         }
          .detail-section ul {
             list-style-type: disc;
             list-style-position: inside;
-            font-size: 0.875rem; /* text-sm */
-            color: #495057; /* text-medium */
-            space-y: 0.25rem; /* space-y-1 */
+            font-size: 0.875rem; 
+            color: #495057; 
+            space-y: 0.25rem; 
         }
         .dark .detail-section ul {
-            color: #a0aec0; /* dark:text-medium */
+            color: #a0aec0; 
         }
     </style>
 </head>
-<body class="text-dark" data-page-id="laptop-detail"> <header class="bg-white shadow-md sticky top-0 z-40">
+<body class="text-dark" data-page-id="laptop-detail">
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
         <nav class="container mx-auto px-6 py-2 flex justify-between items-center">
             <a href="index.html" class="text-xl font-bold text-primary">Hackintosh Laptop Guide</a>
             <div class="flex items-center">
@@ -143,6 +144,7 @@
     <main class="container mx-auto p-4 md:p-8">
         <div id="laptop-detail-content" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
             <p id="loading-laptop-details" class="text-center text-xl text-medium py-10">Loading laptop details...</p>
+            <!-- Content will be injected here by js/laptop_detail_page.js -->
         </div>
     </main>
 
@@ -150,197 +152,35 @@
         <p class="text-sm text-medium">&copy; <span id="current-year"></span> Hackintosh Laptop Guide. For educational purposes only.</p>
     </footer>
     
-    <script src="js/data.js"></script> 
+    <script id="data-script-embedded-for-canvas">
+        // FOR CANVAS PREVIEW: Paste your FULL laptopData and componentData objects here.
+        // This ensures the detail page has all data when previewed directly.
+        // For local deployment, this block would be empty, and data loaded from an external js/data.js file.
+        const laptopData = {
+            "t480": {
+                name: "Lenovo ThinkPad T480",
+                priority: ["ease", "budget"],
+                image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=ThinkPad+T480",
+                score: 85,
+                summary: "A community favorite known for its robustness, upgradeability, and extensive documentation, making it a top choice for beginners.",
+                details: { cpu: "8th Gen Intel U-Series (i5/i7)", igpu: "Intel UHD 620 (Well Supported)", dgpu: "NVIDIA MX150 (Must be disabled)", wifi: "Intel (Replaceable). Works with kexts.", audio: "Realtek ALC3287/ALC257", trackpad: "Synaptics (SMBus/I2C/PS2)", ram: "Up to 32GB DDR4 (2 slots), User Upgradeable", storage: "M.2 NVMe SSD + optional 2.5\" SATA SSD/HDD bay", macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" }, cpuBenchmark: { score: 3200, source: "Geekbench 5 Multi (i5-8250U)" }, pros: ["Excellent community support", "Highly upgradeable (RAM, SSD, Wi-Fi)", "Robust build quality", "Relatively straightforward setup"], cons: ["dGPU models require disabling", "SD card reader can be inconsistent", "Thunderbolt 3 support can be finicky"], kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooPS2Controller", "VoodooRMI", "VoodooI2C", "IntelMausi", "OpenIntelWireless suite"], chartData: [4, 3, 3, 5] }
+            },
+            "x1c67": { name: "Lenovo ThinkPad X1 Carbon (6th/7th Gen)", priority: ["ease", "performance"], image: "https://placehold.co/600x400/4A90E2/FFFFFF?text=X1+Carbon+6/7", score: 80, summary: "A premium, lightweight ultrabook that combines portability with strong Hackintosh compatibility, ideal for users on the go.", details: { cpu: "8th Gen Intel U-Series (i5/i7, e.g. i7-8650U, i7-8565U)", igpu: "Intel UHD 620 (Well Supported)", dgpu: "None", wifi: "Intel (Replaceable in Gen 6, often soldered in Gen 7 - check specific model). Works with OpenIntelWireless.", audio: "Realtek ALC285/ALC3287 (Gen 6) / ALC3287 (Gen 7)", trackpad: "Synaptics (I2C/SMBus)", ram: "8GB/16GB LPDDR3 (Soldered)", storage: "M.2 NVMe SSD", macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" }, cpuBenchmark: { score: 3400, source: "Geekbench 5 Multi (i7-8650U)" }, pros: ["Premium, lightweight design", "Excellent keyboard", "Good community support"], cons: ["RAM is soldered", "Wi-Fi soldered on some Gen 7 models", "Thunderbolt can be finicky"], kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "VoodooRMI", "OpenIntelWireless suite", "YogaSMC (optional for some features)"], chartData: [4, 3, 5, 3] }},
+            // ... PASTE ALL YOUR OTHER LAPTOP DATA ENTRIES HERE from the previous full version ...
+            "chuwi-corebook-x-i5-8259u": { name: "Chuwi CoreBook X (Intel i5-8259U)", priority: ["budget", "performance"], image: "https://placehold.co/600x400/cccccc/FFFFFF?text=Chuwi+CoreBookX", score: 72, summary: "Budget laptop with a surprisingly powerful Iris Plus 655 iGPU. Good Hackintosh potential if you get this specific CPU.", details: { cpu: "Intel Core i5-8259U (Coffee Lake U, 28W)", igpu: "Intel Iris Plus Graphics 655 (Excellent support)", dgpu: "None", wifi: "Intel AC 7265 or similar (Works with OpenIntelWireless)", audio: "Realtek ALC269 (Layout ID needed)", trackpad: "Generic I2C (VoodooI2C needed)", ram: "8GB/16GB DDR4 (Often soldered)", storage: "M.2 SATA/NVMe SSD", macosSupport: { min: "macOS Mojave 10.14", max: "macOS Sonoma 14.x" }, cpuBenchmark: { score: 3800, source: "Geekbench 5 Multi (i5-8259U est.)" }, pros: ["Excellent iGPU performance (Iris Plus 655)", "Affordable for the specs", "Good 3:2 display"], cons: ["Build quality is budget", "Soldered RAM common", "Limited BIOS options", "Lesser known brand, fewer guides"], kexts: ["Lilu", "WhateverGreen", "VirtualSMC", "AppleALC", "VoodooI2C", "OpenIntelWireless"], chartData: [3, 4, 4, 5] }}
+        };
+        const componentData = { /* ... PASTE FULL componentData HERE from the previous full version ... */ 
+             "CPU":{intro:"The CPU is the brain. Intel CPUs from 8th-10th Gen are the 'sweet spot'. Newer generations and AMD CPUs introduce significant challenges for laptops.",items:[{name:"Intel 8th-10th Gen (Coffee/Comet/Ice Lake U/H)",status:"good",desc:"Recommended: Excellent choice. Best balance of performance, iGPU compatibility (UHD 620/630, Iris Plus), and community support."},{name:"Intel 11th+ Gen (Tiger/Alder Lake & newer)",status:"bad",desc:"Avoid for Laptops: Their Iris Xe iGPUs lack graphics acceleration in macOS, making them unusable for a good experience unless it's a rare model where iGPU can be fully disabled and a supported AMD dGPU is present (uncommon in laptops)."},{name:"Intel 4th-7th Gen (Haswell/Broadwell/Skylake/Kaby Lake)",status:"mid",desc:"Viable with Effort: Good for budget builds. Compatibility is generally good with appropriate patching (e.g. HD 4600, HD 5500, HD 620), but lower performance. Great for learning on cheaper hardware."},{name:"AMD Ryzen (All series for laptops)",status:"bad",desc:"Avoid for Laptops: Requires complex patches (NootedRed for iGPU), and support for iGPU, power management, sleep, and other features is very inconsistent, experimental, and often breaks."}]},
+        };
+    </script>
+    
+    <!-- External JavaScript files - ORDER MATTERS! -->
+    <!-- <script src="js/data.js"></script> --> <!-- Data is embedded above for Canvas preview -->
     <script src="js/theme.js"></script> 
     <script src="js/navigation.js"></script>
     <script src="js/charts.js"></script> 
-    <script src="js/gemini_api.js"></script>
-    <script src="js/laptop_detail_page.js"></script> <script src="js/main.js"></script> </body>
+    <script src="js/gemini_api.js"></script> 
+    <script src="js/laptop_detail_page.js"></script> 
+    <script src="js/main.js"></script> 
+</body>
 </html>
-```
-
----
-
-Here is the content for `js/laptop_detail_page.js`. You will need to create this file in your `js/` folder.
-
-<code title="js/laptop_detail_page.js">
-```javascript
-// FILE: js/laptop_detail_page.js
-
-function initLaptopDetailPage() {
-    const laptopDetailContent = document.getElementById('laptop-detail-content');
-    const loadingMessage = document.getElementById('loading-laptop-details');
-    const urlParams = new URLSearchParams(window.location.search);
-    const laptopId = urlParams.get('id');
-
-    // Ensure laptopData is available from js/data.js
-    if (typeof laptopData === 'undefined') {
-        console.error("laptopData is not defined. Ensure js/data.js is loaded before this script.");
-        if(loadingMessage) loadingMessage.textContent = 'Error: Core application data could not be loaded.';
-        if (laptopDetailContent && !loadingMessage) {
-             laptopDetailContent.innerHTML = `<p class="text-center text-xl text-red-500 py-10">Error: Core application data could not be loaded.</p><a href="explorer.html" class="block text-center text-primary hover:underline mt-4">&larr; Back to Explorer</a>`;
-        }
-        return;
-    }
-    if (!laptopId || !laptopData[laptopId]) {
-        if(loadingMessage) loadingMessage.textContent = 'Error: Laptop not found or data is missing for ID: ' + (laptopId || 'Unknown');
-        console.error('Laptop ID missing or laptop data not found for ID:', laptopId, 'Available IDs:', Object.keys(laptopData));
-         if (laptopDetailContent && !loadingMessage) {
-             laptopDetailContent.innerHTML = `<p class="text-center text-xl text-red-500 py-10">Error: Laptop not found or data is missing for ID: ${(laptopId || 'Unknown')}</p><a href="explorer.html" class="block text-center text-primary hover:underline mt-4">&larr; Back to Explorer</a>`;
-        }
-        return;
-    }
-    if(loadingMessage) loadingMessage.style.display = 'none'; 
-
-    const data = laptopData[laptopId];
-
-    laptopDetailContent.innerHTML = `
-        <a href="explorer.html" class="inline-block mb-6 text-primary hover:underline">&larr; Back to Explorer</a>
-        <h2 class="text-3xl font-bold mb-2 text-dark dark:text-gray-100">${data.name}</h2>
-        <p class="text-lg text-medium mb-6">${data.summary}</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-                <img src="${data.image}" alt="${data.name}" class="w-full rounded-lg mb-6 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
-                
-                <div class="detail-section card-shadow">
-                    <h3>Core Specifications</h3>
-                    <ul class="text-sm text-medium space-y-1">
-                        <li><strong>CPU:</strong> ${data.details.cpu}</li>
-                        <li><strong>iGPU:</strong> ${data.details.igpu}</li>
-                        ${data.details.dgpu && data.details.dgpu !== "None" ? `<li><strong>dGPU:</strong> ${data.details.dgpu}</li>` : ''}
-                        <li><strong>RAM:</strong> ${data.details.ram}</li>
-                        <li><strong>Storage:</strong> ${data.details.storage}</li>
-                        <li><strong>Wi-Fi:</strong> ${data.details.wifi}</li>
-                        <li><strong>Audio:</strong> ${data.details.audio}</li>
-                        <li><strong>Trackpad:</strong> ${data.details.trackpad}</li>
-                    </ul>
-                </div>
-
-                <div class="detail-section card-shadow mt-6">
-                    <h3>macOS Compatibility</h3>
-                    <ul class="text-sm text-medium space-y-1">
-                        <li><strong>Min Supported:</strong> ${data.details.macosSupport.min}</li>
-                        <li><strong>Max Supported:</strong> ${data.details.macosSupport.max}</li>
-                        ${data.details.cpuBenchmark ? `<li><strong>CPU Benchmark:</strong> ~${data.details.cpuBenchmark.score} (${data.details.cpuBenchmark.source})</li>` : ''}
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <div class="detail-section card-shadow">
-                    <h3>Compatibility Report</h3>
-                    <div class="mb-4">
-                        <h4 class="font-semibold text-green-600 dark:text-green-400">What Works Well 👍</h4>
-                        <ul class="list-disc list-inside text-sm text-medium space-y-1 mt-1">
-                            ${data.details.pros.map(p => `<li>${p}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-yellow-600 dark:text-yellow-400">Key Challenges ⚠️</h4>
-                        <ul class="list-disc list-inside text-sm text-medium space-y-1 mt-1">
-                            ${data.details.cons.map(c => `<li>${c}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section card-shadow mt-6">
-                    <h3>Essential Kexts (Typical)</h3>
-                    <p class="text-sm text-medium">${data.details.kexts.join(', ')}</p>
-                </div>
-                
-                <div class="detail-section card-shadow mt-6">
-                    <h3>Ratings</h3>
-                    <div class="chart-container">
-                        <canvas id="laptop-detail-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <div class="detail-section card-shadow">
-                <h3>AI Compatibility Insights</h3>
-                <button id="gemini-compatibility-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
-                    ✨ Get AI Insights
-                </button>
-                <div id="gemini-compatibility-output" class="gemini-output">
-                    Click the button to generate insights.
-                </div>
-            </div>
-            <div class="detail-section card-shadow">
-                <h3>AI Post-Install Checklist</h3>
-                <button id="gemini-checklist-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
-                    ✨ Generate Checklist
-                </button>
-                <div id="gemini-checklist-output" class="gemini-output">
-                   Click the button to generate a checklist.
-                </div>
-            </div>
-        </div>
-    `;
-
-    if (typeof ChartManager !== 'undefined' && ChartManager.createRadarChart) {
-        ChartManager.clearChartInstances(); // Clear charts from any previous page
-        const chartCtx = document.getElementById('laptop-detail-chart')?.getContext('2d');
-        if (chartCtx) {
-            const currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-            ChartManager.createRadarChart(chartCtx, data.name, data.details.chartData, currentTheme);
-        } else {
-            console.error("Canvas context for laptop-detail-chart not found.");
-        }
-    } else {
-        console.error("ChartManager or ChartManager.createRadarChart is not defined.");
-    }
-
-
-    const compatibilityBtn = document.getElementById('gemini-compatibility-btn');
-    const checklistBtn = document.getElementById('gemini-checklist-btn');
-
-    if (compatibilityBtn && typeof GeminiAPIManager !== 'undefined' && GeminiAPIManager.callGeminiAPI) {
-        compatibilityBtn.addEventListener('click', async () => {
-            const outputDiv = document.getElementById('gemini-compatibility-output');
-            outputDiv.innerHTML = '<p class="text-medium animate-pulse">✨ Generating compatibility insights...</p>';
-            const prompt = `
-                As a Hackintosh expert, provide brief compatibility insights for the following laptop configuration. 
-                Focus on key considerations, common pitfalls, and what to double-check during setup.
-                Be concise and helpful for someone planning a Hackintosh build. Output in simple HTML with paragraphs or bullet points if appropriate.
-
-                Laptop: ${data.name}
-                CPU: ${data.details.cpu}
-                Integrated GPU: ${data.details.igpu}
-                Dedicated GPU: ${data.details.dgpu || "None"}
-                Wi-Fi: ${data.details.wifi}
-                Audio Codec: ${data.details.audio}
-                Trackpad Type: ${data.details.trackpad}
-                Typical Kexts: ${data.details.kexts.join(', ')}
-            `;
-            const insights = await GeminiAPIManager.callGeminiAPI(prompt);
-            outputDiv.innerHTML = insights; 
-        });
-    } else {
-        console.error("Compatibility button or GeminiAPIManager not found.");
-    }
-
-    if (checklistBtn && typeof GeminiAPIManager !== 'undefined' && GeminiAPIManager.callGeminiAPI) {
-        checklistBtn.addEventListener('click', async () => {
-            const outputDiv = document.getElementById('gemini-checklist-output');
-            outputDiv.innerHTML = '<p class="text-medium animate-pulse">✨ Generating post-install checklist...</p>';
-            const prompt = `
-                Generate a concise, actionable post-installation checklist for a Hackintosh build on a "${data.name}" 
-                with the following key components:
-                CPU: ${data.details.cpu}
-                iGPU: ${data.details.igpu}
-                Wi-Fi: ${data.details.wifi}
-                Audio: ${data.details.audio}
-                Trackpad: ${data.details.trackpad}
-
-                Focus on common items to verify and tune after macOS is installed. 
-                Format the output as an HTML unordered list (ul and li tags).
-            `;
-            const checklist = await GeminiAPIManager.callGeminiAPI(prompt);
-            outputDiv.innerHTML = checklist; 
-        });
-    } else {
-        console.error("Checklist button or GeminiAPIManager not found.");
-    }
-}
