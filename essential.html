@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackintosh Essentials - Hackintosh Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles (Light Mode) - Consistent with other pages */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #212529;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .bg-primary { background-color: #4A90E2; }
+        .text-primary { color: #4A90E2; }
+        .border-primary { border-color: #4A90E2; }
+        .bg-secondary { background-color: #f0f4f8; }
+        .text-dark { color: #212529; }
+        .text-medium { color: #495057; }
+        .text-light { color: #adb5bd; }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .nav-link { transition: color 0.2s, border-color 0.2s; padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .nav-link.active { color: #4A90E2; border-bottom-width: 2px; border-color: #4A90E2; }
+        .nav-link:not(.active) { border-bottom-width: 2px; border-color: transparent; }
+        
+        .timeline-item::before { content: ''; position: absolute; top: 12px; left: -20px; width: 40px; border-top: 2px dashed #adb5bd; }
+        .timeline-item:first-child::before { display: none; }
+        
+        /* Dark Mode Styles - Consistent with other pages */
+        .dark body {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .dark .bg-white { background-color: #2d3748; }
+        .dark .text-dark { color: #e2e8f0; }
+        .dark .text-medium { color: #a0aec0; }
+        .dark .text-light { color: #718096; }
+        .dark .bg-secondary { background-color: #2d3748; }
+        .dark .card-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2); }
+        .dark .border-primary { border-color: #63b3ed; }
+        .dark .text-primary { color: #63b3ed; }
+        .dark .bg-primary { background-color: #3182ce; }
+        .dark .nav-link.active { color: #63b3ed; border-color: #63b3ed; }
+        .dark #find-bar-header { background-color: #4a5568; border-color: #6b7280; color: #e2e8f0; }
+        .dark #find-bar-header::placeholder { color: #a0aec0; }
+        .dark .timeline-item::before { border-top-color: #4a5568; }
+        .dark .absolute.bg-primary { background-color: #3182ce; } /* For timeline dots */
+        .dark .border-white { border-color: #2d3748; } /* For timeline dot borders */
+
+    </style>
+</head>
+<body class="text-dark" data-page-id="essentials">
+
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <nav class="container mx-auto px-6 py-2 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-primary">Hackintosh Laptop Guide</a>
+            <div class="flex items-center">
+                 <div class="relative mr-4">
+                    <input type="search" id="find-bar-header" placeholder="Find a laptop..." class="px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                </div>
+                <div class="hidden md:flex space-x-3 lg:space-x-4 mr-4">
+                    <a href="index.html" class="nav-link text-sm lg:text-base">Home</a>
+                    <a href="explorer.html" class="nav-link text-sm lg:text-base">Explorer</a>
+                    <a href="build_guide.html" class="nav-link text-sm lg:text-base">Laptop Builds</a>
+                    <a href="components.html" class="nav-link text-sm lg:text-base">Components</a>
+                    <a href="essentials.html" class="nav-link text-sm lg:text-base">Essentials</a>
+                    <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
+                    <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
+                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
+                    </svg>
+                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="index.html" class="block py-2 px-6 text-sm nav-link">Home</a>
+            <a href="explorer.html" class="block py-2 px-6 text-sm nav-link">Laptop Explorer</a>
+            <a href="build_guide.html" class="block py-2 px-6 text-sm nav-link">Laptop Builds</a>
+            <a href="components.html" class="block py-2 px-6 text-sm nav-link">Component Checker</a>
+            <a href="essentials.html" class="block py-2 px-6 text-sm nav-link">The Essentials</a>
+            <a href="buy_used.html" class="block py-2 px-6 text-sm nav-link">Where to Buy Used</a>
+            <a href="troubleshooting.html" class="block py-2 px-6 text-sm nav-link">Troubleshooting Guide</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <section id="essentials" class="py-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2 text-dark dark:text-gray-100">The Hackintosh Essentials</h2>
+                <p class="text-medium dark:text-gray-300 max-w-2xl mx-auto">Beyond hardware, a successful build requires the right software, mindset, and resources. This section provides a high-level overview of the journey, emphasizing the tools and patience required for success.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl card-shadow dark:bg-gray-700">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">The Build Process at a Glance (Simplified)</h3>
+                    <div class="relative pl-8 space-y-8">
+                        <div class="absolute left-4 h-full border-l-2 border-dashed border-gray-300 dark:border-gray-600"></div>
+                        <div class="relative timeline-item">
+                            <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">1</div>
+                            <h4 class="font-bold text-dark dark:text-gray-100">Research & Planning</h4>
+                            <p class="text-medium dark:text-gray-300 text-sm">Thoroughly vet your chosen laptop's components. Read the Dortania guides.</p>
+                        </div>
+                        <div class="relative timeline-item">
+                           <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">2</div>
+                            <h4 class="font-bold text-dark dark:text-gray-100">BIOS & USB Setup</h4>
+                            <p class="text-medium dark:text-gray-300 text-sm">Configure BIOS settings and create a bootable macOS installer USB with OpenCore.</p>
+                        </div>
+                        <div class="relative timeline-item">
+                               <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">3</div>
+                            <h4 class="font-bold text-dark dark:text-gray-100">Installation</h4>
+                            <p class="text-medium dark:text-gray-300 text-sm">Boot from the USB and install macOS. This step often requires troubleshooting.</p>
+                        </div>
+                        <div class="relative timeline-item">
+                               <div class="absolute w-6 h-6 bg-primary rounded-full -left-11 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white font-bold">4</div>
+                            <h4 class="font-bold text-dark dark:text-gray-100">Post-Install Tuning</h4>
+                            <p class="text-medium dark:text-gray-300 text-sm">Copy the EFI to the main drive and fix remaining issues (Wi-Fi, audio, USB mapping, sleep, etc.).</p>
+                        </div>
+                    </div>
+                     <p class="mt-4 text-medium dark:text-gray-300 text-sm">For a detailed step-by-step process, see the <a href="build_guide.html" class="text-primary hover:underline">Laptop Builds</a> section.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-xl card-shadow dark:bg-gray-700">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">Core Philosophy & Resources</h3>
+                    <p class="text-medium dark:text-gray-300 mb-4">Success in Hackintoshing requires time, patience, and a willingness to learn. It's a rewarding hobby, but not a replacement for a real Mac if you need 100% flawless reliability out of the box.</p>
+                     <ul class="space-y-3">
+                        <li><a href="https://dortania.github.io/OpenCore-Install-Guide/" target="_blank" class="font-semibold text-primary hover:underline">▶ Dortania OpenCore Guide: The #1 resource. Read it.</a></li>
+                        <li><a href="https://www.reddit.com/r/hackintosh/" target="_blank" class="font-semibold text-primary hover:underline">▶ r/hackintosh Subreddit: Active community forum.</a></li>
+                        <li><a href="https://github.com/acidanthera" target="_blank" class="font-semibold text-primary hover:underline">▶ Acidanthera on GitHub: Home of OpenCore & essential kexts.</a></li>
+                        <li><a href="https://www.tonymacx86.com/forums/" target="_blank" class="font-semibold text-primary hover:underline">▶ Tonymacx86 Forums: Large community with guides and support.</a></li>
+                        <li><a href="https://www.insanelymac.com/forum/" target="_blank" class="font-semibold text-primary hover:underline">▶ InsanelyMac Forums: Another long-standing Hackintosh community.</a></li>
+                    </ul>
+                     <p class="text-medium dark:text-gray-300 mt-6 text-sm"><strong>Remember:</strong> macOS updates can break things. Always back up your working EFI and entire system before updating!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 border-t dark:border-gray-700">
+        <p class="text-sm text-medium">&copy; <span id="current-year"></span> Hackintosh Laptop Guide. For educational purposes only.</p>
+    </footer>
+    
+    <script id="data-script-embedded-for-canvas">
+        // FOR CANVAS PREVIEW: It's good practice to include this, even if the page doesn't directly use laptopData.
+        // For local deployment, this block would be empty, and data loaded from js/data.js
+        const laptopData = { /* ... Your full laptopData object here for Canvas preview consistency ... */ };
+        const componentData = { /* ... Your full componentData object here for Canvas preview consistency ... */};
+    </script>
+    
+    <!-- External JavaScript files - ORDER MATTERS! -->
+    <!-- <script src="js/data.js"></script> --> <!-- Data embedded above for Canvas preview -->
+    <script src="js/theme.js"></script> 
+    <script src="js/navigation.js"></script>
+    <!-- These might not be strictly needed for a static page but are part of the global set -->
+    <script src="js/charts.js"></script> 
+    <script src="js/gemini_api.js"></script> 
+    <!-- <script src="js/essentials_page.js"></script> --> <!-- No specific JS for this page yet -->
+    <script src="js/main.js"></script> <!-- Main initializer, should be last -->
+</body>
+</html>
