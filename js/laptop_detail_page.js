@@ -8,13 +8,14 @@ function initLaptopDetailPage() {
 
     console.log("Laptop ID from URL:", laptopId);
 
-    // Error handling for missing data
+    // Ensure laptopData is loaded
     if (typeof laptopData === 'undefined') {
         console.error("laptopData is undefined");
         showError('Error: Core application data (laptopData) could not be loaded.');
         return;
     }
 
+    // Check for valid laptopId and corresponding data entry
     if (!laptopId || !laptopData[laptopId]) {
         console.error("Invalid laptop ID or laptop not found:", laptopId);
         showError(`Error: Laptop with ID "${laptopId || 'none provided'}" not found.`);
@@ -23,11 +24,13 @@ function initLaptopDetailPage() {
 
     console.log("Found laptop data:", laptopData[laptopId]);
 
+    // Hide loading message if present
     if (loadingMessage) {
         loadingMessage.style.display = 'none';
     }
 
     const data = laptopData[laptopId];
+
     renderLaptopDetails(data);
 }
 
@@ -35,7 +38,7 @@ function renderLaptopDetails(data) {
     const laptopDetailContent = document.getElementById('laptop-detail-content');
     if (!laptopDetailContent) return;
 
-    // Update the chart section HTML
+    // Chart section HTML
     const chartSection = `
         <div class="p-8 bg-gray-50 dark:bg-gray-700 mt-8 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-6 text-center dark:text-gray-100">Performance Metrics</h2>
@@ -101,7 +104,7 @@ function renderLaptopDetails(data) {
         </div>
     `;
 
-    // Initialize chart after DOM is updated
+    // Initialize chart after a slight delay
     setTimeout(() => initializeChart(data), 100);
 }
 
@@ -187,7 +190,7 @@ function initializeChart(data) {
         }
     };
 
-    // Clear any existing chart
+    // Destroy any existing chart
     if (window.laptopChart instanceof Chart) {
         window.laptopChart.destroy();
     }

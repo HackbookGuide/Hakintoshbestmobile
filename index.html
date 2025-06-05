@@ -103,9 +103,7 @@
                     <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
                     <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
                 </div>
-                <button 
-                    class="theme-toggle p-2 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                    aria-label="Toggle theme">
+                <button id="theme-toggle" aria-label="Toggle theme" title="Toggle dark mode" class="text-xl">
                     ☀️
                 </button>
                 <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
@@ -131,7 +129,12 @@
             <div class="space-y-4">
                 <h3 class="text-2xl font-semibold mb-4">What's Your Main Priority?</h3>
                 <div id="priority-filter-buttons" class="flex flex-wrap justify-center gap-4 stagger-animate">
-                    <a href="explorer.html?priority=all" data-priority="all" class="priority-btn-all active-filter scale-in">All Laptops</a>
+                    <!-- Replace or update the All Laptops button -->
+                    <a href="explorer.html" 
+                       data-priority="all" 
+                       class="priority-btn-all active-filter scale-in bg-primary text-white px-6 py-3 rounded-lg shadow-lg hover:scale-105 transition-all duration-200">
+                        All Laptops
+                    </a>
                     <a href="explorer.html?priority=ease" data-priority="ease" class="priority-btn scale-in">Ease of Setup</a>
                     <a href="explorer.html?priority=performance" data-priority="performance" class="priority-btn scale-in">Maximum Performance</a>
                     <a href="explorer.html?priority=budget" data-priority="budget" class="priority-btn scale-in">Budget-Friendly</a>
@@ -143,14 +146,6 @@
                 </a>
             </div>
         </section>
-
-        <div class="filters text-center my-8">
-            <button class="priority-btn-all active-filter" data-priority="all">All</button>
-            <button class="priority-btn" data-priority="performance">Performance</button>
-            <button class="priority-btn" data-priority="portability">Portability</button>
-            <button class="priority-btn" data-priority="budget">Budget</button>
-            <button class="priority-btn" data-priority="ease">Ease of Use</button>
-        </div>
 
         <div id="laptop-container" class="laptop-grid">
             <!-- Laptops will be inserted here -->
@@ -167,12 +162,12 @@
         import ScoreBar from './js/components/ScoreBar.js';
         window.ScoreBar = ScoreBar; // Make it globally available if needed
     </script>
-    <script src="js/theme.js"></script> 
     <script src="js/animations.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/charts.js"></script> 
     <script src="js/gemini_api.js"></script> 
     <script src="js/index_page.js"></script> 
     <script src="js/main.js"></script> 
+    <script src="js/theme.js"></script>
 </body>
 </html>

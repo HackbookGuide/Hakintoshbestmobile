@@ -98,13 +98,8 @@
                     <a href="buy_used.html" class="nav-link text-sm lg:text-base">Buy Used</a>
                     <a href="troubleshooting.html" class="nav-link text-sm lg:text-base">Troubleshoot</a>
                 </div>
-                <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Toggle dark mode">
-                    <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-15.66l-.707.707M4.04 19.96l-.707.707M21 12h-1M4 12H3m15.66 8.66l-.707-.707M4.04 4.04l-.707-.707"/>
-                    </svg>
-                    <svg id="theme-icon-dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6 text-indigo-400 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
+                <button id="theme-toggle" aria-label="Toggle theme" title="Toggle dark mode" class="text-xl">
+                    ☀️
                 </button>
                 <button id="mobile-menu-button" class="md:hidden focus:outline-none ml-2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -148,10 +143,22 @@
                 </div>
             </div>
 
-            <div id="laptop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 stagger-animate">
-                <!-- Laptop cards will be injected here by JavaScript -->
+            <div id="laptop-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Laptops will be rendered here -->
+                <!-- Example of a laptop card with a score bar -->
+                <div class="laptop-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                    <img src="assets/images/laptops/placeholder.jpg" alt="Laptop Name" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-lg font-bold mb-2">Laptop Name</h3>
+                    <p class="text-medium mb-3">Laptop summary goes here...</p>
+                    <div class="score-bar-container">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Score:</span>
+                        <div class="score-bar bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden mt-1">
+                            <div class="score-bar-fill bg-primary h-2 rounded-full" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p id="no-results" class="text-center text-medium py-8 hidden fade-in">No laptops match your current filters.</p>
+            <p id="no-results" class="text-center text-medium py-8 hidden">No laptops match your current filters.</p>
         </section>
     </main>
 
@@ -170,12 +177,12 @@
 
     <!-- Scripts - Updated order -->
     <script src="js/data.js"></script>
-    <script src="js/theme.js"></script>
+    <script src="js/explorer_page.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/charts.js"></script>
     <script src="js/gemini_api.js"></script>
-    <script src="js/explorer_page.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
 </body>
 </html>

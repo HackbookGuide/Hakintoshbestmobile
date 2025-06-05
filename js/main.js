@@ -185,3 +185,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all priority filter buttons
+    const priorityButtons = document.querySelectorAll('#priority-filter-buttons [data-priority]');
+    
+    priorityButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            // Remove active class from all buttons
+            priorityButtons.forEach(btn => btn.classList.remove('active-filter'));
+            
+            // Add active class to clicked button
+            button.classList.add('active-filter');
+            
+            // If it's not the "All" button, update the href to include the priority
+            if (button.dataset.priority !== 'all') {
+                button.href = `explorer.html?priority=${button.dataset.priority}`;
+            } else {
+                button.href = 'explorer.html';
+            }
+        });
+    });
+});

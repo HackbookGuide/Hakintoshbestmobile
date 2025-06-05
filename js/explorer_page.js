@@ -18,88 +18,101 @@ const ExplorerPage = (() => {
     function updateCompareActionBar() {
         const count = selectedLaptopsForComparison.length;
         if (selectedCountSpan) selectedCountSpan.textContent = count;
-        
         if (compareActionBar) {
-            if (count > 0) {
-                compareActionBar.classList.remove('hidden');
-            } else {
-                compareActionBar.classList.add('hidden');
-            }
+            compareActionBar.classList.toggle('hidden', count === 0);
         }
-        if (compareSelectedBtn) compareSelectedBtn.disabled = count < 2;
+        if (compareSelectedBtn) {
+            compareSelectedBtn.disabled = count < 2;
+        }
     }
 
     /**
      * Renders laptop cards into the grid based on current filters.
      */
     function renderLaptopsExplorer() {
-        if (!laptopGrid || typeof laptopData === 'undefined' || laptopData === null) {
-            console.error("ExplorerPage: laptopGrid or laptopData is not available.");
-            if(noResultsP) {
-                noResultsP.textContent = "Error: Laptop data could not be loaded or grid element is missing.";
-                noResultsP.classList.remove('hidden');
-            }
+        if (!laptopGrid) {
+            console.error("laptopGrid element not found");
             return;
         }
-        laptopGrid.innerHTML = '';
-        let laptopsToRender = Object.entries(laptopData);
-
-        // Apply priority filter
-        if (currentPriorityFilter !== "all") {
-            laptopsToRender = laptopsToRender.filter(([id, data]) => data.priority && data.priority.includes(currentPriorityFilter));
-        }
-
-        // Apply search term filter
-        if (currentSearchTerm.trim() !== "") {
-            const lowerSearchTerm = currentSearchTerm.trim().toLowerCase();
-            laptopsToRender = laptopsToRender.filter(([id, data]) => {
-                if (data.name && data.name.toLowerCase().includes(lowerSearchTerm)) return true;
-                if (data.summary && data.summary.toLowerCase().includes(lowerSearchTerm)) return true;
-                if (data.details) {
-                    if (data.details.cpu && data.details.cpu.toLowerCase().includes(lowerSearchTerm)) return true;
-                    if (data.details.igpu && data.details.igpu.toLowerCase().includes(lowerSearchTerm)) return true;
-                    if (data.details.dgpu && data.details.dgpu !== "None" && data.details.dgpu.toLowerCase().includes(lowerSearchTerm)) return true;
-                    if (data.details.ram && data.details.ram.toLowerCase().includes(lowerSearchTerm)) return true;
-                    if (data.details.storage && data.details.storage.toLowerCase().includes(lowerSearchTerm)) return true;
-                }
-                return false; 
-            });
+        if (!window.laptopData) {
+            console.error("laptopData is not defined");
+            return;
         }
         
-        if (laptopsToRender.length === 0) {
-            if(noResultsP) {
-                noResultsP.textContent = "No laptops match your current filters.";
-                noResultsP.classList.remove('hidden');
-            }
-        } else {
-            if(noResultsP) noResultsP.classList.add('hidden');
+        let laptops = [];
+        try {
+            laptops = Object.entries(window.laptopData).map(([id, data]) => {
+                console.log("Processing laptop:", id, data);
+                return { id, ...data };
+            });
+        } catch (error) {
+            console.error("Error processing laptopData:", error);
+            return;
+        }
+        console.log("Total laptops found:", laptops.length);
+
+        // Remove the last 4 laptop tiles
+        if (laptops.length > 4) {
+            laptops = laptops.slice(0, laptops.length - 4);
+        }
+        console.log("Laptops after removing last 4:", laptops.length);
+
+        // Filter by priority if the filter is not "all"
+        if (currentPriorityFilter && currentPriorityFilter !== "all") {
+            laptops = laptops.filter(laptop => laptop.priority && 
+                    laptop.priority.toLowerCase() === currentPriorityFilter.toLowerCase());
+            console.log(`Laptops after applying priority filter (${currentPriorityFilter}):`, laptops.length);
         }
 
-        laptopsToRender.forEach(([id, data]) => {
-            const scoreColor = data.score >= 80 ? 'bg-green-500' : data.score >= 70 ? 'bg-yellow-500' : 'bg-red-500';
-            const isSelected = selectedLaptopsForComparison.includes(id);
+        // Filter by search term if provided
+        if (currentSearchTerm && currentSearchTerm.trim() !== "") {
+            const term = currentSearchTerm.trim().toLowerCase();
+            laptops = laptops.filter(laptop =>
+                (laptop.name && laptop.name.toLowerCase().includes(term)) ||
+                (laptop.summary && laptop.summary.toLowerCase().includes(term))
+            );
+            console.log("Laptops after applying search filter:", laptops.length);
+        }
+
+        if (laptops.length === 0) {
+            laptopGrid.innerHTML = "<p>No laptops found</p>";
+            if (noResultsP) noResultsP.classList.remove('hidden');
+            return;
+        }
+        if (noResultsP) noResultsP.classList.add('hidden');
+        
+        let htmlContent = "";
+        laptops.forEach(laptop => {
+            let scoreColor = 'bg-green-500';
+            if (laptop.score < 5) scoreColor = 'bg-red-500';
+            else if (laptop.score < 8) scoreColor = 'bg-yellow-500';
+
+            const isSelected = selectedLaptopsForComparison.includes(laptop.id);
             
-            const card = `
-                <div class="laptop-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover-lift fade-in">
+            htmlContent += `
+                <div class="laptop-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
                     <div class="absolute top-2 right-2 z-10">
-                        <input type="checkbox" id="compare-${id}" data-id="${id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-600 dark:border-gray-500 dark:checked:bg-primary dark:focus:ring-offset-gray-800" ${isSelected ? 'checked' : ''}>
-                        <label for="compare-${id}" class="sr-only">Select ${data.name} for comparison</label>
+                        <input type="checkbox" id="compare-${laptop.id}" data-id="${laptop.id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-600 dark:border-gray-500" ${isSelected ? 'checked' : ''}>
+                        <label for="compare-${laptop.id}" class="sr-only">Select ${laptop.name || 'Untitled Laptop'} for comparison</label>
                     </div>
-                    <a href="laptop_detail.html?id=${id}" class="block laptop-card-clickable-area" data-id="${id}">
-                        <img src="${data.image}" alt="${data.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold mb-2 text-dark dark:text-gray-100">${data.name}</h3>
-                            <p class="text-medium dark:text-gray-300 text-sm mb-4 h-20 overflow-y-auto">${data.summary}</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-primary font-bold">Score: ${data.score}/10</span>
-                                <a href="laptop_detail.html?id=${id}" class="text-primary hover:underline">View Details →</a>
+                    <a href="laptop_detail.html?id=${laptop.id}" class="block laptop-card-clickable-area" data-id="${laptop.id}">
+                        <img src="${laptop.image || 'assets/images/placeholder.jpg'}" alt="${laptop.name || 'Untitled Laptop'}" class="w-full h-48 object-cover rounded-lg mb-4" onerror="this.src='assets/images/placeholder.jpg'">
+                        <h3 class="text-lg font-bold mb-2">${laptop.name || 'Untitled Laptop'}</h3>
+                        <p class="text-medium mb-3">${laptop.summary || ''}</p>
+                        <div class="score-bar-container">
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Score: ${laptop.score}/10</span>
+                            <div class="score-bar bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden mt-1">
+                                <div class="score-bar-fill ${scoreColor} h-2 rounded-full flex items-center justify-center" style="width: ${laptop.score * 10}%;">
+                                    <span class="w-full text-xs font-bold text-center" style="color: #fff;">${laptop.score}/10</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
             `;
-            laptopGrid.insertAdjacentHTML('beforeend', card);
         });
+        
+        laptopGrid.innerHTML = htmlContent;
         addCardAndCheckboxListenersExplorer();
         updateCompareActionBar();
     }
@@ -130,7 +143,20 @@ const ExplorerPage = (() => {
      */
     function init() {
         console.log("ExplorerPage init called"); // For debugging
+        
+        // Check if laptopData exists and has content
+        if (!window.laptopData) {
+            console.error("laptopData is not defined!");
+            return;
+        }
+        console.log("Available laptops:", Object.keys(laptopData).length);
+        
+        // Initialize DOM elements
         laptopGrid = document.getElementById('laptop-grid');
+        if (!laptopGrid) {
+            console.error("laptop-grid element not found!");
+            return;
+        }
         priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons-explorer');
         findBarExplorer = document.getElementById('find-bar-explorer');
         noResultsP = document.getElementById('no-results');
@@ -152,9 +178,12 @@ const ExplorerPage = (() => {
 
         if (priorityFilterButtonsContainer) {
             const priorityBtnsExplorer = priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all');
+            console.log("Found filter buttons:", priorityBtnsExplorer.length);
             priorityBtnsExplorer.forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    console.log("Filter button clicked:", e.currentTarget);
                     currentPriorityFilter = e.currentTarget.dataset.priority;
+                    console.log("Setting filter to:", currentPriorityFilter);
                     renderLaptopsExplorer();
                     priorityBtnsExplorer.forEach(b => b.classList.remove('active-filter'));
                     e.currentTarget.classList.add('active-filter');
@@ -186,6 +215,7 @@ const ExplorerPage = (() => {
             });
         }
 
+        // Process URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const priorityFromUrl = urlParams.get('priority');
         const searchTermFromUrl = urlParams.get('search');
@@ -207,11 +237,23 @@ const ExplorerPage = (() => {
             if(findBarExplorer) findBarExplorer.value = searchTermFromUrl;
         }
         
-        renderLaptopsExplorer(); 
-        updateCompareActionBar(); 
+        // Call render after all initialization
+        renderLaptopsExplorer();
+        updateCompareActionBar();
     }
 
     return {
-        init
+        init,
+        renderLaptopsExplorer
     };
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.ExplorerPage && typeof window.ExplorerPage.init === 'function') {
+        ExplorerPage.init();
+    } else {
+        console.error("ExplorerPage or init function not found!");
+    }
+});
+
+window.ExplorerPage = ExplorerPage;

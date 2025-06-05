@@ -771,6 +771,8 @@ try {
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = laptopData;
     }
+    // Ensure laptopData is available globally
+    window.laptopData = laptopData;
 
 } catch (error) {
     console.error('Error initializing laptop data:', error);
