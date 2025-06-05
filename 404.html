@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/animations.css">
     <style>
         /* Base styles (Light Mode) */
         body {
@@ -121,23 +122,57 @@
         .dark .not_found_container a.home-button:hover {
             background-color: #3c92e1; 
         }
+
+        /* Animation Overrides for 404 */
+        .not_found_container {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .site-header {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .not_found_container h1 {
+            animation: scalePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scalePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Simplified Header for 404 page -->
-    <header class="site-header">
+    <header class="site-header slide-in-right">
         <div class="container">
-            <a href="index.html" class="logo-text">Hackintosh Laptop Guide</a>
+            <a href="index.html" class="logo-text fade-in">Hackintosh Laptop Guide</a>
         </div>
     </header>
 
-    <div class="not_found_container">
-        <h1>404</h1>
-        <p><strong>Page not found.</strong></p>
-        <p>The page you are looking for doesn't exist or has been moved.</p>
-        <a href="index.html" class="home-button">Go to Homepage</a>
+    <div class="not_found_container scale-in">
+        <h1 class="slide-up">404</h1>
+        <p class="fade-in"><strong>Page not found.</strong></p>
+        <p class="fade-in">The page you are looking for doesn't exist or has been moved.</p>
+        <a href="index.html" class="home-button hover-scale">Go to Homepage</a>
     </div>
 
+    <!-- Scripts - Updated order with animations -->
+    <script src="js/animations.js"></script>
     <script id="theme-script-404">
         // Simplified theme application for 404 page
         const ThemeManager404 = (() => {
@@ -170,6 +205,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof ThemeManager404 !== 'undefined') {
                 ThemeManager404.applySavedTheme();
+            }
+            
+            // Initialize animations
+            if (typeof AnimationManager !== 'undefined') {
+                AnimationManager.init();
             }
         });
     </script>

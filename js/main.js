@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("NavigationManager is not defined or its init function is missing. Ensure js/navigation.js is loaded before js/main.js if navigation functionality is expected on this page.");
     }
             
+    // Initialize Animation Manager
+    if (typeof AnimationManager !== 'undefined' && AnimationManager && typeof AnimationManager.init === 'function') {
+        AnimationManager.init();
+    } else {
+        console.warn("AnimationManager is not defined or its init function is missing. Ensure js/animation.js is loaded before js/main.js if animation functionality is expected on this page.");
+    }
+            
     // Set the current year in the footer
     const currentYearEl = document.getElementById('current-year');
     if (currentYearEl) {

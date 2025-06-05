@@ -32,89 +32,44 @@ function initLaptopDetailPage() {
 
     // Dynamically build the HTML for the laptop details
     laptopDetailContent.innerHTML = `
-        <a href="explorer.html" class="inline-block mb-6 text-primary hover:underline">&larr; Back to Explorer</a>
-        <h2 class="text-3xl font-bold mb-2 text-dark dark:text-gray-100">${data.name}</h2>
-        <p class="text-lg text-medium dark:text-gray-300 mb-6">${data.summary}</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-                <img src="${data.image}" alt="${data.name}" class="w-full rounded-lg mb-6 shadow-lg" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
-                
-                <div class="detail-section card-shadow">
-                    <h3>Core Specifications</h3>
-                    <ul class="text-sm text-medium dark:text-gray-300 space-y-1">
-                        <li><strong>CPU:</strong> ${data.details.cpu}</li>
-                        <li><strong>iGPU:</strong> ${data.details.igpu}</li>
-                        ${data.details.dgpu && data.details.dgpu !== "None" ? `<li><strong>dGPU:</strong> ${data.details.dgpu}</li>` : ''}
-                        <li><strong>RAM:</strong> ${data.details.ram}</li>
-                        <li><strong>Storage:</strong> ${data.details.storage}</li>
-                        <li><strong>Wi-Fi:</strong> ${data.details.wifi}</li>
-                        <li><strong>Audio:</strong> ${data.details.audio}</li>
-                        <li><strong>Trackpad:</strong> ${data.details.trackpad}</li>
-                    </ul>
-                </div>
-
-                <div class="detail-section card-shadow mt-6">
-                    <h3>macOS Compatibility</h3>
-                    <ul class="text-sm text-medium dark:text-gray-300 space-y-1">
-                        <li><strong>Min Supported:</strong> ${data.details.macosSupport.min}</li>
-                        <li><strong>Max Supported:</strong> ${data.details.macosSupport.max}</li>
-                        ${data.details.cpuBenchmark ? `<li><strong>CPU Benchmark:</strong> ~${data.details.cpuBenchmark.score} (${data.details.cpuBenchmark.source})</li>` : ''}
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <div class="detail-section card-shadow">
-                    <h3>Compatibility Report</h3>
-                    <div class="mb-4">
-                        <h4 class="font-semibold text-green-600 dark:text-green-400">What Works Well 👍</h4>
-                        <ul class="list-disc list-inside text-sm text-medium dark:text-gray-300 space-y-1 mt-1">
-                            ${data.details.pros.map(p => `<li>${p}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-yellow-600 dark:text-yellow-400">Key Challenges ⚠️</h4>
-                        <ul class="list-disc list-inside text-sm text-medium dark:text-gray-300 space-y-1 mt-1">
-                            ${data.details.cons.map(c => `<li>${c}</li>`).join('')}
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-section card-shadow mt-6">
-                    <h3>Essential Kexts (Typical)</h3>
-                    <p class="text-sm text-medium dark:text-gray-300">${data.details.kexts.join(', ')}</p>
+        <div class="laptop-detail-wrapper p-6">
+            <a href="explorer.html" class="inline-block mb-6 text-primary hover:underline slide-in-right">&larr; Back to Explorer</a>
+            <h2 class="text-3xl font-bold mb-2 text-dark dark:text-gray-100 slide-up">${data.name}</h2>
+            <p class="text-lg text-medium dark:text-gray-300 mb-6 slide-up">${data.summary}</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-animate">
+                <div class="laptop-image scale-in">
+                    <img src="${data.image}" alt="${data.name}" class="rounded-lg shadow-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
                 </div>
                 
-                <div class="detail-section card-shadow mt-6">
-                    <h3>Ratings</h3>
-                    <div class="chart-container">
-                        <canvas id="laptop-detail-chart"></canvas>
+                <div class="laptop-specs slide-up">
+                    <div class="specs-grid grid grid-cols-2 gap-4">
+                        <div class="spec-item fade-in">
+                            <strong>CPU:</strong> ${data.details.cpu}
+                        </div>
+                        <div class="spec-item fade-in">
+                            <strong>GPU:</strong> ${data.details.igpu}
+                        </div>
+                        <div class="spec-item fade-in">
+                            <strong>RAM:</strong> ${data.details.ram}
+                        </div>
+                        <div class="spec-item fade-in">
+                            <strong>Storage:</strong> ${data.details.storage}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-            <div class="detail-section card-shadow">
-                <h3>AI Compatibility Insights</h3>
-                <button id="gemini-compatibility-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
-                    ✨ Get AI Insights
-                </button>
-                <div id="gemini-compatibility-output" class="gemini-output">
-                    Click the button to generate insights.
-                </div>
-            </div>
-            <div class="detail-section card-shadow">
-                <h3>AI Post-Install Checklist</h3>
-                <button id="gemini-checklist-btn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out mb-2">
-                    ✨ Generate Checklist
-                </button>
-                <div id="gemini-checklist-output" class="gemini-output">
-                   Click the button to generate a checklist.
-                </div>
+            
+            <div class="chart-container mt-8 scale-in">
+                <canvas id="laptopChart"></canvas>
             </div>
         </div>
     `;
+
+    // Initialize animations if manager exists
+    if (typeof AnimationManager !== 'undefined') {
+        AnimationManager.init();
+    }
 
     // Initialize Chart
     if (typeof ChartManager !== 'undefined' && ChartManager.createRadarChart) {

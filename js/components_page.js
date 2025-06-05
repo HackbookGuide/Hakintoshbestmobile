@@ -2,55 +2,37 @@ const ComponentsPage = (() => {
     let componentTabsContainer;
     let componentContentContainer;
 
-    /**
-     * Renders the content for a specific component category.
-     * @param {string} key - The key of the component category (e.g., "CPU", "GPU").
-     */
-    function renderComponentContent(key) {
-        if (!componentContentContainer || typeof componentData === 'undefined' || !componentData[key]) {
-            console.error("ComponentsPage: DOM element for content or componentData not found for key:", key);
-            if (componentContentContainer) {
-                componentContentContainer.innerHTML = `<p class="text-red-500">Error: Could not load component details for ${key}.</p>`;
-            }
-            return;
-        }
-        
-        const data = componentData[key];
-        let contentHTML = `<p class="text-center text-medium dark:text-gray-300 mb-6">${data.intro}</p><div class="space-y-4">`;
-        
-        data.items.forEach(item => {
-            let statusClass, icon, darkStatusClass;
-            if (item.status === 'good') {
-                statusClass = 'border-l-4 border-green-500 bg-green-50';
-                darkStatusClass = 'dark:bg-green-900/50 dark:border-green-400';
-                icon = '✔';
-            } else if (item.status === 'mid') {
-                statusClass = 'border-l-4 border-yellow-500 bg-yellow-50';
-                darkStatusClass = 'dark:bg-yellow-700/50 dark:border-yellow-400';
-                icon = '〰️';
-            } else { 
-                statusClass = 'border-l-4 border-red-500 bg-red-50';
-                darkStatusClass = 'dark:bg-red-900/50 dark:border-red-400';
-                icon = '❌';
-            }
-            contentHTML += `
-                <div class="p-4 rounded-lg ${statusClass} ${darkStatusClass}">
-                    <h4 class="font-bold text-dark dark:text-gray-100">${icon} ${item.name}</h4>
-                    <p class="text-sm text-medium dark:text-gray-300 mt-1">${item.desc}</p>
-                </div>
-            `;
-        });
-        contentHTML += `</div>`;
-        componentContentContainer.innerHTML = contentHTML;
+    function createComponentTab(key, isActive = false) {
+        const tab = document.createElement('button');
+        tab.className = `component-tab px-4 py-2 rounded-lg font-semibold transition-all hover:bg-opacity-90 scale-in ${
+            isActive ? 'bg-primary text-white dark:bg-blue-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        }`;
+        tab.setAttribute('data-component', key);
+        tab.textContent = key;
+        return tab;
+    }
 
-        // Update active tab class
-        if (componentTabsContainer) {
-            componentTabsContainer.querySelectorAll('.component-tab').forEach(t => t.classList.remove('active', 'bg-primary', 'text-white', 'dark:bg-blue-600'));
-            const activeTab = componentTabsContainer.querySelector(`.component-tab[data-key="${key}"]`);
-            if (activeTab) {
-                activeTab.classList.add('active', 'bg-primary', 'text-white', 'dark:bg-blue-600');
-            }
-        }
+    function renderComponentContent(component) {
+        if (!component) return '';
+        
+        return `
+            <div class="component-content-wrapper slide-up">
+                <p class="text-lg mb-6 fade-in">${component.intro}</p>
+                <div class="grid gap-6 stagger-animate">
+                    ${component.items.map(item => `
+                        <div class="bg-secondary dark:bg-gray-700 p-4 rounded-lg fade-in">
+                            <div class="flex items-start gap-4">
+                                <span class="status-indicator ${item.status}"></span>
+                                <div>
+                                    <h4 class="font-semibold mb-2">${item.name}</h4>
+                                    <p class="text-medium dark:text-gray-300 text-sm">${item.desc}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
     }
 
     /**
@@ -76,21 +58,23 @@ const ComponentsPage = (() => {
         let firstKey = null;
         Object.keys(componentData).forEach((key, index) => {
             if (index === 0) firstKey = key;
-            const tab = document.createElement('button');
-            tab.innerText = key;
-            tab.dataset.key = key;
-            // Base classes for tabs
-            tab.className = `component-tab font-semibold py-2 px-4 rounded-md cursor-pointer border-2 border-transparent 
-                             bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 
-                             hover:bg-gray-300 dark:hover:bg-gray-600`;
+            const tab = createComponentTab(key, index === 0);
             
-            tab.addEventListener('click', () => renderComponentContent(key));
+            tab.addEventListener('click', () => {
+                // Update active tab
+                componentTabsContainer.querySelectorAll('.component-tab').forEach(t => t.classList.remove('active', 'bg-primary', 'text-white', 'dark:bg-blue-600'));
+                tab.classList.add('active', 'bg-primary', 'text-white', 'dark:bg-blue-600');
+                
+                // Render content
+                componentContentContainer.innerHTML = renderComponentContent(componentData[key]);
+            });
+            
             componentTabsContainer.appendChild(tab);
         });
         
         // Render content for the first tab by default
         if (firstKey) {
-            renderComponentContent(firstKey);
+            componentContentContainer.innerHTML = renderComponentContent(componentData[firstKey]);
         } else {
             componentContentContainer.innerHTML = `<p>No component categories found.</p>`;
         }

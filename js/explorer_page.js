@@ -80,7 +80,7 @@ const ExplorerPage = (() => {
             const isSelected = selectedLaptopsForComparison.includes(id);
             
             const card = `
-                <div class="bg-white dark:bg-gray-700 rounded-xl card-shadow overflow-hidden transform hover:-translate-y-1 transition-transform duration-300 relative">
+                <div class="laptop-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover-lift fade-in">
                     <div class="absolute top-2 right-2 z-10">
                         <input type="checkbox" id="compare-${id}" data-id="${id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-600 dark:border-gray-500 dark:checked:bg-primary dark:focus:ring-offset-gray-800" ${isSelected ? 'checked' : ''}>
                         <label for="compare-${id}" class="sr-only">Select ${data.name} for comparison</label>
@@ -88,12 +88,12 @@ const ExplorerPage = (() => {
                     <a href="laptop_detail.html?id=${id}" class="block laptop-card-clickable-area" data-id="${id}">
                         <img src="${data.image}" alt="${data.name}" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/212529/F8F9FA?text=Image+Not+Found';">
                         <div class="p-6">
-                            <h3 class="text-xl font-bold mb-2 text-dark dark:text-gray-100">${data.name}</h3>
-                            <p class="text-medium text-sm mb-4 h-20 overflow-y-auto">${data.summary}</p>
-                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
-                                <div class="${scoreColor} h-2.5 rounded-full" style="width: ${data.score}%"></div>
+                            <h3 class="text-xl font-semibold mb-2 text-dark dark:text-gray-100">${data.name}</h3>
+                            <p class="text-medium dark:text-gray-300 text-sm mb-4 h-20 overflow-y-auto">${data.summary}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-primary font-bold">Score: ${data.score}/10</span>
+                                <a href="laptop_detail.html?id=${id}" class="text-primary hover:underline">View Details →</a>
                             </div>
-                            <p class="text-xs text-right mt-1 text-light">Compatibility Score: ${data.score}%</p>
                         </div>
                     </a>
                 </div>
