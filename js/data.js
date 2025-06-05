@@ -1,7 +1,3 @@
-// FILE: js/data.js
-// This file contains all the laptop and component compatibility data.
-// Ensure this is the complete and accurate data set.
-
 const laptopData = {
     "t480": {
         name: "Lenovo ThinkPad T480",
@@ -931,15 +927,22 @@ const laptopData = {
                 ]
             }
         };
+        // This log will help confirm if the data object is defined immediately after this script block.
+        if (typeof laptopData !== 'undefined') {
+            console.log("Embedded data script in laptop_detail.html executed successfully. laptopData keys count:", Object.keys(laptopData).length);
+        } else {
+            console.error("Embedded data script in laptop_detail.html: laptopData is STILL UNDEFINED after this block!");
+        }
     </script>
     
     <!-- External JavaScript files - ORDER MATTERS! -->
-    <!-- <script src="js/data.js"></script> --> <!-- Data is embedded above for Canvas -->
+    <!-- <script src="js/data.js"></script> --> <!-- Data is embedded above for Canvas preview -->
     <script src="js/theme.js"></script> 
     <script src="js/navigation.js"></script>
     <script src="js/charts.js"></script> 
     <script src="js/gemini_api.js"></script> 
-    <script src="js/explorer_page.js"></script> 
+    <script src="js/laptop_detail_page.js"></script> 
     <script src="js/main.js"></script> 
+
 </body>
 </html>
