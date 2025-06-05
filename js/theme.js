@@ -64,3 +64,34 @@ const ThemeManager = (() => {
         applySavedTheme
     };
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModeToggle = document.querySelector('.dark-mode-toggle');
+    const html = document.documentElement;
+
+    // Check for saved theme preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set initial theme
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        html.classList.add('dark');
+    }
+
+    // Update theme toggle button state
+    const updateToggleState = () => {
+        const isDark = html.classList.contains('dark');
+        darkModeToggle.setAttribute('aria-checked', isDark.toString());
+        darkModeToggle.innerHTML = isDark ? '🌙' : '☀️';
+    };
+
+    updateToggleState();
+
+    // Handle theme toggle
+    darkModeToggle.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        const isDark = html.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateToggleState();
+    });
+});

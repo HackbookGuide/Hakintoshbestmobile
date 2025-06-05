@@ -135,3 +135,53 @@ function updateLaptopDisplay() {
     
     laptopsContainer.innerHTML = laptops.map(laptop => displayLaptop(laptop)).join('');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const laptopContainer = document.getElementById('laptop-container');
+    const priorityFilters = document.querySelectorAll('.priority-btn');
+    
+    // Function to display laptops
+    function displayLaptops(laptops) {
+        if (!laptopContainer) return;
+        
+        laptopContainer.innerHTML = laptops.map(laptop => `
+            <div class="laptop-card">
+                <img src="${laptop.image}" 
+                     alt="${laptop.name}" 
+                     onerror="this.src='assets/images/placeholder.png'"
+                     class="laptop-image">
+                <div class="laptop-content">
+                    <h3 class="laptop-title">${laptop.name}</h3>
+                    ${ScoreBar.render(laptop.score)}
+                    <p class="laptop-summary">${laptop.summary}</p>
+                    <div class="laptop-priorities">
+                        ${laptop.priority.map(p => 
+                            `<span class="priority-tag">${p}</span>`
+                        ).join('')}
+                    </div>
+                    <a href="laptop_details.html?id=${laptop.name.toLowerCase().replace(/\s+/g, '_')}" 
+                       class="view-details-btn">View Details →</a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Initial display of all laptops
+    displayLaptops(Object.values(laptopData));
+
+    // Filter functionality
+    priorityFilters.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const priority = e.target.dataset.priority;
+            const laptops = priority === 'all' 
+                ? Object.values(laptopData)
+                : laptopData.getByPriority(priority);
+            
+            // Update active filter button
+            priorityFilters.forEach(btn => btn.classList.remove('active-filter'));
+            button.classList.add('active-filter');
+            
+            displayLaptops(laptops);
+        });
+    });
+});
