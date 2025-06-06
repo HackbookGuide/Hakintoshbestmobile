@@ -193,10 +193,45 @@
     </header>
 
     <main class="container mx-auto p-4 md:p-8 fade-in">
-        <div id="laptop-detail-content" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
-            <div id="loading-laptop-details" class="text-center text-xl text-medium py-10 fade-in">
-                <div class="loading-spinner"></div>
-                <p class="mt-4">Loading laptop details...</p>
+        <div id="laptop-detail-content" class="container mx-auto">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+
+        <div id="laptop-details" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <!-- Left Column -->
+            <div class="space-y-6">
+                <section class="detail-section" id="hardware-details">
+                    <h3>Hardware Details</h3>
+                    <div class="space-y-4" id="hardware-content"></div>
+                </section>
+
+                <section class="detail-section" id="display-details">
+                    <h3>Display Features</h3>
+                    <div class="space-y-4" id="display-content"></div>
+                </section>
+
+                <section class="detail-section" id="battery-details">
+                    <h3>Battery Information</h3>
+                    <div class="space-y-4" id="battery-content"></div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <section class="detail-section" id="macos-details">
+                    <h3>macOS Compatibility</h3>
+                    <div class="space-y-4" id="macos-content"></div>
+                </section>
+
+                <section class="detail-section" id="known-issues">
+                    <h3>Known Issues</h3>
+                    <div class="space-y-4" id="issues-content"></div>
+                </section>
+
+                <section class="detail-section" id="ports-details">
+                    <h3>Ports</h3>
+                    <div class="space-y-4" id="ports-content"></div>
+                </section>
             </div>
         </div>
     </main>

@@ -71,7 +71,7 @@ const validateLaptopData = (data) => {
     return validationResults;
 };
 
-// Add helper methods to laptopData
+// First, ensure laptopMethods is defined before laptopData
 const laptopMethods = {
     getByPriority(priority) {
         return Object.values(this).filter(laptop => 
@@ -149,9 +149,12 @@ const laptopData = {
             },
             displayFeatures: {
                 type: "IPS Anti-glare",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
                 brightness: "250 nits",
                 colorGamut: "45% NTSC",
-                panel: "BOE NV140FHM-N49"
+                panel: "BOE NV140FHM-N49",
+                touchscreen: false
             },
             biosVersion: {
                 recommended: "1.45",
@@ -236,9 +239,12 @@ const laptopData = {
             },
             displayFeatures: {
                 type: "IPS LED-backlit",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
                 brightness: "300 nits",
                 colorGamut: "72% NTSC",
-                panel: "AU Optronics (Verify specific model)"
+                panel: "AU Optronics (Verify specific model)",
+                touchscreen: false
             },
             biosVersion: {
                 recommended: "Latest available",
@@ -296,6 +302,71 @@ const laptopData = {
                 performance: 75,
                 battery: 70,
                 stability: 75
+            },
+            dimensions: {
+                width: "317 mm",
+                depth: "235 mm",
+                height: "17 mm"
+            },
+            weight: "1.5 kg",
+            batteryLife: {
+                average: "8-10 hours",
+                capacity: "46Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.0 Type-A", "1x USB Type-C"],
+                thunderbolt: "No",
+                video: ["HDMI"],
+                network: "No built-in Ethernet",
+                others: ["3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Standard keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS Display",
+                resolution: "2160x1440",
+                aspectRatio: "3:2",
+                brightness: "350 nits",
+                colorGamut: "100% sRGB",
+                panel: "Generic IPS Panel",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "DVMT needs patch, CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card requires replacement",
+                "Sleep may be unstable",
+                "Battery monitoring needs patches",
+                "Some function keys may not work"
+            ],
+            communitySupport: {
+                rating: "Moderate",
+                resources: [
+                    "Limited GitHub guides",
+                    "Some forum discussions",
+                    "Basic documentation available"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/corebook-x-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/chuwi-corebook-x",
+                    "https://github.com/another-repo/chuwi-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-45°C",
+                loadTemp: "80-90°C",
+                coolingSystem: "Single fan cooling",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -322,6 +393,71 @@ const laptopData = {
                 performance: 90,
                 battery: 85,
                 stability: 85
+            },
+            dimensions: {
+                width: "296 mm",
+                depth: "199 mm",
+                height: "14.8 mm"
+            },
+            weight: "1.2 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "52Wh",
+                type: "Li-ion"
+            },
+            ports: {
+                usb: ["2x Thunderbolt 3"],
+                thunderbolt: "2x Thunderbolt 3",
+                video: ["DisplayPort over USB-C"],
+                network: "No built-in Ethernet",
+                others: ["MicroSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Edge-to-edge keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "InfinityEdge Touch Display",
+                resolution: ["1920x1200", "3840x2400"],
+                aspectRatio: "16:10",
+                brightness: "500 nits",
+                colorGamut: "100% sRGB",
+                panel: "Sharp/Samsung (varies by configuration)",
+                touchscreen: true
+            },
+            biosVersion: {
+                recommended: "Latest Dell BIOS",
+                notes: "CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card may need replacement",
+                "Sleep requires additional patches",
+                "Thunderbolt hot-plug might be unstable",
+                "Brightness keys need remapping"
+            ],
+            communitySupport: {
+                rating: "Very Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum support",
+                    "Well-documented solutions"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/xps-9300-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/dell-xps-13-9300",
+                    "https://github.com/another-repo/xps9300-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan cooling",
+                undervolting: "Limited by BIOS restrictions"
             }
         }
     },
@@ -348,6 +484,70 @@ const laptopData = {
                 performance: 85,
                 battery: 85,
                 stability: 85
+            },
+            dimensions: {
+                width: "302 mm",
+                depth: "199 mm",
+                height: "11.6 mm"
+            },
+            weight: "1.21 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "52Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x Thunderbolt 3", "1x USB-C 3.1"],
+                thunderbolt: "2x Thunderbolt 3",
+                video: ["DisplayPort over USB-C"],
+                network: "No built-in Ethernet",
+                others: ["MicroSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Chiclet-style keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "InfinityEdge IPS",
+                resolution: ["1920x1080", "3840x2160"],
+                aspectRatio: "16:9",
+                brightness: "400 nits",
+                colorGamut: "100% sRGB",
+                panel: "Sharp SHP148B",
+                touchscreen: false // Set to true if touch variant
+            },
+            biosVersion: {
+                recommended: "1.12.0",
+                notes: "CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Sleep may require additional patches",
+                "Thunderbolt hot-plug may be unstable",
+                "Original Wi-Fi card needs replacement"
+            ],
+            communitySupport: {
+                rating: "Excellent",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum support",
+                    "Well-documented solutions"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/the-darkvoid/XPS9370-macOS",
+                additional: [
+                    "https://github.com/3wsoftware/XPS9370-macOS-Mojave",
+                    "https://www.tonymacx86.com/threads/guide-dell-xps-13-9370-mojave-virtualbox.286712/"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan cooling",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -374,6 +574,71 @@ const laptopData = {
                 performance: 95, 
                 battery: 75,
                 stability: 80
+            },
+            dimensions: {
+                width: "357 mm",
+                depth: "235 mm",
+                height: "17 mm"
+            },
+            weight: "1.8 kg",
+            batteryLife: {
+                average: "8-10 hours",
+                capacity: "97Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.1 Type-A", "1x Thunderbolt 3"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["HDMI 2.0"],
+                network: "No built-in Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Chiclet-style keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare",
+                resolution: ["1920x1200", "3840x2400"],
+                aspectRatio: "16:10",
+                brightness: "500 nits",
+                colorGamut: "100% Adobe RGB",
+                panel: "Sharp/Dell Premium Panel",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "1.17.1",
+                notes: "dGPU must be disabled, CFG lock off",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "NVIDIA GPU must be disabled",
+                "Sleep issues need patches",
+                "Thunderbolt requires careful configuration",
+                "Original Wi-Fi card needs replacement"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Several GitHub guides",
+                    "Active forum support",
+                    "Multiple success stories"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/bavariancake/XPS9570-macOS",
+                additional: [
+                    "https://github.com/LuletterSoul/Dell-XPS-15-9570-macOS",
+                    "https://www.tonymacx86.com/threads/guide-dell-xps-15-9570-mojave.267805/"
+                ]
+            },
+            thermals: {
+                idleTemp: "40-45°C",
+                loadTemp: "80-90°C",
+                coolingSystem: "Dual fan with shared heatpipes",
+                undervolting: "Recommended via ThrottleStop"
             }
         }
     },
@@ -400,6 +665,70 @@ const laptopData = {
                 performance: 85,
                 battery: 90,
                 stability: 90
+            },
+            dimensions: {
+                width: "326 mm",
+                depth: "234 mm",
+                height: "17.9 mm"
+            },
+            weight: "1.48 kg",
+            batteryLife: {
+                average: "13-15 hours",
+                capacity: "50Wh",
+                type: "Long Life 3-cell Li-ion"
+            },
+            ports: {
+                usb: ["2x USB 3.1 Type-A", "1x USB 3.1 Type-C"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["HDMI 1.4b"],
+                network: "RJ45 Gigabit Ethernet",
+                others: ["Smart Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "HP Premium Keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size, spill-resistant"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "400 nits",
+                colorGamut: "72% NTSC",
+                panel: "CMN14D5 (or similar)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest HP BIOS",
+                notes: "CFG lock must be disabled via BIOS mod",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Built-in Wi-Fi may need replacement",
+                "Fingerprint reader not supported",
+                "Some sleep states may not work properly"
+            ],
+            communitySupport: {
+                rating: "Very Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum discussions",
+                    "Well-documented solutions"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/elitebook-840-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/hp-elitebook-840",
+                    "https://github.com/other-repo/840g5-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "70-80°C",
+                coolingSystem: "Single fan with dual heat pipes",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -426,6 +755,71 @@ const laptopData = {
                 performance: 90,
                 battery: 80,
                 stability: 80
+            },
+            dimensions: {
+                width: "359.9 mm",
+                depth: "226.4 mm",
+                height: "19.3 mm"
+            },
+            weight: "1.92 kg",
+            batteryLife: {
+                average: "13-15 hours",
+                capacity: "72.9Wh",
+                type: "6-cell Li-ion polymer"
+            },
+            ports: {
+                usb: ["1x USB 3.1 Type-A", "2x Thunderbolt 3"],
+                thunderbolt: "2x Thunderbolt 3",
+                video: ["HDMI 2.0b"],
+                network: "No built-in Ethernet",
+                others: ["MicroSD reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Island-style keyboard",
+                backlit: true,
+                numpad: true,
+                layout: "Full-size with numpad"
+            },
+            displayFeatures: {
+                type: "AMOLED Touch Display",
+                resolution: ["1920x1080", "3840x2160"],
+                aspectRatio: "16:9",
+                brightness: "400 nits",
+                colorGamut: "100% DCI-P3",
+                panel: "Samsung AMOLED",
+                touchscreen: true
+            },
+            biosVersion: {
+                recommended: "Latest HP BIOS",
+                notes: "dGPU must be disabled, CFG lock off",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "NVIDIA GPU not supported",
+                "Touchscreen may need patches",
+                "Some sleep states unstable",
+                "Original Wi-Fi card needs replacement"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Several GitHub guides",
+                    "Forum support available",
+                    "Growing user base"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/spectre-x360-15-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/hp-spectre-x360-15",
+                    "https://github.com/another-repo/spectre-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-45°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan cooling solution",
+                undervolting: "Limited due to recent BIOS restrictions"
             }
         }
     },
@@ -452,6 +846,70 @@ const laptopData = {
                 performance: 75,
                 battery: 70,
                 stability: 80
+            },
+            dimensions: {
+                width: "323 mm",
+                depth: "234 mm",
+                height: "18.9 mm"
+            },
+            weight: "1.67 kg",
+            batteryLife: {
+                average: "7-9 hours",
+                capacity: "45Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.0 Type-A", "1x USB 3.1 Type-C"],
+                thunderbolt: "No",
+                video: ["HDMI 1.4b"],
+                network: "No built-in Ethernet",
+                others: ["4-in-1 Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Standard keyboard",
+                backlit: false,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS LED-backlit",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "72% NTSC",
+                panel: "AU Optronics (Verify specific model)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "DVMT needs configuration",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card needs replacement",
+                "Sleep may be unstable",
+                "Battery life reporting needs patches"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Some GitHub repositories",
+                    "Forum discussions available",
+                    "Basic documentation exists"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/ideapad-330s-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/ideapad-330s",
+                    "https://github.com/another-repo/330s-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Single fan with heat pipe",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -478,6 +936,70 @@ const laptopData = {
                 performance: 80,
                 battery: 75,
                 stability: 80
+            },
+            dimensions: {
+                width: "308.3 mm",
+                depth: "211 mm",
+                height: "16.4 mm"
+            },
+            weight: "1.49 kg",
+            batteryLife: {
+                average: "8-10 hours",
+                capacity: "45Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.0 Type-A", "1x USB 3.1 Type-C"],
+                thunderbolt: "No",
+                video: ["HDMI 1.4b"],
+                network: "No built-in Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Backlit keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS-level Anti-glare",
+                resolution: ["1920x1080", "3840x2160"],
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "100% sRGB",
+                panel: "IPS Panel (Verify specific model)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card may need replacement",
+                "Sleep requires additional patches",
+                "HDMI audio might be unstable"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum support",
+                    "Detailed documentation"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/ideapad-530s-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/ideapad-530s",
+                    "https://github.com/another-repo/530s-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "30-35°C",
+                loadTemp: "70-80°C",
+                coolingSystem: "Single fan with dual heat pipes",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -504,6 +1026,70 @@ const laptopData = {
                 performance: 85,
                 battery: 85,
                 stability: 95
+            },
+            dimensions: {
+                width: "330.5 mm",
+                depth: "229.5 mm",
+                height: "17.9 mm"
+            },
+            weight: "1.4 kg",
+            batteryLife: {
+                average: "12-14 hours",
+                capacity: "60Wh",
+                type: "4-cell Li-ion"
+            },
+            ports: {
+                usb: ["3x USB 3.1 Type-A", "1x USB Type-C"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["HDMI 1.4"],
+                network: "RJ45 Gigabit Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack", "Smart Card Reader"]
+            },
+            keyboard: {
+                type: "Dell Business Keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size, spill-resistant"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "72% NTSC",
+                panel: "AUO/LG (varies by model)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest Dell BIOS",
+                notes: "CFG lock can be disabled via setup utility",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Stock Wi-Fi card may need replacement",
+                "Sleep needs additional configuration",
+                "Fingerprint reader not supported"
+            ],
+            communitySupport: {
+                rating: "Very Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active Dell forums",
+                    "Well-documented solutions"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/latitude-7x90-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/dell-latitude-7x90",
+                    "https://github.com/altro-repo/latitude-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "70-80°C",
+                coolingSystem: "Dual heat pipes with single fan",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -530,6 +1116,70 @@ const laptopData = {
                 performance: 85,
                 battery: 95,
                 stability: 85
+            },
+            dimensions: {
+                width: "323.4 mm",
+                depth: "209.8 mm",
+                height: "16.8 mm"
+            },
+            weight: "0.999 kg",
+            batteryLife: {
+                average: "18-20 hours",
+                capacity: "72Wh",
+                type: "Li-ion"
+            },
+            ports: {
+                usb: ["2x USB 3.2 Type-A", "2x USB Type-C"],
+                thunderbolt: "2x Thunderbolt 4",
+                video: ["HDMI"],
+                network: "No built-in Ethernet",
+                others: ["MicroSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "LG Premium Keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare",
+                resolution: ["1920x1080", "2560x1600"],
+                aspectRatio: ["16:9", "16:10"],
+                brightness: "350 nits",
+                colorGamut: "99% sRGB",
+                panel: "LG Display",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest LG BIOS",
+                notes: "DVMT must be configured",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card requires replacement",
+                "Sleep may be unstable initially",
+                "Battery calibration needed"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "GitHub repositories available",
+                    "Forum threads with solutions",
+                    "Growing user base"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/lg-gram-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/lg-gram",
+                    "https://github.com/another-repo/gram-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "30-35°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Single fan with dual heat pipes",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -556,6 +1206,71 @@ const laptopData = {
                 performance: 90,
                 battery: 85,
                 stability: 85
+            },
+            dimensions: {
+                width: "304 mm",
+                depth: "217 mm",
+                height: "14.6 mm"
+            },
+            weight: "1.33 kg",
+            batteryLife: {
+                average: "12-14 hours",
+                capacity: "56Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["1x USB 3.0 Type-A", "2x USB Type-C"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["DisplayPort over USB-C"],
+                network: "No built-in Ethernet",
+                others: ["3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Full-size backlit keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Standard layout"
+            },
+            displayFeatures: {
+                type: "LTPS Touch Display",
+                resolution: "3000x2000",
+                aspectRatio: "3:2",
+                brightness: "450 nits",
+                colorGamut: "100% sRGB",
+                panel: "Custom LTPS Panel",
+                touchscreen: true
+            },
+            biosVersion: {
+                recommended: "Latest BIOS",
+                notes: "CFG lock must be disabled, DVMT needs configuration",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card needs replacement",
+                "Touchscreen requires patches",
+                "Sleep mode may be unstable",
+                "Brightness keys need remapping"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Several GitHub guides",
+                    "Active forum threads",
+                    "Good documentation available"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/matebook-x-pro-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/matebook-x-pro",
+                    "https://github.com/another-repo/matebook-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan with shared heat pipes",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -579,9 +1294,74 @@ const laptopData = {
             screenResolution: "1920x1080 (FHD) (Placeholder - Verify)",
             chartData: {
                 ease: 75,
-                performance: 85,
-                battery: 80,
-                stability: 85
+                performance: 80,
+                battery: 75,
+                stability: 80
+            },
+            dimensions: {
+                width: "357 mm",
+                depth: "229 mm",
+                height: "15.9 mm"
+            },
+            weight: "1.8 kg",
+            batteryLife: {
+                average: "8-10 hours",
+                capacity: "60Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.0 Type-A", "1x USB Type-C"],
+                thunderbolt: "No",
+                video: ["HDMI 1.4"],
+                network: "No built-in Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Backlit keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS LED-backlit",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "72% NTSC",
+                panel: "BOE NV156FHM-N61",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "DVMT patch required, CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Original Wi-Fi card not supported",
+                "HDMI audio may be unstable",
+                "Fingerprint reader not working",
+                "Battery reporting needs patches"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "GitHub repositories available",
+                    "Forum support threads",
+                    "Regular updates from community"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/mi-notebook-pro-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/mi-notebook-pro",
+                    "https://github.com/other-repo/xiaomi-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-45°C",
+                loadTemp: "80-90°C",
+                coolingSystem: "Dual fan cooling system",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -608,6 +1388,71 @@ const laptopData = {
                 performance: 95,
                 battery: 70,
                 stability: 75
+            },
+            dimensions: {
+                width: "358 mm",
+                depth: "248 mm",
+                height: "17.7 mm"
+            },
+            weight: "1.88 kg",
+            batteryLife: {
+                average: "6-8 hours",
+                capacity: "82Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["3x USB 3.1 Type-A"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["HDMI 2.0", "Mini DisplayPort 1.2"],
+                network: "RJ45 Gigabit Ethernet",
+                others: ["3.5mm Audio Jack", "3.5mm Microphone Jack"]
+            },
+            keyboard: {
+                type: "SteelSeries RGB keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS-level Anti-glare",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "72% NTSC",
+                panel: "LG Display (144Hz/240Hz variants)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "dGPU must be disabled, CFG lock needs mod",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "NVIDIA GPU must be disabled",
+                "Original Wi-Fi card needs replacement",
+                "Sleep issues require extensive patches",
+                "Fan control needs custom solution"
+            ],
+            communitySupport: {
+                rating: "Moderate",
+                resources: [
+                    "Limited GitHub guides",
+                    "Some forum discussions",
+                    "Requires advanced knowledge"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/msi-gs65-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/msi-gs65",
+                    "https://github.com/another-repo/gs65-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "40-45°C",
+                loadTemp: "85-95°C",
+                coolingSystem: "Triple fan Cooler Boost Trinity",
+                undervolting: "Recommended via ThrottleStop"
             }
         }
     },
@@ -634,6 +1479,71 @@ const laptopData = {
                 performance: 90,
                 battery: 80,
                 stability: 80
+            },
+            dimensions: {
+                width: "319 mm",
+                depth: "219 mm",
+                height: "15.9 mm"
+            },
+            weight: "1.29 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "52Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 2.0 Type-A", "2x USB Type-C"],
+                thunderbolt: "2x Thunderbolt 3",
+                video: ["HDMI 2.0"],
+                network: "No built-in Ethernet",
+                others: ["MicroSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "White backlit keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS-level Anti-glare",
+                resolution: ["1920x1080", "3840x2160"],
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "100% sRGB",
+                panel: "IPS Panel (Verify specific model)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "CFG lock must be disabled, DVMT needs configuration",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card may need replacement",
+                "Sleep requires additional patches",
+                "HDMI audio might be unstable",
+                "Battery reporting needs ECEnabler.kext"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Several GitHub guides",
+                    "Active forum discussions",
+                    "Growing community support"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/msi-prestige-14-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/msi-prestige-14",
+                    "https://github.com/another-repo/prestige-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan cooling system",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -660,6 +1570,71 @@ const laptopData = {
                 performance: 95,
                 battery: 75,
                 stability: 85
+            },
+            dimensions: {
+                width: "360.3 mm",
+                depth: "234.2 mm",
+                height: "11.5 mm"
+            },
+            weight: "1.84 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "86Wh",
+                type: "Li-ion"
+            },
+            ports: {
+                usb: ["2x USB Type-C"],
+                thunderbolt: "2x Thunderbolt 3",
+                video: ["DisplayPort over USB-C"],
+                network: "No built-in Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Dell Premium Keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare",
+                resolution: ["1920x1200", "3840x2400"],
+                aspectRatio: "16:10",
+                brightness: "500 nits",
+                colorGamut: "100% Adobe RGB",
+                panel: "Sharp/Dell Premium Panel",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest Dell BIOS",
+                notes: "dGPU must be disabled, CFG lock needs configuration",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "NVIDIA GPU must be disabled",
+                "Wi-Fi card may need replacement",
+                "Sleep requires additional patches",
+                "Thunderbolt hot-plug might be unstable"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum support",
+                    "Regular updates available"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/precision-5550-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/precision-5550",
+                    "https://github.com/another-repo/precision-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan with vapor chamber",
+                undervolting: "Limited due to BIOS restrictions"
             }
         }
     },
@@ -686,6 +1661,71 @@ const laptopData = {
                 performance: 80,
                 battery: 80,
                 stability: 85
+            },
+            dimensions: {
+                width: "359 mm",
+                depth: "233.8 mm",
+                height: "19.9 mm"
+            },
+            weight: "2 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "45Wh",
+                type: "3-cell Li-ion"
+            },
+            ports: {
+                usb: ["3x USB 3.1 Type-A", "1x USB Type-C"],
+                thunderbolt: "No",
+                video: ["HDMI 1.4b"],
+                network: "RJ45 Gigabit Ethernet",
+                others: ["SD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "HP Premium Keyboard",
+                backlit: true,
+                numpad: true,
+                layout: "Full-size with numpad"
+            },
+            displayFeatures: {
+                type: "IPS Anti-glare LED",
+                resolution: ["1366x768", "1920x1080"],
+                aspectRatio: "16:9",
+                brightness: "250 nits",
+                colorGamut: "45% NTSC",
+                panel: "HP Value Display",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest HP BIOS",
+                notes: "CFG lock must be disabled via BIOS mod",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card needs replacement",
+                "Sleep may need additional patches",
+                "Fingerprint reader not supported",
+                "Battery reporting might need fixes"
+            ],
+            communitySupport: {
+                rating: "Very Good",
+                resources: [
+                    "GitHub guides available",
+                    "Active forum support",
+                    "Well-documented solutions"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/probook-450-g7-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/probook-450-g7",
+                    "https://github.com/another-repo/probook-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "70-80°C",
+                coolingSystem: "Single fan with heat pipe",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -712,6 +1752,71 @@ const laptopData = {
                 performance: 85,
                 battery: 85,
                 stability: 80
+            },
+            dimensions: {
+                width: "313.5 mm",
+                depth: "218.5 mm",
+                height: "14.9 mm"
+            },
+            weight: "1.29 kg",
+            batteryLife: {
+                average: "10-12 hours",
+                capacity: "75Wh",
+                type: "Li-Polymer"
+            },
+            ports: {
+                usb: ["2x USB 3.0 Type-A", "1x USB Type-C"],
+                thunderbolt: "1x Thunderbolt 3",
+                video: ["HDMI"],
+                network: "No built-in Ethernet",
+                others: ["microSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "Backlit keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "IPS LED-backlit",
+                resolution: "1920x1080",
+                aspectRatio: "16:9",
+                brightness: "300 nits",
+                colorGamut: "72% NTSC",
+                panel: "AU Optronics (Verify specific model)",
+                touchscreen: false
+            },
+            biosVersion: {
+                recommended: "Latest available",
+                notes: "DVMT configuration needed",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card requires replacement",
+                "Sleep needs additional patches",
+                "Function keys may need remapping",
+                "Battery status needs ECEnabler.kext"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Some GitHub guides",
+                    "Forum support available",
+                    "Growing documentation"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/samsung-notebook9-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/samsung-notebook-9",
+                    "https://github.com/another-repo/notebook9-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan system",
+                undervolting: "Supported via ThrottleStop"
             }
         }
     },
@@ -738,6 +1843,71 @@ const laptopData = {
                 performance: 90,
                 battery: 85,
                 stability: 85
+            },
+            dimensions: {
+                width: "306 mm",
+                depth: "194.5 mm",
+                height: "16.9 mm"
+            },
+            weight: "1.27 kg",
+            batteryLife: {
+                average: "12-14 hours",
+                capacity: "60Wh",
+                type: "4-cell Li-ion"
+            },
+            ports: {
+                usb: ["1x USB 3.1 Type-A"],
+                thunderbolt: "2x Thunderbolt 4",
+                video: ["DisplayPort over USB-C"],
+                network: "No built-in Ethernet",
+                others: ["microSD Card Reader", "3.5mm Audio Jack"]
+            },
+            keyboard: {
+                type: "HP Premium Keyboard",
+                backlit: true,
+                numpad: false,
+                layout: "Full-size"
+            },
+            displayFeatures: {
+                type: "OLED/IPS Touch Display",
+                resolution: ["1920x1080", "3840x2160"],
+                aspectRatio: "16:9",
+                brightness: "400 nits",
+                colorGamut: "100% DCI-P3",
+                panel: "Samsung OLED/HP Sure View",
+                touchscreen: true
+            },
+            biosVersion: {
+                recommended: "Latest HP BIOS",
+                notes: "CFG lock must be disabled",
+                secureBootSupport: true
+            },
+            knownIssues: [
+                "Wi-Fi card needs replacement",
+                "Touchscreen requires patches",
+                "Sleep states need configuration",
+                "Fingerprint reader not supported"
+            ],
+            communitySupport: {
+                rating: "Good",
+                resources: [
+                    "Multiple GitHub guides",
+                    "Active forum support",
+                    "Regular updates available"
+                ]
+            },
+            guides: {
+                installation: "https://github.com/username/spectre-x360-13-opencore",
+                additional: [
+                    "https://www.tonymacx86.com/threads/spectre-x360-13",
+                    "https://github.com/another-repo/spectre13-efi"
+                ]
+            },
+            thermals: {
+                idleTemp: "35-40°C",
+                loadTemp: "75-85°C",
+                coolingSystem: "Dual fan cooling",
+                undervolting: "Limited by BIOS restrictions"
             }
         }
     }
@@ -745,18 +1915,13 @@ const laptopData = {
 
 // Initialize and validate data
 try {
-    // Verify data exists
-    if (typeof laptopData === 'undefined') {
-        throw new Error('laptopData is undefined after initialization');
-    }
-
-    // Add helper methods
+    // Add helper methods to laptopData
     Object.assign(laptopData, laptopMethods);
 
     // Validate data
     const validation = validateLaptopData(laptopData);
     
-    // Log results
+    // Log validation results
     console.log(`Data loaded successfully: ${Object.values(laptopData).length} laptop models found`);
     
     if (validation.errors.length > 0) {
@@ -767,14 +1932,15 @@ try {
         console.warn('Validation Warnings:', validation.warnings);
     }
 
-    // Export for module usage
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = laptopData;
-    }
-    // Ensure laptopData is available globally
+    // Make data globally available
     window.laptopData = laptopData;
 
 } catch (error) {
     console.error('Error initializing laptop data:', error);
-    throw error; // Re-throw to prevent silent failures
+    throw error;
+}
+
+// Export if in a module environment
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = laptopData;
 }

@@ -1,259 +1,354 @@
 const ExplorerPage = (() => {
-    let laptopGrid;
-    let priorityFilterButtonsContainer;
-    let findBarExplorer;
-    let noResultsP;
-    let compareActionBar;
-    let compareSelectedBtn;
-    let clearSelectionBtn;
-    let selectedCountSpan;
-    
-    let currentPriorityFilter = "all";
-    let currentSearchTerm = "";
-    let selectedLaptopsForComparison = [];
+    // Module-level variables
+    let currentPriorityFilters = new Set(["all"]);
+    let currentMacOSFilter = "all";
+    let currentSearchQuery = "";
+    let currentSortOption = "score-desc";
+    let minScore = 0;
+    let maxScore = 10;
+    let laptopGrid = null;
+    let priorityFilterButtonsContainer = null;
+    let macOSFilterButtons = null;
+    let searchInput = null;
+    let sortSelect = null;
+    let minScoreRange = null;
+    let maxScoreRange = null;
 
-    /**
-     * Updates the visibility and count of the compare action bar.
-     */
-    function updateCompareActionBar() {
-        const count = selectedLaptopsForComparison.length;
-        if (selectedCountSpan) selectedCountSpan.textContent = count;
-        if (compareActionBar) {
-            compareActionBar.classList.toggle('hidden', count === 0);
-        }
-        if (compareSelectedBtn) {
-            compareSelectedBtn.disabled = count < 2;
-        }
-    }
-
-    /**
-     * Renders laptop cards into the grid based on current filters.
-     */
-    function renderLaptopsExplorer() {
-        if (!laptopGrid) {
-            console.error("laptopGrid element not found");
-            return;
-        }
-        if (!window.laptopData) {
-            console.error("laptopData is not defined");
-            return;
-        }
-        
-        let laptops = [];
-        try {
-            laptops = Object.entries(window.laptopData).map(([id, data]) => {
-                console.log("Processing laptop:", id, data);
-                return { id, ...data };
-            });
-        } catch (error) {
-            console.error("Error processing laptopData:", error);
-            return;
-        }
-        console.log("Total laptops found:", laptops.length);
-
-        // Remove the last 4 laptop tiles
-        if (laptops.length > 4) {
-            laptops = laptops.slice(0, laptops.length - 4);
-        }
-        console.log("Laptops after removing last 4:", laptops.length);
-
-        // Filter by priority if the filter is not "all"
-        if (currentPriorityFilter && currentPriorityFilter !== "all") {
-            laptops = laptops.filter(laptop => laptop.priority && 
-                    laptop.priority.toLowerCase() === currentPriorityFilter.toLowerCase());
-            console.log(`Laptops after applying priority filter (${currentPriorityFilter}):`, laptops.length);
-        }
-
-        // Filter by search term if provided
-        if (currentSearchTerm && currentSearchTerm.trim() !== "") {
-            const term = currentSearchTerm.trim().toLowerCase();
-            laptops = laptops.filter(laptop =>
-                (laptop.name && laptop.name.toLowerCase().includes(term)) ||
-                (laptop.summary && laptop.summary.toLowerCase().includes(term))
-            );
-            console.log("Laptops after applying search filter:", laptops.length);
-        }
-
-        if (laptops.length === 0) {
-            laptopGrid.innerHTML = "<p>No laptops found</p>";
-            if (noResultsP) noResultsP.classList.remove('hidden');
-            return;
-        }
-        if (noResultsP) noResultsP.classList.add('hidden');
-        
-        let htmlContent = "";
-        laptops.forEach(laptop => {
-            let scoreColor = 'bg-green-500';
-            if (laptop.score < 5) scoreColor = 'bg-red-500';
-            else if (laptop.score < 8) scoreColor = 'bg-yellow-500';
-
-            const isSelected = selectedLaptopsForComparison.includes(laptop.id);
-            
-            htmlContent += `
-                <div class="laptop-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
-                    <div class="absolute top-2 right-2 z-10">
-                        <input type="checkbox" id="compare-${laptop.id}" data-id="${laptop.id}" class="compare-checkbox h-6 w-6 text-primary rounded border-gray-300 focus:ring-primary dark:bg-gray-600 dark:border-gray-500" ${isSelected ? 'checked' : ''}>
-                        <label for="compare-${laptop.id}" class="sr-only">Select ${laptop.name || 'Untitled Laptop'} for comparison</label>
-                    </div>
-                    <a href="laptop_detail.html?id=${laptop.id}" class="block laptop-card-clickable-area" data-id="${laptop.id}">
-                        <img src="${laptop.image || 'assets/images/placeholder.jpg'}" alt="${laptop.name || 'Untitled Laptop'}" class="w-full h-48 object-cover rounded-lg mb-4" onerror="this.src='assets/images/placeholder.jpg'">
-                        <h3 class="text-lg font-bold mb-2">${laptop.name || 'Untitled Laptop'}</h3>
-                        <p class="text-medium mb-3">${laptop.summary || ''}</p>
-                        <div class="score-bar-container">
-                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Score: ${laptop.score}/10</span>
-                            <div class="score-bar bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden mt-1">
-                                <div class="score-bar-fill ${scoreColor} h-2 rounded-full flex items-center justify-center" style="width: ${laptop.score * 10}%;">
-                                    <span class="w-full text-xs font-bold text-center" style="color: #fff;">${laptop.score}/10</span>
-                                </div>
-                            </div>
+    function createLaptopCard(laptop) {
+        return `
+            <a href="laptop_detail.html?id=${laptop.id}" 
+               class="laptop-card bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex flex-col h-full">
+                    <img src="${laptop.image || 'assets/images/laptops/placeholder.jpg'}" 
+                         alt="${laptop.name}" 
+                         class="w-full h-48 object-cover rounded-lg mb-4">
+                    
+                    <h3 class="text-lg font-bold mb-2 text-gray-900 dark:text-white">${laptop.name}</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-3">${laptop.summary}</p>
+                    
+                    <!-- Score Bar -->
+                    <div class="score-bar-container mb-4">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Score:</span>
+                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${laptop.score}/10</span>
                         </div>
-                    </a>
+                        <div class="score-bar bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div class="score-bar-fill bg-primary h-2 rounded-full" 
+                                 style="width: ${laptop.score * 10}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Display Features -->
+                    ${laptop.details.displayFeatures ? `
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Display</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                ${laptop.details.displayFeatures.type} - ${laptop.details.displayFeatures.brightness}
+                            </p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Battery -->
+                    ${laptop.details.batteryLife ? `
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Battery</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                ${laptop.details.batteryLife.average} - ${laptop.details.batteryLife.capacity}
+                            </p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Known Issues -->
+                    ${laptop.details.knownIssues ? `
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Known Issues</h4>
+                            <ul class="text-sm text-gray-600 dark:text-gray-400 list-disc pl-4">
+                                ${laptop.details.knownIssues.slice(0, 2).map(issue => 
+                                    `<li>${issue}</li>`
+                                ).join('')}
+                                ${laptop.details.knownIssues.length > 2 ? `<li>+ ${laptop.details.knownIssues.length - 2} more...</li>` : ''}
+                            </ul>
+                        </div>
+                    ` : ''}
+
+                    <!-- Ports Summary -->
+                    ${laptop.details.ports ? `
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold mb-2 text-gray-800 dark:text-gray-200">Ports</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                ${Object.entries(laptop.details.ports)
+                                    .filter(([key, value]) => value && value !== "No")
+                                    .slice(0, 2)
+                                    .map(([key, value]) => 
+                                        Array.isArray(value) ? value[0] : value
+                                    ).join(', ')}...
+                            </p>
+                        </div>
+                    ` : ''}
+
+                    <!-- Priority Tags -->
+                    <div class="mt-auto pt-4 flex flex-wrap gap-2">
+                        ${laptop.priority.map(p => `
+                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100">
+                                ${p}
+                            </span>
+                        `).join('')}
+                    </div>
                 </div>
-            `;
-        });
-        
-        laptopGrid.innerHTML = htmlContent;
-        addCardAndCheckboxListenersExplorer();
-        updateCompareActionBar();
+            </a>
+        `;
     }
 
-    /**
-     * Adds event listeners to newly rendered laptop cards and checkboxes.
-     */
-    function addCardAndCheckboxListenersExplorer() {
-        document.querySelectorAll('.compare-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                const id = e.target.dataset.id;
-                if (e.target.checked) {
-                    if (!selectedLaptopsForComparison.includes(id)) {
-                        selectedLaptopsForComparison.push(id);
-                    }
-                } else {
-                    selectedLaptopsForComparison = selectedLaptopsForComparison.filter(laptopId => laptopId !== id);
-                }
-                localStorage.setItem('selectedLaptopsForComparison', JSON.stringify(selectedLaptopsForComparison));
-                updateCompareActionBar();
-            });
+    function filterLaptops(laptops) {
+        return laptops.filter(laptop => {
+            // Priority filter
+            const priorityMatch = currentPriorityFilters.has("all") || 
+                laptop.priority.some(p => currentPriorityFilters.has(p.toLowerCase()));
+
+            // macOS filter
+            const macOSMatch = currentMacOSFilter === "all" || 
+                laptop.details.macosSupport.toLowerCase() === currentMacOSFilter.toLowerCase();
+
+            // Score filter
+            const scoreMatch = laptop.score >= minScore && laptop.score <= maxScore;
+
+            // Search filter
+            const searchMatch = !currentSearchQuery || 
+                Object.values(laptop.details)
+                    .concat([laptop.name, laptop.summary])
+                    .some(value => 
+                        typeof value === 'string' && 
+                        value.toLowerCase().includes(currentSearchQuery.toLowerCase())
+                    );
+
+            return priorityMatch && macOSMatch && scoreMatch && searchMatch;
         });
     }
-    
-    /**
-     * Initializes the Explorer page functionalities.
-     * This function will be called by js/main.js.
-     */
-    function init() {
-        console.log("ExplorerPage init called"); // For debugging
-        
-        // Check if laptopData exists and has content
-        if (!window.laptopData) {
-            console.error("laptopData is not defined!");
-            return;
-        }
-        console.log("Available laptops:", Object.keys(laptopData).length);
-        
-        // Initialize DOM elements
-        laptopGrid = document.getElementById('laptop-grid');
-        if (!laptopGrid) {
-            console.error("laptop-grid element not found!");
-            return;
-        }
-        priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons-explorer');
-        findBarExplorer = document.getElementById('find-bar-explorer');
-        noResultsP = document.getElementById('no-results');
-        compareActionBar = document.getElementById('compare-action-bar');
-        compareSelectedBtn = document.getElementById('compare-selected-btn');
-        clearSelectionBtn = document.getElementById('clear-selection-btn');
-        selectedCountSpan = document.getElementById('selected-count');
 
-        const storedSelections = localStorage.getItem('selectedLaptopsForComparison');
-        if (storedSelections) {
-            try {
-                selectedLaptopsForComparison = JSON.parse(storedSelections);
-            } catch (e) {
-                console.error("Error parsing selected laptops from localStorage:", e);
-                selectedLaptopsForComparison = [];
-                localStorage.removeItem('selectedLaptopsForComparison');
+    function sortLaptops(laptops) {
+        return laptops.sort((a, b) => {
+            switch (currentSortOption) {
+                case "score-desc":
+                    return b.score - a.score;
+                case "score-asc":
+                    return a.score - b.score;
+                case "name-asc":
+                    return a.name.localeCompare(b.name);
+                case "name-desc":
+                    return b.name.localeCompare(a.name);
+                default:
+                    return 0;
             }
+        });
+    }
+
+    function renderLaptopsExplorer() {
+        if (!laptopGrid || !window.laptopData) {
+            console.error("Required elements not found");
+            return;
         }
 
-        if (priorityFilterButtonsContainer) {
-            const priorityBtnsExplorer = priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all');
-            console.log("Found filter buttons:", priorityBtnsExplorer.length);
-            priorityBtnsExplorer.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    console.log("Filter button clicked:", e.currentTarget);
-                    currentPriorityFilter = e.currentTarget.dataset.priority;
-                    console.log("Setting filter to:", currentPriorityFilter);
-                    renderLaptopsExplorer();
-                    priorityBtnsExplorer.forEach(b => b.classList.remove('active-filter'));
-                    e.currentTarget.classList.add('active-filter');
-                });
-            });
+        const allLaptops = Object.entries(window.laptopData).map(([id, data]) => ({
+            id,
+            ...data
+        }));
+
+        let filteredLaptops = filterLaptops(allLaptops);
+        filteredLaptops = sortLaptops(filteredLaptops);
+
+        if (filteredLaptops.length === 0) {
+            laptopGrid.innerHTML = `
+                <p class="col-span-3 text-center text-gray-500 dark:text-gray-400 py-8">
+                    No laptops found matching your criteria
+                </p>`;
+            return;
         }
+
+        laptopGrid.innerHTML = filteredLaptops.map(laptop => createLaptopCard(laptop)).join('');
+    }
+
+    function updateURL() {
+        const url = new URL(window.location.href);
         
-        if (findBarExplorer) {
-            findBarExplorer.addEventListener('input', (e) => {
-                currentSearchTerm = e.target.value;
+        // Update priority filters
+        const priorities = Array.from(currentPriorityFilters);
+        if (priorities.length === 1 && priorities[0] === "all") {
+            url.searchParams.delete("priority");
+        } else {
+            url.searchParams.set("priority", priorities.join(","));
+        }
+
+        // Update other filters
+        if (currentMacOSFilter !== "all") url.searchParams.set("macos", currentMacOSFilter);
+        else url.searchParams.delete("macos");
+
+        if (currentSearchQuery) url.searchParams.set("search", currentSearchQuery);
+        else url.searchParams.delete("search");
+
+        if (currentSortOption !== "score-desc") url.searchParams.set("sort", currentSortOption);
+        else url.searchParams.delete("sort");
+
+        if (minScore > 0) url.searchParams.set("min", minScore);
+        else url.searchParams.delete("min");
+
+        if (maxScore < 10) url.searchParams.set("max", maxScore);
+        else url.searchParams.delete("max");
+
+        window.history.pushState({}, '', url);
+    }
+
+    function init() {
+        // Get DOM elements
+        laptopGrid = document.getElementById('laptop-grid');
+        priorityFilterButtonsContainer = document.getElementById('priority-filter-buttons-explorer');
+        macOSFilterButtons = document.getElementById('macos-filter-buttons');
+        searchInput = document.getElementById('search-input');
+        sortSelect = document.getElementById('sort-select');
+        minScoreRange = document.getElementById('min-score');
+        maxScoreRange = document.getElementById('max-score');
+
+        if (!laptopGrid || !priorityFilterButtonsContainer || !macOSFilterButtons) {
+            console.error("Required elements not found");
+            return;
+        }
+
+        // Set up priority filter buttons
+        priorityFilterButtonsContainer.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                const priority = button.dataset.priority;
+                
+                // Toggle active state
+                if (priority === "all") {
+                    currentPriorityFilters.clear();
+                    currentPriorityFilters.add("all");
+                    priorityFilterButtonsContainer.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active-filter');
+                    });
+                    button.classList.add('active-filter');
+                } else {
+                    currentPriorityFilters.delete("all");
+                    button.classList.toggle('active-filter');
+                    
+                    if (button.classList.contains('active-filter')) {
+                        currentPriorityFilters.add(priority);
+                    } else {
+                        currentPriorityFilters.delete(priority);
+                    }
+
+                    // If no filters selected, default to "all"
+                    if (currentPriorityFilters.size === 0) {
+                        currentPriorityFilters.add("all");
+                        const allButton = priorityFilterButtonsContainer.querySelector('[data-priority="all"]');
+                        if (allButton) allButton.classList.add('active-filter');
+                    }
+                }
+
+                updateURL();
                 renderLaptopsExplorer();
             });
-        }
+        });
 
-        if (compareSelectedBtn) {
-            compareSelectedBtn.addEventListener('click', () => {
-                if (selectedLaptopsForComparison.length >= 2) {
-                    window.location.href = 'comparison.html';
-                }
+        // macOS filter buttons
+        macOSFilterButtons.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                currentMacOSFilter = button.dataset.macos;
+                macOSFilterButtons.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active-filter');
+                });
+                button.classList.add('active-filter');
+                updateURL();
+                renderLaptopsExplorer();
             });
-        }
-        
-        if (clearSelectionBtn) {
-            clearSelectionBtn.addEventListener('click', () => {
-                selectedLaptopsForComparison = [];
-                localStorage.setItem('selectedLaptopsForComparison', JSON.stringify(selectedLaptopsForComparison));
-                document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
-                updateCompareActionBar();
-            });
-        }
+        });
 
-        // Process URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const priorityFromUrl = urlParams.get('priority');
-        const searchTermFromUrl = urlParams.get('search');
-
-        if (priorityFromUrl && priorityFilterButtonsContainer) {
-            currentPriorityFilter = priorityFromUrl;
-            const activeBtn = priorityFilterButtonsContainer.querySelector(`[data-priority="${priorityFromUrl}"]`);
-            if (activeBtn) {
-                priorityFilterButtonsContainer.querySelectorAll('.priority-btn, .priority-btn-all').forEach(b => b.classList.remove('active-filter'));
-                activeBtn.classList.add('active-filter');
+        // Score range inputs
+        minScoreRange.addEventListener('input', (e) => {
+            minScore = parseFloat(e.target.value);
+            document.getElementById('min-score-value').textContent = minScore;
+            if (minScore > maxScore) {
+                maxScore = minScore;
+                maxScoreRange.value = minScore;
+                document.getElementById('max-score-value').textContent = maxScore;
             }
-        } else if (priorityFilterButtonsContainer) { 
-             const allBtn = priorityFilterButtonsContainer.querySelector(`[data-priority="all"]`);
-             if(allBtn) allBtn.classList.add('active-filter');
+            updateURL();
+            renderLaptopsExplorer();
+        });
+
+        maxScoreRange.addEventListener('input', (e) => {
+            maxScore = parseFloat(e.target.value);
+            document.getElementById('max-score-value').textContent = maxScore;
+            if (maxScore < minScore) {
+                minScore = maxScore;
+                minScoreRange.value = maxScore;
+                document.getElementById('min-score-value').textContent = minScore;
+            }
+            updateURL();
+            renderLaptopsExplorer();
+        });
+
+        // Handle initial URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('priority')) {
+            currentPriorityFilters = new Set(urlParams.get('priority').split(','));
+            currentPriorityFilters.forEach(priority => {
+                const button = priorityFilterButtonsContainer.querySelector(`[data-priority="${priority}"]`);
+                if (button) button.classList.add('active-filter');
+            });
         }
 
-        if (searchTermFromUrl) {
-            currentSearchTerm = searchTermFromUrl;
-            if(findBarExplorer) findBarExplorer.value = searchTermFromUrl;
+        if (urlParams.has('macos')) {
+            currentMacOSFilter = urlParams.get('macos');
+            const button = macOSFilterButtons.querySelector(`[data-macos="${currentMacOSFilter}"]`);
+            if (button) button.classList.add('active-filter');
         }
-        
-        // Call render after all initialization
+
+        if (urlParams.has('search')) {
+            currentSearchQuery = urlParams.get('search');
+            searchInput.value = currentSearchQuery;
+        }
+
+        if (urlParams.has('sort')) {
+            currentSortOption = urlParams.get('sort');
+            sortSelect.value = currentSortOption;
+        }
+
+        if (urlParams.has('min')) {
+            minScore = parseFloat(urlParams.get('min'));
+            minScoreRange.value = minScore;
+            document.getElementById('min-score-value').textContent = minScore;
+        }
+
+        if (urlParams.has('max')) {
+            maxScore = parseFloat(urlParams.get('max'));
+            maxScoreRange.value = maxScore;
+            document.getElementById('max-score-value').textContent = maxScore;
+        }
+
+        // Initial render
         renderLaptopsExplorer();
-        updateCompareActionBar();
     }
 
-    return {
-        init,
-        renderLaptopsExplorer
-    };
+    // Helper function for debouncing
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    return { init };
 })();
 
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    if (window.ExplorerPage && typeof window.ExplorerPage.init === 'function') {
-        ExplorerPage.init();
-    } else {
-        console.error("ExplorerPage or init function not found!");
+    if (!window.laptopData) {
+        console.error('laptopData is not available');
+        return;
     }
+    ExplorerPage.init();
 });
-
-window.ExplorerPage = ExplorerPage;

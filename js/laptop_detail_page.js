@@ -35,77 +35,117 @@ function initLaptopDetailPage() {
 }
 
 function renderLaptopDetails(data) {
-    const laptopDetailContent = document.getElementById('laptop-detail-content');
-    if (!laptopDetailContent) return;
+    const details = {
+        ...data.details,
+        displayFeatures: data.details.displayFeatures || {
+            type: "Not specified",
+            brightness: "Not specified",
+            colorGamut: "Not specified",
+            panel: "Not specified"
+        },
+        batteryLife: data.details.batteryLife || {
+            average: "Not specified",
+            capacity: "Not specified",
+            type: "Not specified"
+        },
+        knownIssues: data.details.knownIssues || ["No known issues documented"],
+        ports: data.details.ports || {
+            usb: ["Not specified"],
+            thunderbolt: "Not specified",
+            video: ["Not specified"],
+            network: "Not specified",
+            others: ["Not specified"]
+        }
+    };
 
-    // Chart section HTML
-    const chartSection = `
-        <div class="p-8 bg-gray-50 dark:bg-gray-700 mt-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center dark:text-gray-100">Performance Metrics</h2>
-            <div class="chart-container" style="position: relative; height:400px; width:100%; max-width:600px; margin:0 auto;">
-                <canvas id="laptopChart"></canvas>
+    // Render main content
+    document.getElementById('laptop-detail-content').innerHTML = `
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 p-8 md:p-12 rounded-lg">
+            <a href="explorer.html" class="inline-block mb-6 text-white hover:underline slide-in-right">
+                &larr; Back to Explorer
+            </a>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4 slide-up">
+                    <h1 class="text-4xl font-bold text-white">${data.name}</h1>
+                    <p class="text-xl text-blue-100">${data.summary}</p>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-3xl font-bold text-white">${data.score}</span>
+                        <span class="text-blue-200">/10</span>
+                    </div>
+                </div>
+                <div class="scale-in">
+                    <img src="${data.image}" alt="${data.name}" 
+                         class="rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
+                         onerror="this.src='assets/images/placeholder.jpg'">
+                </div>
             </div>
         </div>
     `;
 
-    laptopDetailContent.innerHTML = `
-        <div class="relative">
-            <!-- Hero Section -->
-            <div class="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 p-8 md:p-12">
-                <a href="explorer.html" class="inline-block mb-6 text-white hover:underline slide-in-right">
-                    &larr; Back to Explorer
-                </a>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div class="space-y-4 slide-up">
-                        <h1 class="text-4xl font-bold text-white">${data.name}</h1>
-                        <p class="text-xl text-blue-100">${data.summary}</p>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-3xl font-bold text-white">${data.score}</span>
-                            <span class="text-blue-200">/10</span>
-                        </div>
-                    </div>
-                    <div class="scale-in">
-                        <img src="${data.image}" alt="${data.name}" 
-                             class="rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                             onerror="this.src='assets/images/placeholder.jpg'">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Specs Grid -->
-            <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-animate">
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">CPU</h3>
-                    <p class="text-lg">${data.details.cpu}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">GPU</h3>
-                    <p class="text-lg">${data.details.igpu}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">RAM</h3>
-                    <p class="text-lg">${data.details.ram}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">Storage</h3>
-                    <p class="text-lg">${data.details.storage}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">macOS</h3>
-                    <p class="text-lg">${data.details.macosSupport}</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow-md fade-in">
-                    <h3 class="font-semibold text-gray-600 dark:text-gray-300 mb-2">Priority</h3>
-                    <p class="text-lg">${data.priority.join(', ')}</p>
-                </div>
-            </div>
-
-            ${chartSection}
+    // Render Hardware Details
+    document.getElementById('hardware-content').innerHTML = `
+        <div class="grid grid-cols-1 gap-4">
+            <p><span class="font-medium">CPU:</span> ${details.cpu}</p>
+            <p><span class="font-medium">GPU:</span> ${details.igpu}</p>
+            <p><span class="font-medium">RAM:</span> ${details.ram}</p>
+            <p><span class="font-medium">Storage:</span> ${details.storage}</p>
+            <p><span class="font-medium">Wi-Fi/Bluetooth:</span> ${details.wifiBluetooth || 'Not specified'}</p>
+            <p><span class="font-medium">Audio:</span> ${details.audioCodec || 'Not specified'}</p>
+            <p><span class="font-medium">Trackpad:</span> ${details.trackpad || 'Not specified'}</p>
         </div>
     `;
 
-    // Initialize chart after a slight delay
-    setTimeout(() => initializeChart(data), 100);
+    // Render Display Features
+    document.getElementById('display-content').innerHTML = `
+        <div class="grid grid-cols-1 gap-4">
+            <p><span class="font-medium">Type:</span> ${details.displayFeatures.type}</p>
+            <p><span class="font-medium">Brightness:</span> ${details.displayFeatures.brightness}</p>
+            <p><span class="font-medium">Color Gamut:</span> ${details.displayFeatures.colorGamut}</p>
+            ${details.displayFeatures.panel ? `
+                <p><span class="font-medium">Panel:</span> ${details.displayFeatures.panel}</p>
+            ` : ''}
+        </div>
+    `;
+
+    // Render Battery Information
+    document.getElementById('battery-content').innerHTML = `
+        <div class="grid grid-cols-1 gap-4">
+            <p><span class="font-medium">Average Life:</span> ${details.batteryLife.average}</p>
+            <p><span class="font-medium">Capacity:</span> ${details.batteryLife.capacity}</p>
+            <p><span class="font-medium">Type:</span> ${details.batteryLife.type}</p>
+        </div>
+    `;
+
+    // Render macOS Compatibility
+    document.getElementById('macos-content').innerHTML = `
+        <div class="grid grid-cols-1 gap-4">
+            <p><span class="font-medium">Current Support:</span> ${details.macosSupport}</p>
+            <p><span class="font-medium">Minimum Version:</span> ${details.minMacosSupport}</p>
+            <p><span class="font-medium">Maximum Version:</span> ${details.maxMacosSupport}</p>
+        </div>
+    `;
+
+    // Render Known Issues
+    document.getElementById('issues-content').innerHTML = `
+        <ul class="list-disc pl-5 space-y-2">
+            ${details.knownIssues.map(issue => 
+                `<li class="text-gray-700 dark:text-gray-300">${issue}</li>`
+            ).join('')}
+        </ul>
+    `;
+
+    // Render Ports
+    document.getElementById('ports-content').innerHTML = `
+        <div class="grid grid-cols-1 gap-4">
+            ${Object.entries(details.ports).map(([type, ports]) => `
+                <p class="text-gray-700 dark:text-gray-300">
+                    <span class="font-medium capitalize">${type}:</span> 
+                    ${Array.isArray(ports) ? ports.join(', ') : ports}
+                </p>
+            `).join('')}
+        </div>
+    `;
 }
 
 function showError(message) {

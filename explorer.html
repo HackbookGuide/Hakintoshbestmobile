@@ -125,19 +125,65 @@
             </div>
 
             <div class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow slide-up">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Search Bar -->
                     <div class="fade-in">
-                        <label for="find-bar-explorer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search Laptops:</label>
-                        <input type="search" id="find-bar-explorer" placeholder="e.g., ThinkPad T480, i7, UHD 620..." 
-                               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                        <label for="search-input" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Search:</label>
+                        <input type="search" id="search-input" 
+                               class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary"
+                               placeholder="Search by name, CPU, GPU...">
                     </div>
+
+                    <!-- Sort Options -->
                     <div class="fade-in">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Filter by Priority:</label>
-                        <div id="priority-filter-buttons-explorer" class="flex flex-wrap justify-start gap-2 stagger-animate">
-                            <button data-priority="all" class="priority-btn-all text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">All Laptops</button>
-                            <button data-priority="ease" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Ease of Setup</button>
-                            <button data-priority="performance" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Max Performance</button>
-                            <button data-priority="budget" class="priority-btn text-xs px-3 py-1.5 md:text-sm md:px-4 md:py-2">Budget-Friendly</button>
+                        <label for="sort-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sort By:</label>
+                        <select id="sort-select" class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+                            <option value="score-desc">Score (High to Low)</option>
+                            <option value="score-asc">Score (Low to High)</option>
+                            <option value="name-asc">Name (A to Z)</option>
+                            <option value="name-desc">Name (Z to A)</option>
+                        </select>
+                    </div>
+
+                    <!-- Priority Filters -->
+                    <div class="fade-in">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority:</label>
+                        <div id="priority-filter-buttons-explorer" class="flex flex-wrap gap-2">
+                            <button data-priority="all" class="priority-btn-all">All Laptops</button>
+                            <button data-priority="ease" class="priority-btn">Ease of Setup</button>
+                            <button data-priority="performance" class="priority-btn">Max Performance</button>
+                            <button data-priority="budget" class="priority-btn">Budget-Friendly</button>
+                            <button data-priority="portability" class="priority-btn">Portability</button>
+                        </div>
+                    </div>
+
+                    <!-- macOS Version Filter -->
+                    <div class="fade-in">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">macOS Version:</label>
+                        <div id="macos-filter-buttons" class="flex flex-wrap gap-2">
+                            <button data-macos="all" class="macos-btn-all">All Versions</button>
+                            <button data-macos="Sonoma" class="macos-btn">Sonoma</button>
+                            <button data-macos="Ventura" class="macos-btn">Ventura</button>
+                            <button data-macos="Monterey" class="macos-btn">Monterey</button>
+                        </div>
+                    </div>
+
+                    <!-- Performance Filters -->
+                    <div class="fade-in col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance Filters:</label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="min-score" class="block text-xs text-gray-600 dark:text-gray-400">Minimum Score</label>
+                                <input type="range" id="min-score" min="0" max="10" step="0.5" value="0" 
+                                       class="w-full">
+                                <span id="min-score-value" class="text-sm">0</span>
+                            </div>
+                            <div>
+                                <label for="max-score" class="block text-xs text-gray-600 dark:text-gray-400">Maximum Score</label>
+                                <input type="range" id="max-score" min="0" max="10" step="0.5" value="10" 
+                                       class="w-full">
+                                <span id="max-score-value" class="text-sm">10</span>
+                            </div>
                         </div>
                     </div>
                 </div>
